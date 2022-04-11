@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiuwanchi.seo.mapper.ProjectMapper">
+
+    <select id="getProjectListByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+        SELECT
+            b.id,
+            b.name,
+            b.describe_msg AS describeMsg,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+        FROM project b LEFT JOIN system_attachment a ON b.system_attachment_id=a.id WHERE b.module_id=#{moduleId}
+        ORDER BY b.sort
+    </select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiuwanchi.seo.mapper.ModuleMapper">
+
+    <select id="getModuleList" resultType="com.qiuwanchi.seo.dto.ModuleDto">
+        SELECT
+            b.id,
+            b.name,
+            b.belong,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+        FROM module b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.belong=#{belong}
+        ORDER BY b.sort
+    </select>
+
+</mapper>
