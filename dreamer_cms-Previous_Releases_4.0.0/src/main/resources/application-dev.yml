@@ -1,0 +1,25 @@
+web:
+  resource-path: D:/dreamer-cms/
+
+spring: 
+  datasource: 
+    name: dev
+    url: jdbc:mysql://182.61.14.105:3306/dreamer-cms?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull
+    username: qiuwc
+    password: vf_h#cfx@da2
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 106.12.149.141
+    port: 6379
+    timeout: 2000
+    jedis:
+      pool:
+        max-idle: 100
+        min-idle: 50
+        max-wait: -1
+
+# 日志配置
+logging:
+  path: D:/dreamer-cms/logs/
+  level:
+    root: info              
