@@ -29,50 +29,121 @@
 </div>
 <div class="layui-carousel banner" id="test1" lay-filter="test1">
     <div carousel-item="">
-	
-	  <#list bannerList as banner>
-	  <div><img src="${banner.url}"></div>
-	  </#list>
-      
+      <#list bannerList as banner>
+      	  <div><img src="${banner.url}"></div>
+      	  </#list>
     </div>
   </div>
 <div class="index_main">
-	<div class="jstext container">
-		<h1>用心服务，提供互动多媒体解决方案，项目覆盖<strong>30+</strong>城市</h1>
-		<ul class="clearfix">
-			<li><a href="javascript:;"><div><img src="images/iconx1.png" class="imgx1"><img src="images/iconx_blue1.png" class="imgx2"></div><h3>数字沙盘</h3></a></li>
-		    <li><a href="javascript:;"><div><img src="images/iconx2.png" class="imgx1"><img src="images/iconx_blue2.png" class="imgx2"></div><h3>AR大屏互动</h3></a></li>
-		    <li><a href="javascript:;"><div><img src="images/iconx3.png" class="imgx1"><img src="images/iconx_blue3.png" class="imgx2"></div><h3>数字沙盘</h3></a></li>
-		    <li><a href="javascript:;"><div><img src="images/iconx4.png" class="imgx1"><img src="images/iconx_blue4.png" class="imgx2"></div><h3>数字沙盘</h3></a></li>
-		    <li><a href="javascript:;"><div><img src="images/iconx5.png" class="imgx1"><img src="images/iconx_blue5.png" class="imgx2"></div><h3>数字沙盘</h3></a></li>
-		    <li><a href="javascript:;"><div><img src="images/iconx6.png" class="imgx1"><img src="images/iconx_blue6.png" class="imgx2"></div><h3>数字沙盘</h3></a></li>
-		</ul>
-	</div>
+<!--公司产品-->
+<div class="layui-row container goods_main">
+  <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+	<div class="main-title  title_hot"><img src="images/title_hot.png"></div>
+    <ul class="layui-tab-title clearfix">
+
+    <#list productModuleList as productModule>
+        <li <#if productModule_index ==0> class="layui-this"  </#if> >${productModule.name}</li>
+    </#list>
+
+    </ul>
+    <div class="layui-tab-content" style="padding-top: 10px;">
+      <div class="layui-tab-item layui-show">
+		  <ul class=" clearfix pic_list">
+
+		  <#list productModuleProjectList as project>
+
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+				<div class="main_img"><img src="${project.url}"></div>
+				<h1>${project.name}</h1>
+				</a>
+			  </li>
+			</#list>
+
+		  </ul>
+		  <div class="more"><a href="#">查看更多 》</a></div>
+	  </div>
+      <div class="layui-tab-item">
+		  <ul class=" clearfix pic_list">
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+				<div class="main_img"><img src="images/pic2.jpg"></div>
+				<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic3.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic1.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic4.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic3.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic4.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic3.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+				<a href="javascript:;">
+			  	<div class="main_img"><img src="images/pic4.jpg"></div>
+			  	<h1>产品名称</h1>
+				</a>
+			  </li>
+		  </ul>
+		  <div class="more"><a href="#">查看更多 》</a></div>
+	  </div>
+
+    </div>
+  </div>
+</div>
+
 <!--多媒体展厅项目案例-->
+<div style="background: #f7f7f7; padding-top: 20px; margin-top: 20px;">
 <div class="layui-row container">
   <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 	<div class="main-title"><img src="images/title.PNG"></div>
     <ul class="layui-tab-title">
-
       <#list showRoomModuleList as showRoomModule>
-       <li <#if showRoomModule_index ==0> class="layui-this"  </#if>>${showRoomModule.name}</li>
+         <li <#if showRoomModule_index ==0> class="layui-this"  </#if>>${showRoomModule.name}</li>
       </#list>
     </ul>
-    <div class="layui-tab-content">
+    <div class="layui-tab-content" style="margin-top: 20px;">
       <div class="layui-tab-item layui-show">
 		  <ul class=" clearfix pic_list">
-
-			  <#list showRoomModuleProjectList as project>
-                  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-                    <a href="javascript:;">
-                    <div class="main_img"><img src="${project.url}"></div>
-                    <span>01</span>
-                    <h5>${project.name}</h5>
-                    <p>${project.describeMsg}</p>
-                    </a>
-                  </li>
-			   </#list>
-
+			<#list showRoomModuleProjectList as project>
+                <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                  <a href="javascript:;">
+                  <div class="main_img"><img src="${project.url}"></div>
+                  <span>01</span>
+                  <h5>${project.name}</h5>
+                  <p>${project.describeMsg}</p>
+                  </a>
+                </li>
+           </#list>
 		  </ul>
 		  <div class="more"><a href="#">查看更多 》</a></div>
 	  </div>
@@ -82,7 +153,7 @@
       				<a href="javascript:;">
       				<div class="main_img"><img src="images/pic1.jpg"></div>
       				<span>01</span>
-      				<h5>展厅项目1</h5>
+      				<h1>展厅项目1</h1>
       				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -90,7 +161,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic2.jpg"></div>
       			  	<span>02</span>
-      			  	<h5>展厅项目2</h5>
+      			  	<h1>展厅项目2</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -98,7 +169,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic3.jpg"></div>
       			  	<span>03</span>
-      			  	<h5>展厅项目3</h5>
+      			  	<h1>展厅项目3</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -106,7 +177,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic4.jpg"></div>
       			  	<span>04</span>
-      			  	<h5>展厅项目4</h5>
+      			  	<h1>展厅项目4</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -119,7 +190,7 @@
       				<a href="javascript:;">
       				<div class="main_img"><img src="images/pic1.jpg"></div>
       				<span>01</span>
-      				<h5>展厅项目1</h5>
+      				<h1>展厅项目1</h1>
       				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -127,7 +198,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic2.jpg"></div>
       			  	<span>02</span>
-      			  	<h5>展厅项目2</h5>
+      			  	<h1>展厅项目2</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -135,7 +206,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic3.jpg"></div>
       			  	<span>03</span>
-      			  	<h5>展厅项目3</h5>
+      			  	<h1>展厅项目3</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -143,7 +214,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic4.jpg"></div>
       			  	<span>04</span>
-      			  	<h5>展厅项目4</h5>
+      			  	<h1>展厅项目4</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -156,7 +227,7 @@
       				<a href="javascript:;">
       				<div class="main_img"><img src="images/pic1.jpg"></div>
       				<span>01</span>
-      				<h5>展厅项目1</h5>
+      				<h1>展厅项目1</h1>
       				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -164,7 +235,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic2.jpg"></div>
       			  	<span>02</span>
-      			  	<h5>展厅项目2</h5>
+      			  	<h1>展厅项目2</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -172,7 +243,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic3.jpg"></div>
       			  	<span>03</span>
-      			  	<h5>展厅项目3</h5>
+      			  	<h1>展厅项目3</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -180,7 +251,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic4.jpg"></div>
       			  	<span>04</span>
-      			  	<h5>展厅项目4</h5>
+      			  	<h1>展厅项目4</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -193,7 +264,7 @@
       				<a href="javascript:;">
       				<div class="main_img"><img src="images/pic1.jpg"></div>
       				<span>01</span>
-      				<h5>展厅项目1</h5>
+      				<h1>展厅项目1</h1>
       				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -201,7 +272,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic2.jpg"></div>
       			  	<span>02</span>
-      			  	<h5>展厅项目2</h5>
+      			  	<h1>展厅项目2</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -209,7 +280,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic3.jpg"></div>
       			  	<span>03</span>
-      			  	<h5>展厅项目3</h5>
+      			  	<h1>展厅项目3</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -217,7 +288,7 @@
       				<a href="javascript:;">
       			  	<div class="main_img"><img src="images/pic4.jpg"></div>
       			  	<span>04</span>
-      			  	<h5>展厅项目4</h5>
+      			  	<h1>展厅项目4</h1>
       			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
       				</a>
       			  </li>
@@ -227,41 +298,13 @@
      </div>
   </div>
 </div>
-<!--热门产品-->
-<div class="main_hot">
-	<div class="container">
-		<div class="main-title title_hot"><img src="images/title_hot.PNG"></div>
-		<ul class=" clearfix pic_list">
-			<li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<div class="main_img"><img src="images/pic1.jpg"></div>
-				<h5>产品1</h5>
-				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-			</li>
-			<li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<div class="main_img"><img src="images/pic2.jpg"></div>
-				<h5>产品2</h5>
-				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-			</li>
-			<li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<div class="main_img"><img src="images/pic3.jpg"></div>
-				<h5>产品3</h5>
-				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-			</li>
-			<li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<div class="main_img"><img src="images/pic4.jpg"></div>
-				<h5>产品4</h5>
-				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-			</li>
-		</ul>
-	</div>
 </div>
 <!-- 视频案例-->
 <div class="container">
 	<div class="main_video">
 		<div class="main-title title_video"><img src="images/title_video.PNG"></div>
 		<ul class=" clearfix pic_list">
-
-		     <#list videoCaseModuleProjectList as project>
+			 <#list videoCaseModuleProjectList as project>
                 <li class="layui-col-xs12 layui-col-md4">
                     <a href="#">
                     <div class="main_img"><img src="${project.url}"></div>
@@ -271,7 +314,7 @@
                     </div>
                     </a>
                 </li>
-			</#list>
+            </#list>
 		</ul>
 		<div class="more"><a href="#">查看更多 》</a></div>
 	</div>
@@ -282,16 +325,15 @@
 		<div class="main-title title_hot"><img src="images/title_ys.PNG"></div>
 		<p class="ys_p">苏州好奇数字科技有限公司自创立以来，坚持科技创新，是一家快速成长、锐意进取的互动多媒体公司。公司专注于更好的视觉效果、人机互动体验开发。为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</p>
 	    <ul class="clearfix ys_list">
-
 			<#list companyAdvantageModuleProjectList as project>
-            <li>
-			  <div class="ys_tnt">
-				<div class="ys_img"><img src="${project.url}"></div>
-				<h3>${project.name}</h3>
-				<span>${project.describeMsg}</span>
-			  </div>
-			</li>
-			</#list>
+                <li>
+                  <div class="ys_tnt">
+                    <div class="ys_img"><img src="${project.url}"></div>
+                    <h3>${project.name}</h3>
+                    <span>${project.describeMsg}</span>
+                  </div>
+                </li>
+             </#list>
 		</ul>
 		<div class="more"><a href="#">查看更多 》</a></div>
 	</div>
@@ -302,17 +344,15 @@
 	<div class="main-title title_hot"><img src="images/title_project.PNG"></div>
 	<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</h4>
 	<ul class=" clearfix pic_list">
-
-	  <#list solutionCaseModuleProjectList as project>
-	  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-		<a href="javascript:;">
-	    <div class="main_img"><img src="${project.url}"></div>
-	    <h5>${project.name}</h5>
-	    <p>${project.describeMsg}</p>
-	    </a>
-	  </li>
-	  </#list>
-
+	 <#list solutionCaseModuleProjectList as project>
+          <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <a href="javascript:;">
+            <div class="main_img"><img src="${project.url}"></div>
+            <h5>${project.name}</h5>
+            <p>${project.describeMsg}</p>
+            </a>
+          </li>
+      </#list>
 	</ul>
 	<div class="more"><a href="javascript:;">查看更多 》</a></div>
   </div>
@@ -323,17 +363,15 @@
 		<div class="main-title title_hot"><img src="images/title_wh.PNG"></div>
 		<h2>更快、更好、更贴心</h2>
 		<ul class="wh_list clearfix">
-
-		 <#list maintenanceServicesModuleProjectList as project>
-			<li class="layui-col-sm6 layui-col-md3">
-				<div class="wh_tnt">
-					<a href="javascript:;">
-						<div><img src="${project.url}"><h3>${project.name}</h3></div>
-					</a>
-				</div>
-			</li>
-		</#list>
-
+			<#list maintenanceServicesModuleProjectList as project>
+                <li class="layui-col-sm6 layui-col-md3">
+                    <div class="wh_tnt">
+                        <a href="javascript:;">
+                            <div><img src="${project.url}"><h3>${project.name}</h3></div>
+                        </a>
+                    </div>
+                </li>
+            </#list>
 		</ul>
 	</div>
 </div>
@@ -351,8 +389,8 @@
 		  </ul>
 		  <div class="layui-tab-content ">
 		    <div class="layui-tab-item layui-show ">
-			   <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md5"><img src="images/news_pic.jpg"></div>
-			   <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md7">
+			   <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
+			   <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
 				   <div class="news_list_li clearfix">
 					   <div class="rl"><span>18</span><p>2022-03</p></div>
 					   <div class="text">
@@ -385,8 +423,8 @@
 			   <div class="more"><a href="javascript:;">查看更多 》</a></div>
 			</div>
 		    <div class="layui-tab-item ">
-		       <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md5"><img src="images/news_pic.jpg"></div>
-		       <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md7">
+		       <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
+		       <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
 		    	   <div class="news_list_li clearfix">
 		    		   <div class="rl"><span>18</span><p>2022-03</p></div>
 		    		   <div class="text">
@@ -418,9 +456,9 @@
 		       <div class="clearfix"></div>
 		       <div class="more"><a href="javascript:;">查看更多 》</a></div>
 		    </div>
-	        <div class="layui-tab-item ">
-	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md5"><img src="images/news_pic.jpg"></div>
-	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md7">
+	      <div class="layui-tab-item ">
+	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
+	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
 	        	   <div class="news_list_li clearfix">
 	        		   <div class="rl"><span>18</span><p>2022-03</p></div>
 	        		   <div class="text">
@@ -452,9 +490,9 @@
 	           <div class="clearfix"></div>
 	           <div class="more"><a href="javascript:;">查看更多 》</a></div>
 	        </div>
-	        <div class="layui-tab-item ">
-	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md5"><img src="images/news_pic.jpg"></div>
-	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md7">
+	      <div class="layui-tab-item ">
+	          <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
+	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
 	        	   <div class="news_list_li clearfix">
 	        		   <div class="rl"><span>18</span><p>2022-03</p></div>
 	        		   <div class="text">
@@ -486,9 +524,9 @@
 	           <div class="clearfix"></div>
 	           <div class="more"><a href="javascript:;">查看更多 》</a></div>
 	        </div>
-	        <div class="layui-tab-item ">
-	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md5"><img src="images/news_pic.jpg"></div>
-	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md7">
+	      <div class="layui-tab-item ">
+	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
+	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
 	        	   <div class="news_list_li clearfix">
 	        		   <div class="rl"><span>18</span><p>2022-03</p></div>
 	        		   <div class="text">
@@ -520,7 +558,7 @@
 	           <div class="clearfix"></div>
 	           <div class="more"><a href="javascript:;">查看更多 》</a></div>
 	        </div>
-          </div>
+      </div>
 		</div>
 	</div>
 </div>
@@ -608,34 +646,6 @@
 <script type="text/javascript" src="layui/layui.js"></script>
 <script src="js/jquery-1.11.3.min.js" ></script>
 <script type="text/javascript">
-$(function(){
-	//用于判断导航栏的状态
-var toggle = true;
-
-//导航栏按钮
-$('.btnImg').click(function() {
-	if (toggle) {
-		$('.btnImg').css("border", "1px solid #b0ccf3");
-		toggle = false
-	} else {
-		$('.btnImg').css("border", "1px solid transparent");
-		toggle = true;
-	}
-	$(".show").slideToggle(300);
-})
-
-//窗口大小发生改变
-$(window).resize(function() {
-	//获取窗口宽度
-	var windSize = $(window).width();
-
-	if (windSize > 576) {
-		$(".show").slideDown(0);
-	} else {
-		$(".show").slideUp(0);
-	}
-});
-})
 
 layui.use(['carousel', 'form','element'], function(){
   var carousel = layui.carousel

@@ -69,6 +69,9 @@ public class IndexController {
         // 2.2公司产品-模块-项目列表
         if(!CollectionUtils.isEmpty(moduleList)){
             List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleList.get(0).getId());
+            for (ProjectDto projectDto : projectDtoList){
+                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
+            }
             model.addAttribute("productModuleProjectList", projectDtoList);
         }
 
