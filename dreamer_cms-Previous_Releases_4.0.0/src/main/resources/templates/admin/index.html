@@ -79,7 +79,7 @@
 		            <div class="lsm-sidebar">
 						<ul class="sidebar-menu">
 							<li class="active">
-								<a href="/admin/dashboard/toIndex2" target="mainframe" class="waves-effect waves-dark"><i class="fa fa-dashboard"></i>欢迎页</a>
+								<a href="/admin/welcome/index" target="mainframe" class="waves-effect waves-dark"><i class="fa fa-dashboard"></i>欢迎页</a>
 							</li>
 							<li class="lsm-sidebar-item" th:each="item : ${menus}">
 			                    <a href="javascript:void(1);" th:if="not ${#lists.isEmpty(item.children)}"><i th:class="${item.menuIcon}"></i><span th:text="${item.menuName}"></span><i class="my-icon lsm-sidebar-more"></i></a>
@@ -98,7 +98,7 @@
 	<!-- 右侧开始 -->
 	<aside class="right-side">
 		<section class="content">
-			<iframe id="mainframe" name="mainframe" style="width:100%; border:0;" src="/admin/dashboard/toIndex2"></iframe>
+			<iframe id="mainframe" name="mainframe" style="width:100%; border:0;" src="/admin/welcome/index"></iframe>
 		</section>
 		<div class="footer-main">
 			Copyright &copy; SEO CMS, Powered by <a href="#" title="苏州好奇数字科技有限公司">苏州好奇数字科技有限公司</a> 2022-2030
