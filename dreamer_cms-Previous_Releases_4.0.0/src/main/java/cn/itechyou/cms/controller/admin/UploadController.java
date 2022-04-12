@@ -1,11 +1,14 @@
 package cn.itechyou.cms.controller.admin;
 
-import java.io.File;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.itechyou.cms.common.BaseController;
+import cn.itechyou.cms.common.ResponseResult;
+import cn.itechyou.cms.common.StateCodeEnum;
+import cn.itechyou.cms.entity.System;
+import cn.itechyou.cms.service.SystemService;
+import cn.itechyou.cms.utils.DateUtils;
+import cn.itechyou.cms.utils.FileConfiguration;
+import cn.itechyou.cms.utils.UUIDUtils;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,17 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
-
-import cn.itechyou.cms.common.BaseController;
-import cn.itechyou.cms.common.ResponseResult;
-import cn.itechyou.cms.common.StateCodeEnum;
-import cn.itechyou.cms.entity.System;
-import cn.itechyou.cms.service.SystemService;
-import cn.itechyou.cms.ueditor.ActionEnter;
-import cn.itechyou.cms.utils.DateUtils;
-import cn.itechyou.cms.utils.FileConfiguration;
-import cn.itechyou.cms.utils.UUIDUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 /**
  * 上传控制器
@@ -113,16 +108,4 @@ public class UploadController extends BaseController{
 		this.outJson(result);
 	}
 	
-	@RequestMapping("ueditorConfig")
-	public void ueditorConfig(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("application/json");
-		response.setHeader("Content-Type", "text/html");
-		String rootPath = fileConfiguration.getResourceDir();
-		String exec = new ActionEnter(request, rootPath).exec();
-		PrintWriter writer = response.getWriter();
-		writer.write(exec);
-		writer.flush();
-		writer.close();
-	}
 }
