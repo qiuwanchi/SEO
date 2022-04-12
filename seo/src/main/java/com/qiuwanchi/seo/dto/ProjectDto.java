@@ -1,6 +1,9 @@
 package com.qiuwanchi.seo.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class ProjectDto {
@@ -26,5 +29,14 @@ public class ProjectDto {
     private String filePath;
 
     private String fileId;
+
+    private Date createTime;
+
+    /**
+     * 年月
+     */
+    private String years;
+
+    private String day;
 
 }

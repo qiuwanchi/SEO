@@ -2,6 +2,8 @@ package com.qiuwanchi.seo.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ModuleDto {
 
@@ -24,5 +26,7 @@ public class ModuleDto {
     private String filePath;
 
     private String fileId;
+
+    private List<ProjectDto> projectDtoList;
 
 }

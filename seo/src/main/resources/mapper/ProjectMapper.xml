@@ -11,7 +11,8 @@
             a.filesize AS fileSize,
             a.filetype AS fileType,
             a.filepath AS filePath,
-            a.file_id AS fileId
+            a.file_id AS fileId,
+            a.create_time AS createTime
         FROM project b LEFT JOIN system_attachment a ON b.system_attachment_id=a.id WHERE b.module_id=#{moduleId}
         ORDER BY b.sort
     </select>

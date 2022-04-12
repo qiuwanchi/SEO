@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Log4j2
@@ -42,6 +43,8 @@ public class IndexController {
     @Autowired
     private IProjectService projectService;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
+
     @GetMapping()
     public String index(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
@@ -64,29 +67,15 @@ public class IndexController {
 
         // 2.1公司产品-模块列表
         List<ModuleDto> moduleList = this.getModuleDtoList("companyProduct-productModule");
-        model.addAttribute("productModuleList", moduleList);
-
         // 2.2公司产品-模块-项目列表
-        if(!CollectionUtils.isEmpty(moduleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleList.get(0).getId());
-            for (ProjectDto projectDto : projectDtoList){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-            model.addAttribute("productModuleProjectList", projectDtoList);
-        }
+        this.intiProject(moduleList);
+        model.addAttribute("productModuleList", moduleList);
 
         // 3.1多媒体展厅-模块列表
         List<ModuleDto> showRoomModuleList = this.getModuleDtoList("multi-media-showroom");
-        model.addAttribute("showRoomModuleList", showRoomModuleList);
-
         // 3.2多媒体展厅-模块-项目列表
-        if(!CollectionUtils.isEmpty(showRoomModuleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(showRoomModuleList.get(0).getId());
-            for (ProjectDto projectDto : projectDtoList){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-            model.addAttribute("showRoomModuleProjectList", projectDtoList);
-        }
+        this.intiProject(showRoomModuleList);
+        model.addAttribute("showRoomModuleList", showRoomModuleList);
 
         // 4.1视频案例-模块列表
         List<ModuleDto> videoCaseModuleList = this.getModuleDtoList("VideoCase");
@@ -132,7 +121,23 @@ public class IndexController {
             model.addAttribute("maintenanceServicesModuleProjectList", projectDtoList);
         }
 
-        //7 新闻资讯
+        //7.1 新闻资讯-模块列表
+        List<ModuleDto> newsModuleList = this.getModuleDtoList("News");
+        this.intiProject(newsModuleList);
+        if(!CollectionUtils.isEmpty(newsModuleList)){
+            for (ModuleDto moduleDto : newsModuleList){
+                if(!CollectionUtils.isEmpty(moduleDto.getProjectDtoList())){
+                    for (ProjectDto projectDto : moduleDto.getProjectDtoList()){
+                        String str = sdf.format(projectDto.getCreateTime());
+                        String[] arrStr = str.split(",");
+                        projectDto.setYears(arrStr[0]);
+                        projectDto.setDay(arrStr[1]);
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("newsModuleList", newsModuleList);
 
         return "index";
     }
@@ -147,4 +152,15 @@ public class IndexController {
         return  moduleList;
     }
 
+    private void intiProject(List<ModuleDto> moduleList){
+        if(!CollectionUtils.isEmpty(moduleList)){
+            for (ModuleDto moduleDto : moduleList){
+                List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleDto.getId());
+                for (ProjectDto projectDto : projectDtoList){
+                    projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
+                }
+                moduleDto.setProjectDtoList(projectDtoList);
+            }
+        }
+    }
 }

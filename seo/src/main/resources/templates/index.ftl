@@ -47,10 +47,12 @@
 
     </ul>
     <div class="layui-tab-content" style="padding-top: 10px;">
-      <div class="layui-tab-item layui-show">
+
+      <#list productModuleList as productModule>
+      <div class="layui-tab-item <#if productModule_index ==0>layui-show" </#if>>
 		  <ul class=" clearfix pic_list">
 
-		  <#list productModuleProjectList as project>
+		  <#list productModule.projectDtoList as project>
 
 			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
 				<a href="javascript:;">
@@ -63,59 +65,7 @@
 		  </ul>
 		  <div class="more"><a href="#">查看更多 》</a></div>
 	  </div>
-      <div class="layui-tab-item">
-		  <ul class=" clearfix pic_list">
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-				<div class="main_img"><img src="images/pic2.jpg"></div>
-				<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic1.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-				<a href="javascript:;">
-			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-			  	<h1>产品名称</h1>
-				</a>
-			  </li>
-		  </ul>
-		  <div class="more"><a href="#">查看更多 》</a></div>
-	  </div>
+      </#list>
 
     </div>
   </div>
@@ -131,171 +81,31 @@
          <li <#if showRoomModule_index ==0> class="layui-this"  </#if>>${showRoomModule.name}</li>
       </#list>
     </ul>
-    <div class="layui-tab-content" style="margin-top: 20px;">
-      <div class="layui-tab-item layui-show">
-		  <ul class=" clearfix pic_list">
-			<#list showRoomModuleProjectList as project>
-                <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-                  <a href="javascript:;">
-                  <div class="main_img"><img src="${project.url}"></div>
-                  <span>01</span>
-                  <h5>${project.name}</h5>
-                  <p>${project.describeMsg}</p>
-                  </a>
-                </li>
-           </#list>
-		  </ul>
-		  <div class="more"><a href="#">查看更多 》</a></div>
-	  </div>
-      <div class="layui-tab-item">
-      		  <ul class=" clearfix pic_list">
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      				<div class="main_img"><img src="images/pic1.jpg"></div>
-      				<span>01</span>
-      				<h1>展厅项目1</h1>
-      				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic2.jpg"></div>
-      			  	<span>02</span>
-      			  	<h1>展厅项目2</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-      			  	<span>03</span>
-      			  	<h1>展厅项目3</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-      			  	<span>04</span>
-      			  	<h1>展厅项目4</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      		  </ul>
-      		  <div class="more"><a href="#">查看更多 》</a></div>
-      </div>
-      <div class="layui-tab-item">
-      		  <ul class=" clearfix pic_list">
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      				<div class="main_img"><img src="images/pic1.jpg"></div>
-      				<span>01</span>
-      				<h1>展厅项目1</h1>
-      				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic2.jpg"></div>
-      			  	<span>02</span>
-      			  	<h1>展厅项目2</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-      			  	<span>03</span>
-      			  	<h1>展厅项目3</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-      			  	<span>04</span>
-      			  	<h1>展厅项目4</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      		  </ul>
-      		  <div class="more"><a href="#">查看更多 》</a></div>
-      </div>
-      <div class="layui-tab-item">
-      		  <ul class=" clearfix pic_list">
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      				<div class="main_img"><img src="images/pic1.jpg"></div>
-      				<span>01</span>
-      				<h1>展厅项目1</h1>
-      				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic2.jpg"></div>
-      			  	<span>02</span>
-      			  	<h1>展厅项目2</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-      			  	<span>03</span>
-      			  	<h1>展厅项目3</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-      			  	<span>04</span>
-      			  	<h1>展厅项目4</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      		  </ul>
-      		  <div class="more"><a href="#">查看更多 》</a></div>
-      </div>
-      <div class="layui-tab-item">
-      		  <ul class=" clearfix pic_list">
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      				<div class="main_img"><img src="images/pic1.jpg"></div>
-      				<span>01</span>
-      				<h1>展厅项目1</h1>
-      				<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic2.jpg"></div>
-      			  	<span>02</span>
-      			  	<h1>展厅项目2</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic3.jpg"></div>
-      			  	<span>03</span>
-      			  	<h1>展厅项目3</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
-      				<a href="javascript:;">
-      			  	<div class="main_img"><img src="images/pic4.jpg"></div>
-      			  	<span>04</span>
-      			  	<h1>展厅项目4</h1>
-      			  	<p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-      				</a>
-      			  </li>
-      		  </ul>
-      		  <div class="more"><a href="#">查看更多 》</a></div>
-      </div>
-     </div>
+
+
+
+    <div class="layui-tab-content">
+
+    <#list showRoomModuleList as showRoomModule>
+          <div class="layui-tab-item <#if showRoomModule_index ==0>layui-show" </#if>">
+    		  <ul class=" clearfix pic_list">
+    		  <#list showRoomModule.projectDtoList as project>
+
+    			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+    				<a href="javascript:;">
+    				<div class="main_img"><img src="${project.url}"></div>
+    				<span>0${project_index + 1}</span>
+    				<h5>${project.name}</h5>
+    				<p>${project.describeMsg}</p>
+    				</a>
+    			  </li>
+    			  </#list>
+    		  </ul>
+    		  <div class="more"><a href="#">查看更多 》</a></div>
+    	  </div>
+    </#list>
+  </div>
+
   </div>
 </div>
 </div>
@@ -381,183 +191,38 @@
 		<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 			<div class="main-title title_hot"><img src="images/title_news.PNG"></div>
 		  <ul class="layui-tab-title">
-		    <li class="layui-this">公司新闻</li>
-		    <li>多媒体知识</li>
-		    <li>行业新闻</li>
-		    <li>其他</li>
-		    <li>主题馆等</li>
+		   <#list newsModuleList as newsModule>
+		        <li <#if newsModule_index ==0> class="layui-this"  </#if>>${newsModule.name}</li>
+		   </#list>
+
 		  </ul>
 		  <div class="layui-tab-content ">
-		    <div class="layui-tab-item layui-show ">
-			   <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
+
+		  <#list newsModuleList as newsModule>
+
+		    <div class="layui-tab-item <#if newsModule_index ==0>layui-show</#if> ">
+			   <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="${newsModule.url}"></div>
 			   <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
+                   <#list newsModule.projectDtoList as project>
 				   <div class="news_list_li clearfix">
-					   <div class="rl"><span>18</span><p>2022-03</p></div>
+					   <div class="rl"><span>${project.day}</span><p>${project.years}</p></div>
 					   <div class="text">
 						   <a href="javascript:;">
-						   <h3>资讯1</h3>
-						   <h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
+						   <h3>${project.name}</h3>
+						   <h4>${project.describeMsg}</h4>
 					       </a>
 					   </div>
 				   </div>
-				   <div class="news_list_li clearfix">
-				   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-				   	  <div class="text">
-						<a href="javascript:;">
-				   		<h3>资讯1</h3>
-				   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-				   	    </a>
-					  </div>
-				   </div>
-				   <div class="news_list_li clearfix">
-				   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-				   	  <div class="text">
-						<a href="javascript:;">
-				   		<h3>资讯1</h3>
-				   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-				   	    </a>
-					</div>
-				   </div>
+				   </#list>
+
 			   </div>
 			   <div class="clearfix"></div>
 			   <div class="more"><a href="javascript:;">查看更多 》</a></div>
 			</div>
-		    <div class="layui-tab-item ">
-		       <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
-		       <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
-		    	   <div class="news_list_li clearfix">
-		    		   <div class="rl"><span>18</span><p>2022-03</p></div>
-		    		   <div class="text">
-		    			   <a href="javascript:;">
-		    			   <h3>资讯1</h3>
-		    			   <h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-		    		       </a>
-		    		   </div>
-		    	   </div>
-		    	   <div class="news_list_li clearfix">
-		    	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-		    	   	  <div class="text">
-		    			<a href="javascript:;">
-		    	   		<h3>资讯1</h3>
-		    	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-		    	   	    </a>
-		    		  </div>
-		    	   </div>
-		    	   <div class="news_list_li clearfix">
-		    	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-		    	   	  <div class="text">
-		    			<a href="javascript:;">
-		    	   		<h3>资讯1</h3>
-		    	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-		    	   	    </a>
-		    		</div>
-		    	   </div>
-		       </div>
-		       <div class="clearfix"></div>
-		       <div class="more"><a href="javascript:;">查看更多 》</a></div>
-		    </div>
-	      <div class="layui-tab-item ">
-	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
-	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
-	        	   <div class="news_list_li clearfix">
-	        		   <div class="rl"><span>18</span><p>2022-03</p></div>
-	        		   <div class="text">
-	        			   <a href="javascript:;">
-	        			   <h3>资讯1</h3>
-	        			   <h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        		       </a>
-	        		   </div>
-	        	   </div>
-	        	   <div class="news_list_li clearfix">
-	        	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-	        	   	  <div class="text">
-	        			<a href="javascript:;">
-	        	   		<h3>资讯1</h3>
-	        	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        	   	    </a>
-	        		  </div>
-	        	   </div>
-	        	   <div class="news_list_li clearfix">
-	        	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-	        	   	  <div class="text">
-	        			<a href="javascript:;">
-	        	   		<h3>资讯1</h3>
-	        	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        	   	    </a>
-	        		</div>
-	        	   </div>
-	           </div>
-	           <div class="clearfix"></div>
-	           <div class="more"><a href="javascript:;">查看更多 》</a></div>
-	        </div>
-	      <div class="layui-tab-item ">
-	          <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
-	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
-	        	   <div class="news_list_li clearfix">
-	        		   <div class="rl"><span>18</span><p>2022-03</p></div>
-	        		   <div class="text">
-	        			   <a href="javascript:;">
-	        			   <h3>资讯1</h3>
-	        			   <h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        		       </a>
-	        		   </div>
-	        	   </div>
-	        	   <div class="news_list_li clearfix">
-	        	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-	        	   	  <div class="text">
-	        			<a href="javascript:;">
-	        	   		<h3>资讯1</h3>
-	        	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        	   	    </a>
-	        		  </div>
-	        	   </div>
-	        	   <div class="news_list_li clearfix">
-	        	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-	        	   	  <div class="text">
-	        			<a href="javascript:;">
-	        	   		<h3>资讯1</h3>
-	        	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        	   	    </a>
-	        		</div>
-	        	   </div>
-	           </div>
-	           <div class="clearfix"></div>
-	           <div class="more"><a href="javascript:;">查看更多 》</a></div>
-	        </div>
-	      <div class="layui-tab-item ">
-	           <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="images/news_pic.jpg"></div>
-	           <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
-	        	   <div class="news_list_li clearfix">
-	        		   <div class="rl"><span>18</span><p>2022-03</p></div>
-	        		   <div class="text">
-	        			   <a href="javascript:;">
-	        			   <h3>资讯1</h3>
-	        			   <h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        		       </a>
-	        		   </div>
-	        	   </div>
-	        	   <div class="news_list_li clearfix">
-	        	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-	        	   	  <div class="text">
-	        			<a href="javascript:;">
-	        	   		<h3>资讯1</h3>
-	        	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        	   	    </a>
-	        		  </div>
-	        	   </div>
-	        	   <div class="news_list_li clearfix">
-	        	   	  <div class="rl"><span>18</span><p>2022-03</p></div>
-	        	   	  <div class="text">
-	        			<a href="javascript:;">
-	        	   		<h3>资讯1</h3>
-	        	   		<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。，逐步形成了以强化地板为主，实木地板、实木复合地板等一体化的木地板研发、生产、销售与服务平台。</h4>
-	        	   	    </a>
-	        		</div>
-	        	   </div>
-	           </div>
-	           <div class="clearfix"></div>
-	           <div class="more"><a href="javascript:;">查看更多 》</a></div>
-	        </div>
+			</#list>
+
+
+
       </div>
 		</div>
 	</div>

@@ -1,10 +1,11 @@
 package cn.itechyou.cms.aop;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.itechyou.cms.annotation.Log;
+import cn.itechyou.cms.entity.SysLogger;
+import cn.itechyou.cms.security.token.TokenManager;
+import cn.itechyou.cms.service.LoggerService;
+import cn.itechyou.cms.utils.RequestEntity;
+import cn.itechyou.cms.utils.UUIDUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,12 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import cn.itechyou.cms.annotation.Log;
-import cn.itechyou.cms.entity.SysLogger;
-import cn.itechyou.cms.security.token.TokenManager;
-import cn.itechyou.cms.service.LoggerService;
-import cn.itechyou.cms.utils.RequestEntity;
-import cn.itechyou.cms.utils.UUIDUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
  * 日志记录切面
