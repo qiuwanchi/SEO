@@ -16,7 +16,7 @@
         <li class="active"><a href="${baseUrl}">首页</a></li>
         <li><a href="${baseUrl}">关于我们</a></li>
         <li><a href="${baseUrl}/products">公司产品</a></li>
-        <li><a href="${baseUrl}/products">项目案例</a></li>
+        <li><a href="${baseUrl}/serviceCase">服务案例</a></li>
         <li><a href="${baseUrl}/products">新闻资讯</a></li>
         <li><a href="${baseUrl}/contactUs">联系我们</a></li>
       </ul>

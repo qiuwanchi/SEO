@@ -47,12 +47,11 @@
 		<div class="contact_main clearfix">
 			<div class="layui-col-xs12 layui-col-md7 contactx_l">
 				<p>告诉我们您的想法，以便我们为您提供更优质的服务！</p>
-				<form class="layui-form" action="/leavingMessage">
-				 <input type="text" name="name"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
-				 <input type="text" name="telephone"  placeholder="请输入电话" autocomplete="off" class="layui-input">
-			     <textarea name="message" placeholder="请输入留言" class="layui-textarea"></textarea>
-				 <button class="layui-btn contact-btn" lay-submit lay-filter="formDemo">提交留言</button>
-				</form>
+				 <input type="text" name="name" id="name"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+				 <input type="text" name="telephone" id="telephone"  placeholder="请输入电话" autocomplete="off" class="layui-input">
+			     <textarea name="message" id="message" placeholder="请输入留言" class="layui-textarea"></textarea>
+				 <button class="layui-btn contact-btn" lay-submit lay-filter="formDemo" id="leavingMessage">提交留言</button>
+
 			</div>
 			<div class="layui-col-xs12 layui-col-md5 footer_r contactx_r">
 			       <h2>扫码关注我们</h2>
@@ -98,17 +97,37 @@
     //地图控件添加函数：
     function addMapControl(){
         //向地图中添加缩放控件
-	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
-	map.addControl(ctrl_nav);
-        //向地图中添加缩略图控件
-	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
-	map.addControl(ctrl_ove);
-        //向地图中添加比例尺控件
-	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-	map.addControl(ctrl_sca);
+		var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+		map.addControl(ctrl_nav);
+			//向地图中添加缩略图控件
+		var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+		map.addControl(ctrl_ove);
+			//向地图中添加比例尺控件
+		var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+		map.addControl(ctrl_sca);
     }
 
-
     initMap();//创建和初始化地图
+
+	$(document).ready(function(){
+	  $("#leavingMessage").click(function(){
+		$.post("${baseUrl}/leavingMessage",
+		{
+		  name:"Donald Duck",
+		  telephone:"Duckburg",
+		  message:"vcxvsdfvdfsvdfsvdfs"
+		},
+		function(data,status){
+			if(status == 'success'){
+				$("#name").val('');
+				$("#telephone").val('');
+				$("#message").val('');
+				alert("提交成功!");
+			}
+
+		});
+	  });
+	});
+
 </script>
 </html>
