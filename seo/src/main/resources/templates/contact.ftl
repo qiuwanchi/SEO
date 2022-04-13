@@ -20,12 +20,12 @@
     <div class="flexItem"> <img  class="logo" src="images/logo.png" /> </div>
     <div class="flexItem clearfix">
       <ul>
-        <li><a href="index.html">首页</a></li>
-        <li><a href="about.html">关于我们</a></li>
-        <li><a href="goods.html">公司产品</a></li>
-        <li><a href="case.html">服务案例</a></li>
-        <li><a href="news.html">新闻资讯</a></li>
-        <li class="active"><a href="contact.html">联系我们</a></li>
+		  <li><a href="${baseUrl}/index.html">首页</a></li>
+		  <li><a href="${baseUrl}">关于我们</a></li>
+		  <li><a href="${baseUrl}/products.html">公司产品</a></li>
+		  <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
+		  <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
+		  <li class="active"><a href="${baseUrl}/contactUs.html">联系我们</a></li>
       </ul>
 	  <div class="search">
 		  <input type="text" class="search_text" placeholder="关键字搜索" />

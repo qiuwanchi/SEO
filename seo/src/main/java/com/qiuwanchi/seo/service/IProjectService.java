@@ -10,4 +10,8 @@ public interface IProjectService extends IService<Project> {
 
     List<ProjectDto> getProjectListByModuleId(String moduleId);
 
+    ProjectDto getPreProject(String moduleId, String sort);
+
+    ProjectDto getNextProject(String moduleId, String sort);
+
 }

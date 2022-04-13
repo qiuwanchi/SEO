@@ -46,7 +46,12 @@ public class IndexController {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
-    @GetMapping()
+    @GetMapping("")
+    public String index2(Model model){
+        return index(model);
+    }
+
+    @GetMapping("/index.html")
     public String index(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 

@@ -22,7 +22,7 @@ public class ContactUsController {
     @Autowired
     private ServerConfig serverConfig;
 
-    @GetMapping("/contactUs")
+    @GetMapping("/contactUs.html")
     public String contactUs(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 

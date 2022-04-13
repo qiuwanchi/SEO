@@ -13,12 +13,12 @@
     <div class="flexItem"> <img  class="logo" src="${logo.url}" /> </div>
     <div class="flexItem clearfix">
       <ul>
-        <li class="active"><a href="${baseUrl}">首页</a></li>
+        <li class="active"><a href="${baseUrl}/index.html">首页</a></li>
         <li><a href="${baseUrl}">关于我们</a></li>
-        <li><a href="${baseUrl}/products">公司产品</a></li>
-        <li><a href="${baseUrl}/serviceCase">服务案例</a></li>
-        <li><a href="${baseUrl}/products">新闻资讯</a></li>
-        <li><a href="${baseUrl}/contactUs">联系我们</a></li>
+        <li><a href="${baseUrl}/products.html">公司产品</a></li>
+        <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
+        <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
+        <li><a href="${baseUrl}/contactUs.html">联系我们</a></li>
       </ul>
 	  <div class="search">
 		  <input type="text" class="search_text" placeholder="关键字搜索" />
@@ -81,11 +81,7 @@
          <li <#if showRoomModule_index ==0> class="layui-this"  </#if>>${showRoomModule.name}</li>
       </#list>
     </ul>
-
-
-
     <div class="layui-tab-content">
-
     <#list showRoomModuleList as showRoomModule>
           <div class="layui-tab-item <#if showRoomModule_index ==0>layui-show" </#if>">
     		  <ul class=" clearfix pic_list">

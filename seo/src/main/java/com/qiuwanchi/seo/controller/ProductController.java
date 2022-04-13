@@ -10,6 +10,7 @@ import com.qiuwanchi.seo.service.IBannerService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.FileConfiguration;
+import com.qiuwanchi.seo.utils.ServerConfig;
 import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -46,8 +47,12 @@ public class ProductController {
     @Autowired
     private IProjectService projectService;
 
-    @GetMapping("/products")
+    @Autowired
+    private ServerConfig serverConfig;
+
+    @GetMapping("/products.html")
     public String products(Model model){
+        model.addAttribute("baseUrl", serverConfig.getUrl());
         // 2.1公司产品-模块列表
         List<ModuleDto> moduleList = this.getModuleDtoList("companyProduct-productModule");
         model.addAttribute("productModuleList", moduleList);
@@ -57,9 +62,6 @@ public class ProductController {
             List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleList.get(0).getId());
             model.addAttribute("productModuleProjectList", projectDtoList);
         }
-
-
-
 
         return "goods";
     }

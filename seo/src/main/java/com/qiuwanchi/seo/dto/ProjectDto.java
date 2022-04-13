@@ -39,4 +39,6 @@ public class ProjectDto {
 
     private String day;
 
+    private String createBy;
+
 }
