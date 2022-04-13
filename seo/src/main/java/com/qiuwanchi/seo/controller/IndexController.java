@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -49,21 +50,19 @@ public class IndexController {
     public String index(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
-        // 1.banner列表
-        List<BannerDto> logoList = this.bannerService.getBannerList("2");
-        for (BannerDto bannerDto : logoList){
-            bannerDto.setUrl(UrlAssemblyUtils.getImageUrl(bannerDto.getFilePath()));
-        }
-        if(!CollectionUtils.isEmpty(logoList)){
-            model.addAttribute("logo", logoList.get(0));
-        }
+        // 1.1logo
+        List<ModuleDto> logoModuleList = this.getModuleDtoList("LOGO");
+        // 1.2logo
+        this.intiProject(logoModuleList);
+        ModuleDto logo = logoModuleList.get(0);
+        model.addAttribute("logo", CollectionUtils.isEmpty(logo.getProjectDtoList()) ? new ProjectDto() : logo.getProjectDtoList().get(0));
 
-        // 1.banner列表
-        List<BannerDto> bannerList = this.bannerService.getBannerList("1");
-        for (BannerDto bannerDto : bannerList){
-            bannerDto.setUrl(UrlAssemblyUtils.getImageUrl(bannerDto.getFilePath()));
-        }
-        model.addAttribute("bannerList", bannerList);
+        // 2.1banner列表
+        List<ModuleDto> bannerModuleList = this.getModuleDtoList("FirstBanner");
+        // 2.2banner列表
+        this.intiProject(bannerModuleList);
+        ModuleDto banner = bannerModuleList.get(0);
+        model.addAttribute("bannerList", CollectionUtils.isEmpty(banner.getProjectDtoList()) ? new ArrayList<>() : banner.getProjectDtoList());
 
         // 2.1公司产品-模块列表
         List<ModuleDto> moduleList = this.getModuleDtoList("companyProduct-productModule");

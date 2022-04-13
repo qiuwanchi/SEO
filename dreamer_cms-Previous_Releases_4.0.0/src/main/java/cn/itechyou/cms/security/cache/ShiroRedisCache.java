@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ShiroRedisCache<K,V> implements Cache<K,V> {
 	private RedisTemplate redisTemplate;
     
-    private String prefix = "dreamer-cms-shiro";
+    private String prefix = "seo-cms-shiro";
 
     public String getPrefix() {
         return prefix + ":";
