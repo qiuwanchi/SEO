@@ -1,5 +1,5 @@
 web:
-  resource-path: D:/dreamer-cms/
+  resource-path: D:/seo-cms/
 
 spring: 
   datasource: 
