@@ -17,13 +17,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,6 +79,12 @@ public class ServiceCaseController {
         return "service_case";
     }
 
+    /**
+     * 分页查询
+     * @param moduleId 模块id
+     * @param currentPage 第几页
+     * @return
+     */
     @GetMapping("/serviceCase-page")
     @ResponseBody
     public Page<ProjectDto> serviceCasePage(@RequestParam("moduleId") String moduleId, @RequestParam("currentPage") long currentPage){
@@ -94,14 +98,19 @@ public class ServiceCaseController {
         }
         return projectDtoPage;
     }
+
+    /**
+     * 查询总数
+     * @param moduleId 模块id
+     * @return
+     */
     @GetMapping("/serviceCase/count")
     @ResponseBody
-    public Integer count(Model model, @RequestParam("moduleId") String moduleId){
+    public Integer count(@RequestParam("moduleId") String moduleId){
         QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Project.MODULE_ID, moduleId);
         return this.projectService.count(queryWrapper);
     }
-
 
     /**
      * 服务类目-项目详情
@@ -129,8 +138,6 @@ public class ServiceCaseController {
         ProjectDto nextProject = this.projectService.getNextProject(project.getModuleId(), project.getSort());
         model.addAttribute("nextProject", nextProject);
 
-
-
         return "service_case_detail";
     }
 
@@ -144,11 +151,4 @@ public class ServiceCaseController {
         return  moduleList;
     }
 
-    private void intiProject(ModuleDto moduleDto){
-        List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleDto.getId());
-        for (ProjectDto projectDto : projectDtoList){
-            projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-        }
-        moduleDto.setProjectDtoList(projectDtoList);
-    }
 }
