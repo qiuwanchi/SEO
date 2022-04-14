@@ -96,6 +96,9 @@
 						</div>
 					</div>
 					<div class="wu-example">
+						图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
+					</div>
+					<div class="wu-example">
 						排序号：<input name="sort" id="sort"  />
 					</div>
 					<div class="wu-example">
@@ -267,6 +270,11 @@
 				if(!isEmpty(project.alt)){
 					$("#alt").val(project.alt);
 				}
+
+				if(!isEmpty(module.clickUrl)){
+					$("#clickUrl").val(module.clickUrl);
+				}
+
 				$("#aaa").html("编辑");
 			}
 		});
@@ -275,32 +283,30 @@
 	}
 
 	function isEmpty(obj) {
-		// 检验 undefined 和 null
-		if (!obj && obj !== 0 && obj !== '') {
+		if (obj == null || obj == "" || obj == "undefined") {
 			return true;
 		}
 		return false;
     }
 
 	function save(){
-
 		var filepath = $("#filepath").val();
-		if(filepath == null || filepath == "" || filepath == "undefined"){
+		if(isEmpty(filepath)){
 			$("body").MessageBox({
 				type: 'error',
-				message: '请选择图片！',
-				timeout:3000,
+				message: '请选择图片或视频！',
+				timeout:5000,
 				callbak:null
 			});
 			return;
 		}
 
 		var name = $("#name").val();
-		if(name == null || name == "" || name == "undefined"){
+		if(isEmpty(name)){
 			$("body").MessageBox({
 				type: 'error',
-				message: '请填写项目名称！',
-				timeout:3000,
+				message: '请填写名称！',
+				timeout:5000,
 				callbak:null
 			});
 			return;

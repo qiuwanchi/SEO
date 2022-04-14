@@ -61,5 +61,7 @@ public class Module implements Serializable {
     @Column(name = "alt")
     private String  alt;
 
+    @Column(name = "click_url")
+    private String clickUrl;
 
 }

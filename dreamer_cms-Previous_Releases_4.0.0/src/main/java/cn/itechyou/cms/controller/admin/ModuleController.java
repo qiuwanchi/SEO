@@ -80,7 +80,6 @@ public class ModuleController {
 		Module module;
 		if(StringUtils.isEmpty(param.getId())){
 			module = new Module();
-
 			Attachment attachment = param.getAttachment();
 			// 有上传附件
 			if(Objects.nonNull(attachment) && !StringUtils.isEmpty(attachment.getFilepath())){
@@ -102,6 +101,7 @@ public class ModuleController {
 			module.setKeywords(param.getKeywords());
 			module.setDescription(param.getDescription());
 			module.setAlt(param.getAlt());
+			module.setClickUrl(param.getClickUrl());
 			module.setCreateBy(TokenManager.getUserId());
 			module.setUpdateBy(TokenManager.getUserId());
 			this.moduleService.add(module);
@@ -131,6 +131,7 @@ public class ModuleController {
 			module.setKeywords(param.getKeywords());
 			module.setDescription(param.getDescription());
 			module.setAlt(param.getAlt());
+			module.setClickUrl(param.getClickUrl());
 			module.setSort(param.getSort());
 			module.setName(param.getName());
 			module.setUpdateBy(TokenManager.getUserId());

@@ -69,6 +69,7 @@ public class ProjectController {
 			project.setKeywords(param.getKeywords());
 			project.setDescription(param.getDescription());
 			project.setAlt(param.getAlt());
+			project.setClickUrl(param.getClickUrl());
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				project.setSort(param.getSort());
@@ -98,6 +99,7 @@ public class ProjectController {
 			project.setKeywords(param.getKeywords());
 			project.setDescription(param.getDescription());
 			project.setAlt(param.getAlt());
+			project.setClickUrl(param.getClickUrl());
 
 			this.projectService.update(project);
 		}

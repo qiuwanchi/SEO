@@ -5,12 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>首页</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
 <link rel="stylesheet" href="${baseUrl}/css/style.css">
 </head>
 <body>
 <div class="c-nav" id="c-nav">
   <div class="container navFlex">
-    <div class="flexItem"> <img  class="logo" src="images/logo.png" /> </div>
+    <div class="flexItem"> <img  class="logo" src="${logo.url}" alt="${logo.alt}"/> </div>
     <div class="flexItem clearfix">
       <ul>
         <li class="active"><a href="${baseUrl}/index.html">首页</a></li>

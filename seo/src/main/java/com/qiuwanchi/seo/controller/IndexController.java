@@ -152,6 +152,14 @@ public class IndexController {
             if(StringUtils.isNotBlank(moduleDto.getFilePath())){
                 moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
             }
+
+            if(StringUtils.isNotBlank(moduleDto.getTitle())){
+                moduleDto.setTitle(moduleDto.getName());
+            }
+
+            if(StringUtils.isNotBlank(moduleDto.getAlt())){
+                moduleDto.setAlt(moduleDto.getName());
+            }
         }
         return  moduleList;
     }
@@ -162,6 +170,13 @@ public class IndexController {
                 List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleDto.getId());
                 for (ProjectDto projectDto : projectDtoList){
                     projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
+                    if(StringUtils.isNotBlank(projectDto.getTitle())){
+                        projectDto.setTitle(projectDto.getName());
+                    }
+
+                    if(StringUtils.isNotBlank(projectDto.getAlt())){
+                        projectDto.setAlt(projectDto.getName());
+                    }
                 }
                 moduleDto.setProjectDtoList(projectDtoList);
             }
