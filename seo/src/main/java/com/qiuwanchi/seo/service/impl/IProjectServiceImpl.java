@@ -1,6 +1,7 @@
 package com.qiuwanchi.seo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.entity.Project;
@@ -21,6 +22,11 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     @Override
     public List<ProjectDto> getProjectListByModuleId(String moduleId) {
         return this.projectMapper.getProjectListByModuleId(moduleId);
+    }
+
+    @Override
+    public Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId) {
+        return this.projectMapper.getProjectPageListByModuleId(page,moduleId);
     }
 
     @Override

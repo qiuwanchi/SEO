@@ -1,5 +1,6 @@
 package com.qiuwanchi.seo.dto;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
 import java.util.List;

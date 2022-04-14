@@ -78,3 +78,5 @@
 	  <li class="top"><a href="#c-nav"><img src="images/icon4.png"></a></li>
 	</ul>
 </div>
+<script type="text/javascript" src="${baseUrl}/layui/layui.js"></script>
+<script src="${baseUrl}/js/jquery-1.11.3.min.js" ></script>

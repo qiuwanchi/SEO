@@ -1,6 +1,7 @@
 package com.qiuwanchi.seo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.entity.Project;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,4 +14,5 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     List<ProjectDto> getProjectListByModuleId(@Param("moduleId")String moduleId);
 
+    Page<ProjectDto> getProjectPageListByModuleId(Page page, @Param("moduleId")String moduleId);
 }

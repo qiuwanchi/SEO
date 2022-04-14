@@ -48,12 +48,11 @@
     </ul>
     <div class="layui-tab-content" style="padding-top: 10px;">
 
-      <#list productModuleList as productModule>
-      <div class="layui-tab-item <#if productModule_index ==0>layui-show" </#if>>
+    <#list productModuleList as productModule>
+      <div class="layui-tab-item <#if productModule_index ==0>layui-show </#if> ">
 		  <ul class=" clearfix pic_list">
 
-		  <#list productModule.projectDtoList as project>
-
+		    <#list productModule.projectDtoList as project>
 			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
 				<a href="javascript:;">
 				<div class="main_img"><img src="${project.url}"></div>
@@ -65,7 +64,7 @@
 		  </ul>
 		  <div class="more"><a href="#">查看更多 》</a></div>
 	  </div>
-      </#list>
+    </#list>
 
     </div>
   </div>
@@ -225,8 +224,6 @@
 </div>
 </div>
 <#include "footer.ftl"/>
-<script type="text/javascript" src="layui/layui.js"></script>
-<script src="js/jquery-1.11.3.min.js" ></script>
 <script type="text/javascript">
 
 layui.use(['carousel', 'form','element'], function(){
