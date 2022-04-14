@@ -53,7 +53,7 @@
 				<td th:text="${project.name}"></td>
 				<td th:text="${project.sort}"></td>
 				<td>
-					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:aattachmentid="${project.attachment.id}" th:afilename="${project.attachment.filename}" th:affilepath="${project.attachment.filepath}" th:afiletype="${project.attachment.filetype}" th:afilesize="${project.attachment.filesize}" th:aname="${project.name}" th:adescribe="${project.describe}" th:asort="${project.sort}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'),this.getAttribute('aattachmentid'),this.getAttribute('afilename'),this.getAttribute('affilepath'),this.getAttribute('afiletype'),this.getAttribute('afilesize'),this.getAttribute('aname'),this.getAttribute('adescribe'),this.getAttribute('asort'))">编辑</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
 					<span>&nbsp;|&nbsp;</span>
@@ -96,13 +96,25 @@
 						</div>
 					</div>
 					<div class="wu-example">
-						项目名称：<input name="name" id="name"  />
+						名称：<input name="name" id="name"  />
 					</div>
 					<div class="wu-example">
 						描述：<textarea name="describe" id="describe"  ></textarea>
 					</div>
 					<div class="wu-example">
 						排序号：<input name="sort" id="sort"  />
+					</div>
+					<div class="wu-example">
+						title：<input name="title" id="title" />
+					</div>
+					<div class="wu-example">
+						keywords：<input name="keywords" id="keywords" />
+					</div>
+					<div class="wu-example">
+						description：<input name="description" id="description" />
+					</div>
+					<div class="wu-example">
+						alt：<input name="alt" id="alt" />
 					</div>
 
 				</form>
@@ -211,20 +223,64 @@
 		$("#upload-dialog").modal();
 	}
 
-	function openUploadDialogForUpdate(id,attachmentid,filename,filepath,filetype,filesize,name,describe,sort){
-		$("#upload-dialog").modal();
+	function openUploadDialogForUpdate(id){
+		$.ajax({
+			type: 'get',
+			url: "/firstPage/module/project/getById?projectId=" + id,
+			contentType: 'application/json',
+			async: false,
+			success: function(project) {
+				$("#id").val(id);
 
-		$("#id").val(id);
-		$("#filename").val(filename);
-		$("#filepath").val(filepath);
-		$("#filesize").val(filesize);
-		$("#filetype").val(filetype);
-		$("#attachmentid").val(attachmentid);
-		$("#name").val(name);
-		$("#describe").val(describe);
-		$("#sort").val(sort);
-		$("#aaa").html("<编辑></编辑>");
+				if(!isEmpty(project.attachment)){
+					$("#filename").val(project.attachment.filename);
+					$("#filepath").val(project.attachment.filepath);
+					$("#filesize").val(project.attachment.filesize);
+					$("#filetype").val(project.attachment.filetype);
+					$("#attachmentid").val(project.attachment.id);
+				}
+
+				if(!isEmpty(project.name)){
+					$("#name").val(project.name);
+				}
+
+				if(!isEmpty(project.describe)){
+					$("#describe").val(project.describe);
+				}
+
+				if(!isEmpty(project.sort)){
+					$("#sort").val(project.sort);
+				}
+
+				if(!isEmpty(project.title)){
+					$("#title").val(project.title);
+				}
+
+				if(!isEmpty(project.keywords)){
+					$("#keywords").val(project.keywords);
+				}
+
+				if(!isEmpty(project.description)){
+					$("#description").val(project.description);
+				}
+
+				if(!isEmpty(project.alt)){
+					$("#alt").val(project.alt);
+				}
+				$("#aaa").html("编辑");
+			}
+		});
+
+		$("#upload-dialog").modal();
 	}
+
+	function isEmpty(obj) {
+		// 检验 undefined 和 null
+		if (!obj && obj !== 0 && obj !== '') {
+			return true;
+		}
+		return false;
+    }
 
 	function save(){
 

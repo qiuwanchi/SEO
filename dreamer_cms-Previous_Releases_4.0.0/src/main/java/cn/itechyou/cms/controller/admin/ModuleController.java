@@ -15,9 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -100,6 +98,10 @@ public class ModuleController {
 			module.setBelong(param.getBelong());
 			module.setName(param.getName());
 			module.setSort(param.getSort());
+			module.setTitle(param.getTitle());
+			module.setKeywords(param.getKeywords());
+			module.setDescription(param.getDescription());
+			module.setAlt(param.getAlt());
 			module.setCreateBy(TokenManager.getUserId());
 			module.setUpdateBy(TokenManager.getUserId());
 			this.moduleService.add(module);
@@ -124,6 +126,11 @@ public class ModuleController {
 			}else {
 				module.setAttachmentId(null);
 			}
+
+			module.setTitle(param.getTitle());
+			module.setKeywords(param.getKeywords());
+			module.setDescription(param.getDescription());
+			module.setAlt(param.getAlt());
 			module.setSort(param.getSort());
 			module.setName(param.getName());
 			module.setUpdateBy(TokenManager.getUserId());
@@ -131,13 +138,6 @@ public class ModuleController {
 		}
 		redirectAttributes.addAttribute("belong", module.getBelong());
 		return "redirect:/firstPage/module";
-	}
-
-	@GetMapping("/toView")
-	public String detail(Model model, String id) {
-		Module module = this.moduleService.getById(id);
-		model.addAttribute("module", module);
-		return "firstPage/module/edit";
 	}
 
 	@GetMapping("/delete")
@@ -156,5 +156,15 @@ public class ModuleController {
 		return "redirect:/firstPage/module";
 	}
 
-	
+	@GetMapping("/getById")
+	@ResponseBody
+	public Module getById(@RequestParam("moduleId") String moduleId) {
+		Module module = this.moduleService.getById(moduleId);
+		if(!StringUtils.isEmpty(module.getAttachmentId())){
+			Attachment attachment = this.attachmentService.queryAttachmentById(module.getAttachmentId());
+			module.setAttachment(attachment);
+		}
+		return module;
+	}
+
 }

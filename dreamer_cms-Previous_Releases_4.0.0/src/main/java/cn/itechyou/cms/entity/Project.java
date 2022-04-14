@@ -49,4 +49,16 @@ public class Project implements Serializable {
     private Date updateTime;
 
     private Attachment attachment;
+
+    @Column(name = "title")
+    private String  title;
+
+    @Column(name = "keywords")
+    private String  keywords;
+
+    @Column(name = "description")
+    private String  description;
+
+    @Column(name = "alt")
+    private String  alt;
 }

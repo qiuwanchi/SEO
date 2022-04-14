@@ -48,4 +48,18 @@ public class Module implements Serializable {
     @Column(name = "attachment_id")
     private String  attachmentId;
     private Attachment attachment;
+
+    @Column(name = "title")
+    private String  title;
+
+    @Column(name = "keywords")
+    private String  keywords;
+
+    @Column(name = "description")
+    private String  description;
+
+    @Column(name = "alt")
+    private String  alt;
+
+
 }

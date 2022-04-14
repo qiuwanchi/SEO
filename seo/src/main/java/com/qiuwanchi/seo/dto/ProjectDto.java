@@ -16,6 +16,8 @@ public class ProjectDto {
 
     private String moduleId;
 
+    private String moduleName;
+
     private String url;
 
     private String attachmentId;

@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="newsx_detail clearfix">
 			<div class="layui-col-xs12 layui-col-md9 newsx_detail_l">
-				<div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/serviceCase.html">服务案例</a>|<span>${currentProject.name}</span></div>
+				<div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/serviceCase.html">服务案例</a>|<a href="${baseUrl}/serviceCase.html">${currentProject.moduleName}</a>|<span>${currentProject.name}</span></div>
 				<div style="padding: 30px;">
 					<h1>${currentProject.name}</h1>
 					<div class="news_data"><span>发布日期：${currentProject.createTime?string("yyyy-MM-dd")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者：${currentProject.createBy}</span></div>
