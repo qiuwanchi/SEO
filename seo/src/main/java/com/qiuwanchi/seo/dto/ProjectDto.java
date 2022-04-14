@@ -1,6 +1,5 @@
 package com.qiuwanchi.seo.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -43,4 +42,12 @@ public class ProjectDto {
 
     private String createBy;
 
+
+    private String title;
+
+    private String keywords;
+
+    private String description;
+
+    private String alt;
 }

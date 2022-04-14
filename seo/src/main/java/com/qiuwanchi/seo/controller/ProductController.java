@@ -28,6 +28,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+/**
+ * 公司产品
+ */
 @Log4j2
 @Controller
 public class ProductController {
@@ -71,6 +74,13 @@ public class ProductController {
         for (ModuleDto moduleDto : moduleList){
             if(StringUtils.isNotBlank(moduleDto.getFilePath())){
                 moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
+            }
+
+            if(StringUtils.isBlank(moduleDto.getTitle())){
+                moduleDto.setTitle(moduleDto.getName());
+            }
+            if(StringUtils.isBlank(moduleDto.getAlt())){
+                moduleDto.setAlt(moduleDto.getName());
             }
         }
         return  moduleList;

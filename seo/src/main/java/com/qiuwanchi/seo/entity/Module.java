@@ -40,6 +40,18 @@ public class Module implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
+    @TableField("title")
+    private String  title;
+
+    @TableField("keywords")
+    private String  keywords;
+
+    @TableField("description")
+    private String  description;
+
+    @TableField("alt")
+    private String  alt;
+
     public static final String ID = "id";
     public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";

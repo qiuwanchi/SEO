@@ -1,5 +1,6 @@
 package com.qiuwanchi.seo.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
@@ -27,6 +28,14 @@ public class ModuleDto {
     private String filePath;
 
     private String fileId;
+
+    private String title;
+
+    private String keywords;
+
+    private String description;
+
+    private String alt;
 
     private List<ProjectDto> projectDtoList;
 

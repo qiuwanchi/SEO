@@ -6,6 +6,10 @@
         SELECT
             b.id,
             b.name,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
             b.describe_msg AS describeMsg,
             a.filename AS fileName,
             a.filesize AS fileSize,
@@ -21,6 +25,10 @@
         SELECT
         b.id,
         b.name,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
         b.describe_msg AS describeMsg,
         a.filename AS fileName,
         a.filesize AS fileSize,

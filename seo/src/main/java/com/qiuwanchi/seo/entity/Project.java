@@ -45,6 +45,18 @@ public class Project implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
+    @TableField("title")
+    private String  title;
+
+    @TableField("keywords")
+    private String  keywords;
+
+    @TableField("description")
+    private String  description;
+
+    @TableField("alt")
+    private String  alt;
+
     public static final String ID = "id";
     public static final String MODULE_ID = "module_id";
     public static final String SYSTEM_ATTACHMENT_ID = "system_attachment_id";
