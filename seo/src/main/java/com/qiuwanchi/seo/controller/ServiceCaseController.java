@@ -7,7 +7,6 @@ import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
-import com.qiuwanchi.seo.service.IBannerService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.FileConfiguration;
@@ -38,9 +37,6 @@ public class ServiceCaseController {
 
     @Autowired
     private ServerConfig serverConfig;
-
-    @Autowired
-    private IBannerService bannerService;
 
     @Autowired
     private IModuleService moduleService;
@@ -146,7 +142,7 @@ public class ServiceCaseController {
     }
 
     private List<ModuleDto> getModuleDtoList(String code){
-        List<ModuleDto> moduleList = this.moduleService.getModuleList(code);
+        List<ModuleDto> moduleList = this.moduleService.getModuleDtoList(code);
         for (ModuleDto moduleDto : moduleList){
             if(StringUtils.isNotBlank(moduleDto.getFilePath())){
                 moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));

@@ -25,7 +25,7 @@ public class ProjectServiceImpl implements IProjectService {
         Collections.sort(list, new Comparator<Project>() {
             @Override
             public int compare(Project o1, Project o2) {
-                int a = Integer.valueOf(o1.getSort()).compareTo(Integer.valueOf(o2.getSort()));
+                int a = o1.getSort().compareTo(o2.getSort());
                 if(a == 0){
                     a = o1.getUpdateTime().compareTo(o2.getUpdateTime());
                 }

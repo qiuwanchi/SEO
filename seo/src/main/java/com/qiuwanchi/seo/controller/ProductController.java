@@ -1,12 +1,8 @@
 package com.qiuwanchi.seo.controller;
 
-import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
-import com.qiuwanchi.seo.entity.Attachment;
-import com.qiuwanchi.seo.entity.Banner;
 import com.qiuwanchi.seo.service.IAttachmentService;
-import com.qiuwanchi.seo.service.IBannerService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.FileConfiguration;
@@ -19,13 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -34,9 +24,6 @@ import java.util.List;
 @Log4j2
 @Controller
 public class ProductController {
-
-    @Autowired
-    private IBannerService bannerService;
 
     @Autowired
     private FileConfiguration fileConfiguration;
@@ -70,7 +57,7 @@ public class ProductController {
     }
 
     private List<ModuleDto> getModuleDtoList(String code){
-        List<ModuleDto> moduleList = this.moduleService.getModuleList(code);
+        List<ModuleDto> moduleList = this.moduleService.getModuleDtoList(code);
         for (ModuleDto moduleDto : moduleList){
             if(StringUtils.isNotBlank(moduleDto.getFilePath())){
                 moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));

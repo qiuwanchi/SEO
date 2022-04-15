@@ -29,7 +29,7 @@ public class Module implements Serializable {
     private String belong;
 
     @Column(name = "sort")
-    private String sort;
+    private Integer sort;
 
     @Column(name = "create_by")
     private String createBy;

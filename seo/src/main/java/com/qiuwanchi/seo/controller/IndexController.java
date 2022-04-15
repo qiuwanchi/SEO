@@ -3,14 +3,11 @@ package com.qiuwanchi.seo.controller;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
-import com.qiuwanchi.seo.service.IBannerService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.ServerConfig;
-import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +24,6 @@ public class IndexController {
 
     @Autowired
     private ServerConfig serverConfig;
-
-    @Autowired
-    private IBannerService bannerService;
 
     @Autowired
     private FileConfiguration fileConfiguration;
@@ -50,83 +44,62 @@ public class IndexController {
         return index(model);
     }
 
-    @GetMapping("/index.ftl")
+    @GetMapping("/index.html")
     public String index(Model model){
+        // 基本路径
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
-        // 1.1logo
-        List<ModuleDto> logoModuleList = this.getModuleDtoList("LOGO");
-        // 1.2logo
-        this.intiProject(logoModuleList);
-        ModuleDto logo = logoModuleList.get(0);
-        model.addAttribute("logo", CollectionUtils.isEmpty(logo.getProjectDtoList()) ? new ProjectDto() : logo.getProjectDtoList().get(0));
+        // 1.logo
+        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
+        ModuleDto logoModuleDto = logoModuleList.get(0);
+        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
+        model.addAttribute("logoProject", logoProject);
 
-        // 2.1banner列表
-        List<ModuleDto> bannerModuleList = this.getModuleDtoList("FirstBanner");
-        // 2.2banner列表
-        this.intiProject(bannerModuleList);
-        ModuleDto banner = bannerModuleList.get(0);
-        model.addAttribute("bannerList", CollectionUtils.isEmpty(banner.getProjectDtoList()) ? new ArrayList<>() : banner.getProjectDtoList());
+        // 2banner列表
+        List<ModuleDto> bannerModuleList = this.moduleService.getModuleDtoList("FirstBanner");
+        if(!CollectionUtils.isEmpty(bannerModuleList)){
+            ModuleDto bannerModule = bannerModuleList.get(0);
+            model.addAttribute("bannerProjectList", CollectionUtils.isEmpty(bannerModule.getProjectDtoList()) ? new ArrayList<>() : bannerModule.getProjectDtoList());
+        }
 
-        // 2.1公司产品-模块列表
-        List<ModuleDto> moduleList = this.getModuleDtoList("companyProduct-productModule");
-        // 2.2公司产品-模块-项目列表
-        this.intiProject(moduleList);
-        model.addAttribute("productModuleList", moduleList);
+        // 3公司产品
+        List<ModuleDto> productModuleList = this.moduleService.getModuleDtoList("companyProduct-productModule");
+        model.addAttribute("productModuleList", productModuleList);
 
-        // 3.1多媒体展厅-模块列表
-        List<ModuleDto> showRoomModuleList = this.getModuleDtoList("multi-media-showroom");
-        // 3.2多媒体展厅-模块-项目列表
-        this.intiProject(showRoomModuleList);
+        // 4多媒体展厅
+        List<ModuleDto> showRoomModuleList = this.moduleService.getModuleDtoList("multi-media-showroom");
         model.addAttribute("showRoomModuleList", showRoomModuleList);
 
-        // 4.1视频案例-模块列表
-        List<ModuleDto> videoCaseModuleList = this.getModuleDtoList("VideoCase");
-        // 4.2视频案例-模块-项目列表
+        // 5视频案例
+        List<ModuleDto> videoCaseModuleList = this.moduleService.getModuleDtoList("VideoCase");
         if(!CollectionUtils.isEmpty(videoCaseModuleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(videoCaseModuleList.get(0).getId());
-            for (ProjectDto projectDto : projectDtoList){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-            model.addAttribute("videoCaseModuleProjectList", projectDtoList);
+            List<ProjectDto> videoCaseProjectList = videoCaseModuleList.get(0).getProjectDtoList();
+            model.addAttribute("videoCaseProjectList", videoCaseProjectList);
         }
 
-        // 4.1公司优势-模块列表
-        List<ModuleDto> companyAdvantageModuleList = this.getModuleDtoList("CompanyAdvantage");
-        // 4.2公司优势-模块-项目列表
+        // 6公司优势
+        List<ModuleDto> companyAdvantageModuleList = this.moduleService.getModuleDtoList("CompanyAdvantage");
         if(!CollectionUtils.isEmpty(companyAdvantageModuleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(companyAdvantageModuleList.get(0).getId());
-            for (ProjectDto projectDto : projectDtoList){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-            model.addAttribute("companyAdvantageModuleProjectList", projectDtoList);
+            List<ProjectDto> companyAdvantageProjectList = companyAdvantageModuleList.get(0).getProjectDtoList();
+            model.addAttribute("companyAdvantageProjectList", companyAdvantageProjectList);
         }
 
-        // 5.1解决方案-模块列表
-        List<ModuleDto> solutionCaseModuleList = this.getModuleDtoList("SolutionCase");
-        // 5.2解决方案-模块-项目列表
+        // 7解决方案
+        List<ModuleDto> solutionCaseModuleList = this.moduleService.getModuleDtoList("SolutionCase");
         if(!CollectionUtils.isEmpty(solutionCaseModuleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(solutionCaseModuleList.get(0).getId());
-            for (ProjectDto projectDto : projectDtoList){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-            model.addAttribute("solutionCaseModuleProjectList", projectDtoList);
+            List<ProjectDto> solutionCaseProjectList = solutionCaseModuleList.get(0).getProjectDtoList();
+            model.addAttribute("solutionCaseProjectList", solutionCaseProjectList);
         }
 
-        // 6.1维护服务-模块列表
-        List<ModuleDto> maintenanceServicesModuleList = this.getModuleDtoList("MaintenanceServices");
-        // 6.2维护服务-模块-项目列表
+        // 8维护服务
+        List<ModuleDto> maintenanceServicesModuleList = this.moduleService.getModuleDtoList("MaintenanceServices");
         if(!CollectionUtils.isEmpty(maintenanceServicesModuleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(maintenanceServicesModuleList.get(0).getId());
-            for (ProjectDto projectDto : projectDtoList){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-            model.addAttribute("maintenanceServicesModuleProjectList", projectDtoList);
+            List<ProjectDto> maintenanceServicesProjectList = maintenanceServicesModuleList.get(0).getProjectDtoList();
+            model.addAttribute("maintenanceServicesProjectList", maintenanceServicesProjectList);
         }
 
-        //7.1 新闻资讯-模块列表
-        List<ModuleDto> newsModuleList = this.getModuleDtoList("News");
-        this.intiProject(newsModuleList);
+        //9 新闻资讯
+        List<ModuleDto> newsModuleList = this.moduleService.getModuleDtoList("News");
         if(!CollectionUtils.isEmpty(newsModuleList)){
             for (ModuleDto moduleDto : newsModuleList){
                 if(!CollectionUtils.isEmpty(moduleDto.getProjectDtoList())){
@@ -143,43 +116,6 @@ public class IndexController {
         model.addAttribute("newsModuleList", newsModuleList);
 
         return "index";
-    }
-
-    private List<ModuleDto> getModuleDtoList(String code){
-        List<ModuleDto> moduleList = this.moduleService.getModuleList(code);
-        for (ModuleDto moduleDto : moduleList){
-            if(StringUtils.isNotBlank(moduleDto.getFilePath())){
-                moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
-            }
-
-            if(StringUtils.isNotBlank(moduleDto.getTitle())){
-                moduleDto.setTitle(moduleDto.getName());
-            }
-
-            if(StringUtils.isNotBlank(moduleDto.getAlt())){
-                moduleDto.setAlt(moduleDto.getName());
-            }
-        }
-        return  moduleList;
-    }
-
-    private void intiProject(List<ModuleDto> moduleList){
-        if(!CollectionUtils.isEmpty(moduleList)){
-            for (ModuleDto moduleDto : moduleList){
-                List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleDto.getId());
-                for (ProjectDto projectDto : projectDtoList){
-                    projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-                    if(StringUtils.isNotBlank(projectDto.getTitle())){
-                        projectDto.setTitle(projectDto.getName());
-                    }
-
-                    if(StringUtils.isNotBlank(projectDto.getAlt())){
-                        projectDto.setAlt(projectDto.getName());
-                    }
-                }
-                moduleDto.setProjectDtoList(projectDtoList);
-            }
-        }
     }
 
 }

@@ -57,6 +57,9 @@ public class Project implements Serializable {
     @TableField("alt")
     private String  alt;
 
+    @TableField("click_url")
+    private String clickUrl;
+
     public static final String ID = "id";
     public static final String MODULE_ID = "module_id";
     public static final String SYSTEM_ATTACHMENT_ID = "system_attachment_id";
@@ -66,6 +69,11 @@ public class Project implements Serializable {
     public static final String CREATE_TIME = "create_time";
     public static final String UPDATE_BY = "update_by";
     public static final String UPDATE_TIME = "update_time";
+    public static final String TITLE = "title";
+    public static final String KEYWORDS = "keywords";
+    public static final String DESCRIPTION = "description";
+    public static final String ALT = "alt";
+    public static final String CLICK_URL = "click_url";
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
@@ -77,6 +85,11 @@ public class Project implements Serializable {
         list.add("create_time");
         list.add("update_by");
         list.add("update_time");
+        list.add("title");
+        list.add("keywords");
+        list.add("description");
+        list.add("alt");
+        list.add("click_url");
 
         for (String a : list){
             System.out.println("public static final String " + a.toUpperCase() + " = " + "\"" + a + "\";");

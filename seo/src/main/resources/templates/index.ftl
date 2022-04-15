@@ -12,7 +12,7 @@
 <body>
 <div class="c-nav" id="c-nav">
   <div class="container navFlex">
-    <div class="flexItem"> <img  class="logo" src="${logo.url}" alt="${logo.alt}"/> </div>
+    <div class="flexItem"> <img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> /> </div>
     <div class="flexItem clearfix">
       <ul>
         <li class="active"><a href="${baseUrl}/index.html">首页</a></li>
@@ -31,8 +31,19 @@
 </div>
 <div class="layui-carousel banner" id="test1" lay-filter="test1">
     <div carousel-item="">
-      <#list bannerList as banner>
-      	 <div><img src="${banner.url}"></div>
+      <#list bannerProjectList as bannerProject>
+      	 <div>
+			 <#if bannerProject.clickUrl?? && bannerProject.clickUrl != "">
+			 	<a href="${bannerProject.clickUrl}" target="_blank">
+		     </#if>
+
+			 <img src="${bannerProject.url}" <#if bannerProject.alt?? && bannerProject.alt != ""> alt="${bannerProject.alt}" </#if>>
+
+			 <#if bannerProject.clickUrl?? && bannerProject.clickUrl != "">
+	    	 	</a>
+			 </#if>
+
+		 </div>
       </#list>
     </div>
   </div>
@@ -56,7 +67,7 @@
 			<#list productModule.projectDtoList as project>
 			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
 				<a href="javascript:;">
-				<div class="main_img"><img src="${project.url}"></div>
+				<div class="main_img"><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
 				<h1>${project.name}</h1>
 				</a>
 			  </li>
@@ -90,7 +101,7 @@
 			<#list showRoomModule.projectDtoList as project>
 			  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
 				<a href="javascript:;">
-				<div class="main_img"><img src="${project.url}"></div>
+				<div class="main_img"><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
 				<span>0${project_index + 1}</span>
 				<h1>${project.name}</h1>
 				<p>${project.describeMsg}</p>
@@ -113,13 +124,13 @@
 		<div class="main-title title_video"><img src="images/title_video.PNG"></div>
 		<ul class=" clearfix pic_list">
 		
-		<#list videoCaseModuleProjectList as project>
+		<#list videoCaseProjectList as videoCaseProject>
 			<li class="layui-col-xs12 layui-col-md4">
 				<a href="#">
-				<div class="main_img"><img src="${project.url}"></div>
+				<div class="main_img"><img src="${videoCaseProject.url}" <#if videoCaseProject.alt?? && videoCaseProject.alt != ""> alt="${videoCaseProject.alt}" </#if>></div>
 				<div class="video_padding">
-				<h1>${project.name}</h1>
-				<p>${project.describeMsg}</p>
+				<h1>${videoCaseProject.name}</h1>
+				<p>${videoCaseProject.describeMsg}</p>
 				</div>
 				</a>
 			</li>
@@ -135,12 +146,12 @@
 		<div class="main-title title_hot"><img src="images/title_ys.PNG"></div>
 		<p class="ys_p">苏州好奇数字科技有限公司自创立以来，坚持科技创新，是一家快速成长、锐意进取的互动多媒体公司。公司专注于更好的视觉效果、人机互动体验开发。为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</p>
 	    <ul class="clearfix ys_list">
-		<#list companyAdvantageModuleProjectList as project>
+		<#list companyAdvantageProjectList as companyAdvantageProject>
 			<li>
 			  <div class="ys_tnt">
-				<div class="ys_img"><img src="${project.url}"></div>
-				<h3>${project.name}</h3>
-				<span>${project.describeMsg}</span>
+				<div class="ys_img"><img src="${companyAdvantageProject.url}" <#if companyAdvantageProject.alt?? && companyAdvantageProject.alt != ""> alt="${companyAdvantageProject.alt}" </#if>></div>
+				<h3>${companyAdvantageProject.name}</h3>
+				<span>${companyAdvantageProject.describeMsg}</span>
 			  </div>
 			</li>
 		</#list>
@@ -154,12 +165,12 @@
 	<div class="main-title title_hot"><img src="images/title_project.PNG"></div>
 	<h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</h4>
 	<ul class=" clearfix pic_list">
-	<#list solutionCaseModuleProjectList as project>
+	<#list solutionCaseProjectList as solutionCaseProject>
 	  <li class="layui-col-xs12 layui-col-sm6 layui-col-md3">
 		<a href="javascript:;">
-	    <div class="main_img"><img src="${project.url}"></div>
-	    <h1>${project.name}</h1>
-	    <p>${project.describeMsg}</p>
+	    <div class="main_img"><img src="${solutionCaseProject.url}" <#if solutionCaseProject.alt?? && solutionCaseProject.alt != ""> alt="${solutionCaseProject.alt}" </#if>></div>
+	    <h1>${solutionCaseProject.name}</h1>
+	    <p>${solutionCaseProject.describeMsg}</p>
 	    </a>
 	  </li>
 	</#list>
@@ -174,12 +185,16 @@
 		<div class="main-title title_hot"><img src="images/title_wh.PNG"></div>
 		<h2>更快、更好、更贴心</h2>
 		<ul class="wh_list clearfix">
-		<#list maintenanceServicesModuleProjectList as project>
+		<#list maintenanceServicesProjectList as maintenanceServicesProject>
 			<li class="layui-col-sm6 layui-col-md3">
 				<div class="wh_tnt">
-					<a href="javascript:;">
-						<div><img src="i${project.url}"><h3>${project.name}</h3></div>
-					</a>
+					<#if maintenanceServicesProject.clickUrl?? && maintenanceServicesProject.clickUrl != "">
+						<a href="${maintenanceServicesProject.clickUrl}" target="_blank">
+					</#if>
+						<div><img src="${maintenanceServicesProject.url}" <#if maintenanceServicesProject.alt?? && maintenanceServicesProject.alt != ""> alt="${maintenanceServicesProject.alt}" </#if>><h3>${maintenanceServicesProject.name}</h3></div>
+					<#if maintenanceServicesProject.clickUrl?? && maintenanceServicesProject.clickUrl != "">
+						</a>
+					</#if>
 				</div>
 			</li>
 		</#list>
@@ -199,16 +214,30 @@
 		  <div class="layui-tab-content ">
 		  <#list newsModuleList as newsModule>
 		    <div class="layui-tab-item <#if newsModule_index ==0>layui-show</#if> ">
-			   <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6"><img src="${newsModule.url}"></div>
+			   <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6">
+
+				   <#if newsModule.clickUrl?? && newsModule.clickUrl != "">
+				   		<a href="${newsModule.clickUrl}" target="_blank">
+				   </#if>
+				   <img src="${newsModule.url}" <#if newsModule.alt?? && newsModule.alt != ""> alt="${newsModule.alt}" </#if>>
+				   <#if newsModule.clickUrl?? && newsModule.clickUrl != "">
+				   		</a>
+				   </#if>
+			   </div>
 			   <div class="news_list layui-col-xs12 layui-col-sm6 layui-col-md6">
 			    <#list newsModule.projectDtoList as project>
-				   <div class="news_list_li clearfix">
+				   <div class="news_list_li projectclearfix">
 					   <div class="rl"><span>${project.day}</span><p>${project.years}</p></div>
 					   <div class="text">
-						   <a href="javascript:;">
+						   <#if project.clickUrl?? && project.clickUrl != "">
+						   		<a href="${project.clickUrl}" target="_blank">
+						   </#if>
 						   <h3>${project.name}</h3>
 						   <h4>${project.describeMsg}</h4>
-					       </a>
+						   <#if project.clickUrl?? && project.clickUrl != "">
+					   			</a>
+						   </#if>
+
 					   </div>
 				   </div>
 				</#list>   

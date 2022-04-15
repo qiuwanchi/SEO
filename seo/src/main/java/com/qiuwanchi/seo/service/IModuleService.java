@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface IModuleService extends IService<Module> {
 
-    List<ModuleDto> getModuleList(String belong);
+    List<ModuleDto> getModuleDtoList(String belong);
 }

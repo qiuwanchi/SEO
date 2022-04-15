@@ -34,7 +34,7 @@ public class Project implements Serializable {
     private String systemAttachmentId;
 
     @Column(name = "sort")
-    private String sort;
+    private Integer sort;
 
     @Column(name = "create_by")
     private String createBy;

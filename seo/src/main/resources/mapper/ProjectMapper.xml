@@ -6,37 +6,79 @@
         SELECT
             b.id,
             b.name,
+            b.describe_msg AS describeMsg,
+            b.module_id AS moduleId,
+            b.attachment_id AS attachmentId,
+            b.sort,
             b.title,
             b.keywords,
             b.description,
             b.alt,
-            b.describe_msg AS describeMsg,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
             a.filename AS fileName,
             a.filesize AS fileSize,
             a.filetype AS fileType,
             a.filepath AS filePath,
-            a.file_id AS fileId,
-            a.create_time AS createTime
-        FROM project b LEFT JOIN system_attachment a ON b.system_attachment_id=a.id WHERE b.module_id=#{moduleId}
+            a.file_id AS fileId
+        FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id=#{moduleId}
         ORDER BY b.sort
+    </select>
+
+    <select id="getProjectListByModuleIds" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+        SELECT
+            b.id,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.module_id AS moduleId,
+            b.attachment_id AS attachmentId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+        FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id in
+        <foreach item="item" index="index" collection="moduleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="getProjectPageListByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
         SELECT
-        b.id,
-        b.name,
-        b.title,
-        b.keywords,
-        b.description,
-        b.alt,
-        b.describe_msg AS describeMsg,
-        a.filename AS fileName,
-        a.filesize AS fileSize,
-        a.filetype AS fileType,
-        a.filepath AS filePath,
-        a.file_id AS fileId,
-        a.create_time AS createTime
-        FROM project b LEFT JOIN system_attachment a ON b.system_attachment_id=a.id WHERE b.module_id=#{moduleId}
+            b.id,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.module_id AS moduleId,
+            b.attachment_id AS attachmentId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+        FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id=#{moduleId}
         ORDER BY b.sort
     </select>
 
