@@ -39,12 +39,26 @@ public class ProjectController {
 		Module module = this.moduleService.getById(moduleId);
 		List<Project> projectList = this.projectService.getByModuleId(moduleId);
 		for (Project project : projectList){
-			project.setAttachment(this.attachmentService.queryAttachmentById(project.getSystemAttachmentId()));
+			project.setAttachment(this.attachmentService.queryAttachmentById(project.getAttachmentId()));
 		}
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("module", module);
+
+		// 公司产品/服务案例
+		if("companyProduct-productModule".equals(module.getBelong()) || "ServiceCase".equals(module.getBelong())){
+			return "firstPage/module/project/list2";
+		}
+
 		return "firstPage/module/project/list";
 	}
+
+	@PostMapping("/toAdd")
+	public String toAdd(Model model, String moduleId) {
+		Module module = this.moduleService.getById(moduleId);
+		model.addAttribute("module", module);
+		return "firstPage/module/project/add";
+	}
+
 
 	@PostMapping("/save")
 	public String save(Model model, Project param, RedirectAttributes redirectAttributes) {
@@ -63,7 +77,7 @@ public class ProjectController {
 			project.setId(UUIDUtils.getPrimaryKey());
 			project.setName(param.getName());
 			project.setDescribe(param.getDescribe());
-			project.setSystemAttachmentId(attachment.getId());
+			project.setAttachmentId(attachment.getId());
 			project.setModuleId(param.getModuleId());
 			project.setTitle(param.getTitle());
 			project.setKeywords(param.getKeywords());
@@ -87,14 +101,14 @@ public class ProjectController {
 			attachment.setUpdateBy(TokenManager.getUserId());
 			attachment.setUpdateTime(new Date());
 			this.attachmentService.save(attachment);
-			this.attachmentService.delete(project.getSystemAttachmentId());
+			this.attachmentService.delete(project.getAttachmentId());
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				project.setSort(param.getSort());
 			}
 			project.setName(param.getName());
 			project.setDescribe(param.getDescribe());
-			project.setSystemAttachmentId(attachment.getId());
+			project.setAttachmentId(attachment.getId());
 			project.setTitle(param.getTitle());
 			project.setKeywords(param.getKeywords());
 			project.setDescription(param.getDescription());
@@ -110,7 +124,7 @@ public class ProjectController {
 	@GetMapping("/delete")
 	public String delete(Model model, String id, RedirectAttributes redirectAttributes) {
 		Project project = this.projectService.getById(id);
-		this.attachmentService.delete(project.getSystemAttachmentId());
+		this.attachmentService.delete(project.getAttachmentId());
 		this.projectService.delete(id);
 		redirectAttributes.addAttribute("moduleId", project.getModuleId());
 		return "redirect:/firstPage/module/project";
@@ -120,8 +134,8 @@ public class ProjectController {
 	@ResponseBody
 	public Project getById(@RequestParam("projectId") String projectId) {
 		Project project = this.projectService.getById(projectId);
-		if(!StringUtils.isEmpty(project.getSystemAttachmentId())){
-			Attachment attachment = this.attachmentService.queryAttachmentById(project.getSystemAttachmentId());
+		if(!StringUtils.isEmpty(project.getAttachmentId())){
+			Attachment attachment = this.attachmentService.queryAttachmentById(project.getAttachmentId());
 			project.setAttachment(attachment);
 		}
 		return project;

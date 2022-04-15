@@ -30,8 +30,8 @@ public class Project implements Serializable {
     @Column(name = "module_id")
     private String moduleId;
 
-    @Column(name = "system_attachment_id")
-    private String systemAttachmentId;
+    @Column(name = "attachment_id")
+    private String attachmentId;
 
     @Column(name = "sort")
     private Integer sort;

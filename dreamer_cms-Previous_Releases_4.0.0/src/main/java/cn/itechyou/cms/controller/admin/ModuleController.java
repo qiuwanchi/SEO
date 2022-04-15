@@ -147,7 +147,7 @@ public class ModuleController {
 		List<Project> projectList = this.projectService.getByModuleId(id);
 
 		for (Project project : projectList){
-			this.attachmentService.delete(project.getSystemAttachmentId());
+			this.attachmentService.delete(project.getAttachmentId());
 		}
 
 		this.projectService.deleteByModuleId(id);
