@@ -1,6 +1,5 @@
 package com.qiuwanchi.seo.controller;
 
-import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
@@ -181,13 +180,6 @@ public class IndexController {
                 moduleDto.setProjectDtoList(projectDtoList);
             }
         }
-    }
-
-    @GetMapping("/demo.html")
-    public String demo(Model model) {
-        model.addAttribute("baseUrl", serverConfig.getUrl());
-
-        return "ueditor/index";
     }
 
 }
