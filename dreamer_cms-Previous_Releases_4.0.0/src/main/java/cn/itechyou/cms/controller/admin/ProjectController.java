@@ -53,9 +53,21 @@ public class ProjectController {
 	}
 
 	@PostMapping("/toAdd")
-	public String toAdd(Model model, String moduleId) {
+	public String toAdd(Model model, String moduleId, String id) {
 		Module module = this.moduleService.getById(moduleId);
 		model.addAttribute("module", module);
+
+		if(!StringUtils.isEmpty(id)){
+			Project project = this.projectService.getById(id);
+			if(!StringUtils.isEmpty(project.getAttachmentId())){
+				Attachment attachment = this.attachmentService.queryAttachmentById(project.getAttachmentId());
+				project.setAttachment(attachment);
+			}
+
+			model.addAttribute("project", project);
+
+			return "firstPage/module/project/edit";
+		}
 		return "firstPage/module/project/add";
 	}
 
@@ -84,6 +96,7 @@ public class ProjectController {
 			project.setDescription(param.getDescription());
 			project.setAlt(param.getAlt());
 			project.setClickUrl(param.getClickUrl());
+			project.setContent(param.getContent());
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				project.setSort(param.getSort());
@@ -114,6 +127,7 @@ public class ProjectController {
 			project.setDescription(param.getDescription());
 			project.setAlt(param.getAlt());
 			project.setClickUrl(param.getClickUrl());
+			project.setContent(param.getContent());
 
 			this.projectService.update(project);
 		}

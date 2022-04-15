@@ -65,4 +65,7 @@ public class Project implements Serializable {
     @Column(name = "click_url")
     private String clickUrl;
 
+    @Column(name = "content")
+    private String content;
+
 }

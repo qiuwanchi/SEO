@@ -54,14 +54,14 @@
 			<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
 		</div>
 		<form class="col s12" id="form1" th:action="@{/firstPage/module/project/save}" method="post">
-			<input name="attachment.filename" id="filename" type="hidden" />
-			<input name="attachment.filepath" id="filepath" type="hidden" />
-			<input name="attachment.filetype" id="filetype" type="hidden" />
-			<input name="attachment.filesize" id="filesize" type="hidden" />
+			<input name="attachment.filename" id="filename" type="hidden" th:value="${project.attachment.filename}" />
+			<input name="attachment.filepath" id="filepath" type="hidden" th:value="${project.attachment.filepath}" />
+			<input name="attachment.filetype" id="filetype" type="hidden" th:value="${project.attachment.filetype}" />
+			<input name="attachment.filesize" id="filesize" type="hidden" th:value="${project.attachment.filesize}" />
 			<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
 
-			<input name="content" id="content" type="hidden"/>
-			<input name="attachmentid" id="attachmentid" type="hidden"/>
+			<input name="content" id="content" type="hidden" th:value="${project.content}"/>
+			<input name="attachmentid" id="attachmentid" type="hidden" th:value="${project.attachment.id}"/>
 			<div id="uploader" class="wu-example">
 				<div class="btns">
 					<div id="picker">选择图片或视频...</div>
@@ -71,25 +71,25 @@
 				图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
 			</div>
 			<div class="wu-example">
-				排序号：<input name="sort" id="sort"  />
+				排序号：<input name="sort" id="sort"  th:value="${project.sort}"/>
 			</div>
 			<div class="wu-example">
-				名称：<input name="name" id="name"  />
+				名称：<input name="name" id="name"  th:value="${project.name}"/>
 			</div>
 			<div class="wu-example">
-				描述：<textarea name="describe" id="describe"  ></textarea>
+				描述：<textarea name="describe" id="describe" th:value="${project.describe}" ></textarea>
 			</div>
 			<div class="wu-example">
-				title：<input name="title" id="title" />
+				title：<input name="title" id="title" th:value="${project.title}"/>
 			</div>
 			<div class="wu-example">
-				keywords：<input name="keywords" id="keywords" />
+				keywords：<input name="keywords" id="keywords" th:value="${project.keywords}"/>
 			</div>
 			<div class="wu-example">
-				description：<input name="description" id="description" />
+				description：<input name="description" id="description" th:value="${project.description}"/>
 			</div>
 			<div class="wu-example">
-				alt：<input name="alt" id="alt" />
+				alt：<input name="alt" id="alt" th:value="${project.alt}"/>
 			</div>
 
 		</form>
@@ -443,6 +443,12 @@
     function clearLocalData () {
         UE.getEditor('editor').execCommand( "clearlocaldata" );
         alert("已清空草稿箱")
+    }
+
+	var int=self.setInterval("t()",2000);
+    function t(){
+    	var content = $("#content").val();
+    	UE.getEditor('editor').setContent(content);
     }
 </script>
 </body>

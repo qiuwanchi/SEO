@@ -53,7 +53,7 @@
 				<td th:text="${project.name}"></td>
 				<td th:text="${project.sort}"></td>
 				<td>
-					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: toEdit(this.getAttribute('aid'))">编辑</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
 					<span>&nbsp;|&nbsp;</span>
@@ -83,6 +83,7 @@
 				</div>
 				<form class="col s12" id="form1" th:action="@{/firstPage/module/project/toAdd}" method="post">
 					<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
+					<input name="id" id="id" type="hidden"/>
 				</form>
 			</div>
             <div class="modal-footer">
@@ -189,6 +190,10 @@
 		$("#form1").submit();
 	}
 
+	function toEdit(id){
+		$("#id").val(id);
+		$("#form1").submit();
+	}
 
 
 	function openUploadDialogForUpdate(id){
