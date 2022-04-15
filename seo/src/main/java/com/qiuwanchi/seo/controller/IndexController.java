@@ -51,7 +51,7 @@ public class IndexController {
         return index(model);
     }
 
-    @GetMapping("/index.html")
+    @GetMapping("/index.ftl")
     public String index(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
@@ -182,4 +182,12 @@ public class IndexController {
             }
         }
     }
+
+    @GetMapping("/demo.html")
+    public String demo(Model model) {
+        model.addAttribute("baseUrl", serverConfig.getUrl());
+
+        return "ueditor/index";
+    }
+
 }
