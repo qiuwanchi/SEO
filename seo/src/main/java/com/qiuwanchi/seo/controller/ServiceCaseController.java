@@ -9,6 +9,7 @@ import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
+import com.qiuwanchi.seo.utils.BottomManagementCommon;
 import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.ServerConfig;
 import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
@@ -45,6 +46,9 @@ public class ServiceCaseController {
     @Autowired
     private IProjectService projectService;
 
+    @Autowired
+    private BottomManagementCommon bottomManagementCommon;
+
     /**
      * 服务案例类目
      * @param model
@@ -80,6 +84,7 @@ public class ServiceCaseController {
 
         model.addAttribute("page", page);
 
+        this.bottomManagementCommon.bottom(model);
         return "service_case";
     }
 
@@ -150,6 +155,8 @@ public class ServiceCaseController {
         // 下一篇
         ProjectDto nextProject = this.projectService.getNextProject(project.getModuleId(), project.getSort());
         model.addAttribute("nextProject", nextProject);
+
+        this.bottomManagementCommon.bottom(model);
 
         return "service_case_detail";
     }

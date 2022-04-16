@@ -5,6 +5,7 @@ import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
+import com.qiuwanchi.seo.utils.BottomManagementCommon;
 import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.ServerConfig;
 import lombok.extern.log4j.Log4j2;
@@ -36,6 +37,9 @@ public class IndexController {
 
     @Autowired
     private IProjectService projectService;
+
+    @Autowired
+    private BottomManagementCommon bottomManagementCommon;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
@@ -115,6 +119,8 @@ public class IndexController {
 
         model.addAttribute("newsModuleList", newsModuleList);
 
+        // 底部
+        this.bottomManagementCommon.bottom(model);
         return "index";
     }
 

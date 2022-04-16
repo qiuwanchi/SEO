@@ -7,10 +7,7 @@ import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
-import com.qiuwanchi.seo.utils.FileConfiguration;
-import com.qiuwanchi.seo.utils.ServerConfig;
-import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
-import com.qiuwanchi.seo.utils.Utils;
+import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -49,6 +46,9 @@ public class NewsController {
     @Autowired
     private ServerConfig serverConfig;
 
+    @Autowired
+    private BottomManagementCommon bottomManagementCommon;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
     @GetMapping("/news.html")
@@ -84,6 +84,8 @@ public class NewsController {
             });
             model.addAttribute("newsProjectList", newsProjectList);
         }
+
+        this.bottomManagementCommon.bottom(model);
 
         return "news";
     }
@@ -149,6 +151,7 @@ public class NewsController {
         ProjectDto nextProject = this.projectService.getNextProject(project.getModuleId(), project.getSort());
         model.addAttribute("nextProject", nextProject);
 
+        this.bottomManagementCommon.bottom(model);
         return "news_detail";
     }
 

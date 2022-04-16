@@ -5,6 +5,7 @@ import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
+import com.qiuwanchi.seo.utils.BottomManagementCommon;
 import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.ServerConfig;
 import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
@@ -40,6 +41,9 @@ public class ProductController {
     @Autowired
     private ServerConfig serverConfig;
 
+    @Autowired
+    private BottomManagementCommon bottomManagementCommon;
+
     @GetMapping("/products.html")
     public String products(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
@@ -59,6 +63,8 @@ public class ProductController {
             List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleList.get(0).getId());
             model.addAttribute("productModuleProjectList", projectDtoList);
         }
+
+        this.bottomManagementCommon.bottom(model);
 
         return "goods";
     }

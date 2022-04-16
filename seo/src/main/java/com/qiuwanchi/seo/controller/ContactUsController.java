@@ -4,6 +4,7 @@ import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
+import com.qiuwanchi.seo.utils.BottomManagementCommon;
 import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.ServerConfig;
 import lombok.extern.log4j.Log4j2;
@@ -32,6 +33,9 @@ public class ContactUsController {
     @Autowired
     private IModuleService moduleService;
 
+    @Autowired
+    private BottomManagementCommon bottomManagementCommon;
+
     @GetMapping("/contactUs.html")
     public String contactUs(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
@@ -47,9 +51,11 @@ public class ContactUsController {
         ModuleDto contactUsModuleDto = contactUsModuleList.get(0);
         model.addAttribute("contactUsModuleDto", contactUsModuleDto);
 
-        // 扫码关注我们
+        // 3扫码关注我们
         List<ProjectDto> scanCodeProjectList = CollectionUtils.isEmpty(contactUsModuleDto.getProjectDtoList()) ? new ArrayList<>() : contactUsModuleDto.getProjectDtoList();
         model.addAttribute("scanCodeProjectList", scanCodeProjectList);
+
+        this.bottomManagementCommon.bottomWebsiteNavigation(model);
 
         return "contact";
     }
