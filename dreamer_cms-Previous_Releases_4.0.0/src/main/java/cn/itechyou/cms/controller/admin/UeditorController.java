@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -39,5 +41,14 @@ public class UeditorController {
 
 
 
-	
+	@RequestMapping("/save")
+	public String save(HttpServletRequest request, HttpServletResponse response) {
+
+		String action = request.getParameter("action");
+		String noCache = request.getParameter("noCache");
+
+		System.out.println(action);
+		System.out.println(noCache);
+		return "firstPage/ueditorDemo";
+	}
 }
