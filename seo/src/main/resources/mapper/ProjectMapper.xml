@@ -58,28 +58,61 @@
 
     <select id="getProjectPageListByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
         SELECT
-            b.id,
-            b.name,
-            b.describe_msg AS describeMsg,
-            b.module_id AS moduleId,
-            b.attachment_id AS attachmentId,
-            b.sort,
-            b.title,
-            b.keywords,
-            b.description,
-            b.alt,
-            b.click_url AS clickUrl,
-            b.create_by AS createBy,
-            b.create_time AS createTime,
-            b.update_by AS updateBy,
-            b.update_time AS updateTime,
-            a.filename AS fileName,
-            a.filesize AS fileSize,
-            a.filetype AS fileType,
-            a.filepath AS filePath,
-            a.file_id AS fileId
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.module_id AS moduleId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
         FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id=#{moduleId}
         ORDER BY b.sort
     </select>
+
+
+    <select id="recommend" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+        SELECT
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.module_id AS moduleId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime
+        FROM project b JOIN module m ON b.module_id=m.id AND m.belong='News'
+
+        WHERE  b.id !=#{projectId} AND
+        (
+        1=0
+        <foreach item="item" index="index" collection="keywordsList" open="" separator=" " close="">
+            OR b.keywords LIKE "%${item},%" OR b.keywords LIKE "%,${item}%"
+        </foreach>
+
+        )
+        ORDER BY b.create_time desc
+        LIMIT 6
+    </select>
+
 
 </mapper>

@@ -43,6 +43,13 @@ public class ProductController {
     @GetMapping("/products.html")
     public String products(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
+
+        // 1.logo
+        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
+        ModuleDto logoModuleDto = logoModuleList.get(0);
+        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
+        model.addAttribute("logoProject", logoProject);
+
         // 2.1公司产品-模块列表
         List<ModuleDto> moduleList = this.getModuleDtoList("companyProduct-productModule");
         model.addAttribute("productModuleList", moduleList);

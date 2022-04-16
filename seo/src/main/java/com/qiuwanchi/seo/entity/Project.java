@@ -24,7 +24,7 @@ public class Project implements Serializable {
     @TableField("module_id")
     private String moduleId;
 
-    @TableField("system_attachment_id")
+    @TableField("attachment_id")
     private String attachmentId;
 
     @TableField("name")
@@ -60,9 +60,12 @@ public class Project implements Serializable {
     @TableField("click_url")
     private String clickUrl;
 
+    @TableField("content")
+    private String content;
+
     public static final String ID = "id";
     public static final String MODULE_ID = "module_id";
-    public static final String SYSTEM_ATTACHMENT_ID = "system_attachment_id";
+    public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";
     public static final String SORT = "sort";
     public static final String CREATE_BY = "create_by";
@@ -74,6 +77,7 @@ public class Project implements Serializable {
     public static final String DESCRIPTION = "description";
     public static final String ALT = "alt";
     public static final String CLICK_URL = "click_url";
+    public static final String CONTENT = "content";
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();

@@ -5,6 +5,7 @@ import cn.itechyou.cms.entity.Project;
 import cn.itechyou.cms.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,11 +50,17 @@ public class ProjectServiceImpl implements IProjectService {
 
     @Override
     public void add(Project project) {
+        if(!StringUtils.isEmpty(project.getKeywords())){
+            project.setKeywords(project.getKeywords().replaceAll("，", ","));
+        }
         this.projectMapper.insert(project);
     }
 
     @Override
     public void update(Project project) {
+        if(!StringUtils.isEmpty(project.getKeywords())){
+            project.setKeywords(project.getKeywords().replaceAll("，", ","));
+        }
         this.projectMapper.updateByPrimaryKey(project);
     }
 

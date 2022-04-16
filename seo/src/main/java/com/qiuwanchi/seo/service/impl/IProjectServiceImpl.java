@@ -10,6 +10,7 @@ import com.qiuwanchi.seo.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,5 +69,16 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
         projectDto.setId(project.getId());
         projectDto.setName(project.getName());
         return projectDto;
+    }
+
+    @Override
+    public List<ProjectDto> recommend(String id, String[] keywordsArr) {
+
+        List<String> list = new ArrayList<>();
+
+        for (String s : keywordsArr){
+            list.add(s);
+        }
+        return this.projectMapper.recommend(id, list);
     }
 }

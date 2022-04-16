@@ -10,7 +10,7 @@
 <body>
 <div class="c-nav" id="c-nav">
 	<div class="container navFlex">
-		<div class="flexItem"> <img  class="logo" src="${baseUrl}/images/logo.png" /> </div>
+		<div class="flexItem"> <img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> /> </div>
 		<div class="flexItem clearfix">
 			<ul>
 				<li><a href="${baseUrl}/index.html">首页</a></li>

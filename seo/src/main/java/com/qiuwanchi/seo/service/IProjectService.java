@@ -19,4 +19,5 @@ public interface IProjectService extends IService<Project> {
 
     ProjectDto getNextProject(String moduleId, String sort);
 
+    List<ProjectDto> recommend(String id, String[] keywordsArr);
 }

@@ -18,6 +18,7 @@ public class ProjectDto {
     private String description;
     private String alt;
     private String clickUrl;
+    private String content;
     private String createBy;
     private Date createTime;
     private String updateBy;
@@ -32,6 +33,11 @@ public class ProjectDto {
      * 日(根据创建时间来的)
      */
     private String day;
+
+    /**
+     * 月-日
+     */
+    private String monthDay;
 
     private String moduleName;
 

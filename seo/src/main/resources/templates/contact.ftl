@@ -17,7 +17,7 @@
 <body>
 <div class="c-nav" id="c-nav">
   <div class="container navFlex">
-    <div class="flexItem"> <img  class="logo" src="images/logo.png" /> </div>
+    <div class="flexItem"> <img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> /> </div>
     <div class="flexItem clearfix">
       <ul>
 		  <li><a href="${baseUrl}/index.html">首页</a></li>
@@ -36,13 +36,10 @@
 </div>
 <div id="contact">
 	<div class="bannerx">
-		<div class="container">
-		<h3>联系我们</h3>
-		<p>contact us</p>
-		</div>
+		<img src="${contactUsModuleDto.url}" <#if contactUsModuleDto.alt?? && contactUsModuleDto.alt != ""> alt="${contactUsModuleDto.alt}" </#if>>
 	</div>
 	<div class="container main">
-		<div class="position">当前位置：<a href="index.html">首页</a>|<span>联系我们</span></div>
+		<div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>联系我们</span></div>
 		<div style="height:550px;border:#ccc solid 1px;" id="dituContent"></div>
 		<div class="contact_main clearfix">
 			<div class="layui-col-xs12 layui-col-md7 contactx_l">
@@ -56,8 +53,10 @@
 			<div class="layui-col-xs12 layui-col-md5 footer_r contactx_r">
 			       <h2>扫码关注我们</h2>
 			       <ul class="clearfix">
-						<li><img src="images/ewm.jpg"><p>微信二维码</p></li> 
-						<li><img src="images/ewm.jpg"><p>抖音二维码</p></li> 
+					   <#list scanCodeProjectList as scanCodeProject>
+					   		<li><img src="${scanCodeProject.url}"><p>${scanCodeProject.name}</p></li>
+				       </#list>
+
 			       </ul>
 				
 			</div>

@@ -8,6 +8,7 @@ import com.qiuwanchi.seo.mapper.ModuleMapper;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
+import com.qiuwanchi.seo.utils.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,6 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
 
     @Autowired
     private IProjectService projectService;
-
-    private static final String HTTP = "http://";
 
     @Override
     public List<ModuleDto> getModuleDtoList(String belong) {
@@ -59,7 +58,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
                 moduleProjectDtoList = new ArrayList<>();
             }
             /*根据序号排序*/
-            moduleProjectDtoList.stream().sorted(new Comparator<ProjectDto>() {
+            moduleProjectDtoList.sort(new Comparator<ProjectDto>() {
                 @Override
                 public int compare(ProjectDto o1, ProjectDto o2) {
                     int a = o1.getSort().compareTo(o2.getSort());
@@ -81,17 +80,17 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
                 projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
             }
 
-            if(StringUtils.isNotBlank(projectDto.getTitle())){
+            if(StringUtils.isBlank(projectDto.getTitle())){
                 projectDto.setTitle(projectDto.getName());
             }
 
-            if(StringUtils.isNotBlank(projectDto.getAlt())){
+            if(StringUtils.isBlank(projectDto.getAlt())){
                 projectDto.setAlt(projectDto.getName());
             }
 
             if(StringUtils.isNotBlank(projectDto.getClickUrl())){
-                if(!isStartsWith(projectDto.getClickUrl(), HTTP)){
-                    projectDto.setClickUrl(HTTP + projectDto.getClickUrl());
+                if(!Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTP)){
+                    projectDto.setClickUrl(Utils.HTTP + projectDto.getClickUrl());
                 }
             }
         }
@@ -103,27 +102,21 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
                 moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
             }
 
-            if(StringUtils.isNotBlank(moduleDto.getTitle())){
+            if(StringUtils.isBlank(moduleDto.getTitle())){
                 moduleDto.setTitle(moduleDto.getName());
             }
 
-            if(StringUtils.isNotBlank(moduleDto.getAlt())){
+            if(StringUtils.isBlank(moduleDto.getAlt())){
                 moduleDto.setAlt(moduleDto.getName());
             }
 
             if(StringUtils.isNotBlank(moduleDto.getClickUrl())){
-                if(!isStartsWith(moduleDto.getClickUrl(), HTTP)){
-                    moduleDto.setClickUrl(HTTP + moduleDto.getClickUrl());
+                if(!Utils.isStartsWith(moduleDto.getClickUrl(), Utils.HTTP)){
+                    moduleDto.setClickUrl(Utils.HTTP + moduleDto.getClickUrl());
                 }
             }
         }
     }
 
-    private boolean isStartsWith(String str, String startStr){
-        if(str.startsWith(startStr)){
-            return true;
-        }
-        return false;
-    }
 
 }

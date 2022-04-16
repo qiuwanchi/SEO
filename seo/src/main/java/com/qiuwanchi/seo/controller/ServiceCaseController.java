@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +54,12 @@ public class ServiceCaseController {
     public String serviceCase(Model model){
         // 1.baseUrl
         model.addAttribute("baseUrl", serverConfig.getUrl());
+
+        // 1.logo
+        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
+        ModuleDto logoModuleDto = logoModuleList.get(0);
+        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
+        model.addAttribute("logoProject", logoProject);
 
         //
         List<ModuleDto> serviceCaseModuleList = this.getModuleDtoList("ServiceCase");
@@ -117,8 +124,14 @@ public class ServiceCaseController {
      */
     @GetMapping("/serviceCase/{id}.html")
     public String serviceCaseDetail(Model model, @PathVariable("id") String id){
-        // 1.baseUrl
         model.addAttribute("baseUrl", serverConfig.getUrl());
+
+        // 1.logo
+        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
+        ModuleDto logoModuleDto = logoModuleList.get(0);
+        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
+        model.addAttribute("logoProject", logoProject);
+
         ProjectDto projectDto = new ProjectDto();
         Project project = this.projectService.getById(id);
         Module module = this.moduleService.getById(project.getModuleId());
