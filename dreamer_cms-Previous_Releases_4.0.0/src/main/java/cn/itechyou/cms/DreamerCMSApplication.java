@@ -3,6 +3,7 @@ package cn.itechyou.cms;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -15,8 +16,10 @@ import tk.mybatis.spring.annotation.MapperScan;
 @MapperScan("cn.itechyou.cms.dao")
 public class DreamerCMSApplication {
 
+	public static ConfigurableApplicationContext ac;
+
 	public static void main(String[] args) {
-		SpringApplication.run(DreamerCMSApplication.class, args);
+		ac = SpringApplication.run(DreamerCMSApplication.class, args);
 	}
 	
 }
