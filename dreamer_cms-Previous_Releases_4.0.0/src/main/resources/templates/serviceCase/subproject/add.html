@@ -36,6 +36,7 @@
 		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
 			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
+			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${project.name}"><i class="fa fa-home"></i> </a></li>
 			<li class="active">添加项目</li>
 		</ul>
 		<!--breadcrumbs end -->
@@ -47,12 +48,12 @@
 		<div class="alert alert-block alert-danger">
 			<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
 		</div>
-		<form class="col s12" id="form1" th:action="@{/firstPage/module/project/save}" method="post">
+		<form class="col s12" id="form1" th:action="@{/subProject/save}" method="post">
 			<input name="attachment.filename" id="filename" type="hidden" />
 			<input name="attachment.filepath" id="filepath" type="hidden" />
 			<input name="attachment.filetype" id="filetype" type="hidden" />
 			<input name="attachment.filesize" id="filesize" type="hidden" />
-			<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
+			<input name="projectId" id="projectId" type="hidden" th:value="${project.id}"/>
 
 			<input name="content" id="content" type="hidden"/>
 			<input name="attachmentid" id="attachmentid" type="hidden"/>

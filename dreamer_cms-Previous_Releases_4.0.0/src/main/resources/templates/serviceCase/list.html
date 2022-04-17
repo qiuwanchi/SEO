@@ -18,21 +18,22 @@
 
 <body>
 <div class="row">
-    <div class="col-md-12">
-    	<h1 class="panel-heading" th:text="${constantDefinition.name}"></h1>
-        <!--breadcrumbs start -->
-        <ul class="breadcrumb">
+	<div class="col-md-12">
+		<h1 class="panel-heading"></h1>
+		<!--breadcrumbs start -->
+		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
-			<li class="active" th:text="${constantDefinition.name}"></li>
+			<li><a th:href="@{/firstPage/module(belong=${module.belong})}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
+			<li class="active">子类目列表</li>
 		</ul>
-        <!--breadcrumbs end -->
-    </div>
+		<!--breadcrumbs end -->
+	</div>
 </div>
 <section class="panel">
 	<div class="panel-body">
          <!-- <span class="pull-right badge badge-info">32</span> -->
          <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:onclick="javascript: openUploadDialog()">
-             <i class="fa fa-plus"></i>添加类目
+             <i class="fa fa-plus"></i>添加子类目
          </button>
     </div>
 
@@ -47,24 +48,22 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="module : ${moduleList}">
-				<td th:text="${moduleStat.index+1}"></td>
-				<td th:text="${module.name}"></td>
-				<td th:text="${module.sort}"></td>
+			<tr th:each="project : ${projectList}">
+				<td th:text="${projectStat.index+1}"></td>
+				<td th:text="${project.name}"></td>
+				<td th:text="${project.sort}"></td>
 				<td>
-					<a th:if="${belong == 'ServiceCase'}" th:href="@{/firstPage/module/project(moduleId=${module.id})}" class="btn btn-xs btn-success" >查看子类目列表</a>
-					<a th:unless="${belong == 'ServiceCase'}" th:href="@{/firstPage/module/project(moduleId=${module.id})}" class="btn btn-xs btn-success" >查看项目列表</a>
-
+					<a th:href="@{/subProject(projectId=${project.id})}" class="btn btn-xs btn-success" >查看项目列表</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${module.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑类目</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑子类目</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${module.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
+					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${project.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 
-					<span th:if="${module.attachmentId != null && module.attachmentId !=''}">&nbsp;|&nbsp;</span>
-					<a th:if="${module.attachmentId != null && module.attachmentId !=''}" th:href="@{/admin/attachment/download(id=${module.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
+					<span th:if="${project.attachmentId != null && project.attachmentId !=''}">&nbsp;|&nbsp;</span>
+					<a th:if="${project.attachmentId != null && project.attachmentId !=''}" th:href="@{/admin/attachment/download(id=${project.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
 				</td>
 			</tr>
-			<tr th:if="${#lists.isEmpty(moduleList)}">
+			<tr th:if="${#lists.isEmpty(projectList)}">
 				<td colspan="7" align="center">无数据</td>
 			</tr>
 			</tbody>
@@ -77,20 +76,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title" id="aaa">添加类目</h4>
+                <h4 class="modal-title" id="aaa">添加子类目</h4>
             </div>
 				<div class="modal-body"><div class="alert alert-block alert-danger">
 					<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
 				</div>
-            	<form class="col s12" id="form1" th:action="@{/firstPage/module/save}" method="post">
+            	<form class="col s12" id="form1" th:action="@{/firstPage/module/project/save}" method="post">
 					<input name="attachment.filename" id="filename" type="hidden" />
 					<input name="attachment.filepath" id="filepath" type="hidden" />
 					<input name="attachment.filetype" id="filetype" type="hidden" />
 					<input name="attachment.filesize" id="filesize" type="hidden" />
-					<input name="moduleId" id="moduleId" type="hidden" />
+					<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
 					<input name="attachmentid" id="attachmentid" type="hidden"/>
 
-					<input name="belong" id="belong" type="hidden" th:value="${belong}"/>
+					<input name="belong" id="belong" type="hidden" th:value="${module.belong}"/>
 					<input name="id" id="id" type="hidden"/>
 
 					<div id="uploader" class="wu-example">
@@ -223,56 +222,56 @@
 	}
 	
 	function openUploadDialog(){
-			$("#aaa").html("添加类目");
+			$("#aaa").html("添加子类目");
 		$("#upload-dialog").modal();
 	}
 
 	function openUploadDialogForUpdate(id){
 		$.ajax({
 			type: 'get',
-			url: "/firstPage/module/getById?moduleId=" + id,
+			url: "/firstPage/module/project/getById?projectId=" + id,
 			contentType: 'application/json',
 			async: false,
-			success: function(module) {
+			success: function(project) {
 				$("#id").val(id);
 
-				if(!isEmpty(module.attachment)){
-					$("#filename").val(module.attachment.filename);
-					$("#filepath").val(module.attachment.filepath);
-					$("#filesize").val(module.attachment.filesize);
-					$("#filetype").val(module.attachment.filetype);
-					$("#attachmentid").val(module.attachment.id);
+				if(!isEmpty(project.attachment)){
+					$("#filename").val(project.attachment.filename);
+					$("#filepath").val(project.attachment.filepath);
+					$("#filesize").val(project.attachment.filesize);
+					$("#filetype").val(project.attachment.filetype);
+					$("#attachmentid").val(project.attachment.id);
 				}
 
-				if(!isEmpty(module.name)){
-					$("#name").val(module.name);
+				if(!isEmpty(project.name)){
+					$("#name").val(project.name);
 				}
 
-				if(!isEmpty(module.sort)){
-					$("#sort").val(module.sort);
+				if(!isEmpty(project.sort)){
+					$("#sort").val(project.sort);
 				}
 
-				if(!isEmpty(module.title)){
-					$("#title").val(module.title);
+				if(!isEmpty(project.title)){
+					$("#title").val(project.title);
 				}
 
-				if(!isEmpty(module.keywords)){
-					$("#keywords").val(module.keywords);
+				if(!isEmpty(project.keywords)){
+					$("#keywords").val(project.keywords);
 				}
 
-				if(!isEmpty(module.description)){
-					$("#description").val(module.description);
+				if(!isEmpty(project.description)){
+					$("#description").val(project.description);
 				}
 
-				if(!isEmpty(module.alt)){
-					$("#alt").val(module.alt);
+				if(!isEmpty(project.alt)){
+					$("#alt").val(project.alt);
 				}
 
-				if(!isEmpty(module.clickUrl)){
-					$("#clickUrl").val(module.clickUrl);
+				if(!isEmpty(project.clickUrl)){
+					$("#clickUrl").val(project.clickUrl);
 				}
 
-				$("#aaa").html("编辑类目");
+				$("#aaa").html("编辑子类目");
 			}
 		});
 
@@ -323,7 +322,7 @@
 	
 	function remove(){
 		var currentID = $("#cacheID").val();
-		window.location.href="/firstPage/module/delete?id="+currentID;
+		window.location.href="/firstPage/module/project/delete?id="+currentID;
 		$("#remove-dialog").modal('hide');
 	}
 	

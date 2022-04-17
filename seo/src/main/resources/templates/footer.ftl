@@ -45,8 +45,14 @@
 	  <li class="this"><a href="javascript:;"><img src="${baseUrl}/images/icon1.png"><p>电话咨询</p></a></li>
 	  <li><a href="javascript:;"><img src="${baseUrl}/images/icon2.png"><p>QQ咨询</p></a></li>
 	  <li><a href="javascript:;"><img src="${baseUrl}/images/icon3.png"><p>在线留言</p></a></li>
-	  <li class="top"><a href="#c-nav"><img src="${baseUrl}/images/icon4.png"></a></li>
+	  <li class="top"><a href="javascript:;"><img src="${baseUrl}/images/icon4.png"></a></li>
 	</ul>
 </div>
 <script type="text/javascript" src="${baseUrl}/layui/layui.js"></script>
 <script src="${baseUrl}/js/jquery-1.11.3.min.js" ></script>
+<script type="text/javascript">
+//回到顶部
+$('.top').click(function(){
+     $(window).scrollTop(0);
+});
+</script>
