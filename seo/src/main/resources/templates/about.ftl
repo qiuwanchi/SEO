@@ -86,7 +86,7 @@
             <#list companyAdvantageProjectDtoList as companyAdvantageProject>
             <li>
               <div class="ys_tnt">
-                <div class="ys_img"><img src="${companyAdvantageProject.url}"></div>
+                <div class="ys_img"><img src="${companyAdvantageProject.url}" <#if companyAdvantageProject.alt?? && companyAdvantageProject.alt != ""> alt="${companyAdvantageProject.alt}" </#if>></div>
                 <h3>${companyAdvantageProject.name}</h3>
                 <span>${companyAdvantageProject.describeMsg}</span> </div>
             </li>
