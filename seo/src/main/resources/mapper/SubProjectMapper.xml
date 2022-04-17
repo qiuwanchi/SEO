@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiuwanchi.seo.mapper.SubProjectMapper">
+
+    <select id="getProjectListByProjectId" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+            b.id,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.project_id AS projectId,
+            b.attachment_id AS attachmentId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id=#{projectId}
+        ORDER BY b.sort
+    </select>
+
+    <select id="getProjectListByProjectIds" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+            b.id,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.project_id AS projectId,
+            b.attachment_id AS attachmentId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id in
+        <foreach item="item" index="index" collection="moduleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getProjectPageListByProjectId" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id=#{projectId}
+        ORDER BY b.sort
+    </select>
+
+
+    <select id="recommend" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime
+        FROM sub_project b JOIN project p ON b.project_id=p.id
+        JOIN module m ON p.module_id=m.id AND m.belong='News'
+
+        WHERE  b.id !=#{subProjectId} AND
+        (
+        1=0
+        <foreach item="item" index="index" collection="keywordsList" open="" separator=" " close="">
+            OR b.keywords LIKE "%${item},%" OR b.keywords LIKE "%,${item}%"
+        </foreach>
+
+        )
+        ORDER BY b.create_time desc
+        LIMIT 6
+    </select>
+
+
+</mapper>

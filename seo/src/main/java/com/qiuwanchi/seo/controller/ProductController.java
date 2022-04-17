@@ -54,15 +54,9 @@ public class ProductController {
         ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
         model.addAttribute("logoProject", logoProject);
 
-        // 2.1公司产品-模块列表
-        List<ModuleDto> moduleList = this.getModuleDtoList("companyProduct-productModule");
+        // 2.公司产品-模块列表
+        List<ModuleDto> moduleList = this.moduleService.getModuleDtoList("companyProduct-productModule");
         model.addAttribute("productModuleList", moduleList);
-
-        // 2.2公司产品-模块-项目列表
-        if(!CollectionUtils.isEmpty(moduleList)){
-            List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleId(moduleList.get(0).getId());
-            model.addAttribute("productModuleProjectList", projectDtoList);
-        }
 
         this.bottomManagementCommon.bottom(model);
 
