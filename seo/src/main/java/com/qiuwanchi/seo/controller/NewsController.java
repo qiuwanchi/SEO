@@ -115,7 +115,7 @@ public class NewsController {
         if(StringUtils.isBlank(projectDto.getContent())){
             projectDto.setContent(StringUtils.EMPTY);
         }else{
-            projectDto.setContent(this.decode(projectDto.getContent()));
+            projectDto.setContent(Utils.htmlDecode(projectDto.getContent()));
         }
 
         List<ProjectDto> list =  new ArrayList();
@@ -153,29 +153,6 @@ public class NewsController {
 
         this.bottomManagementCommon.bottom(model);
         return "news_detail";
-    }
-
-    private String decode(String content){
-        if(content.length() == 0) {
-            return "";
-        }
-        content = content.replaceAll("&amp;", "&");
-        content = content.replaceAll("&lt;", "<");
-        content = content.replaceAll("&gt;", ">");
-        content = content.replaceAll("&nbsp;", " ");
-        content = content.replaceAll("&#39;", "'");
-        content = content.replaceAll("&quot;", "\"");
-        content = content.replaceAll("&amp;", "&");
-
-        content = content.replaceAll("＆amp;", "&");
-        content = content.replaceAll("＆lt;", "<");
-        content = content.replaceAll("＆gt;", ">");
-        content = content.replaceAll("＆nbsp;", " ");
-        content = content.replaceAll("＆#39;", "'");
-        content = content.replaceAll("＆quot;", "\"");
-        content = content.replaceAll("＆amp;", "&");
-
-        return content;
     }
 
     private void intProjectSeoValue(List<ProjectDto> projectDtoList){

@@ -16,7 +16,7 @@
     <div class="flexItem clearfix">
       <ul>
         <li class="active"><a href="${baseUrl}/index.html">首页</a></li>
-        <li><a href="about.html">关于我们</a></li>
+        <li><a href="${baseUrl}/aboutUs.html">关于我们</a></li>
         <li><a href="${baseUrl}/products.html">公司产品</a></li>
         <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
         <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
