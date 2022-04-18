@@ -5,10 +5,7 @@ import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
-import com.qiuwanchi.seo.utils.BottomManagementCommon;
-import com.qiuwanchi.seo.utils.FileConfiguration;
-import com.qiuwanchi.seo.utils.ServerConfig;
-import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
+import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,15 +41,15 @@ public class ProductController {
     @Autowired
     private BottomManagementCommon bottomManagementCommon;
 
+    @Autowired
+    private LogoCommon logoCommon;
+
     @GetMapping("/products.html")
     public String products(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
-        // 1.logo
-        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
-        ModuleDto logoModuleDto = logoModuleList.get(0);
-        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
-        model.addAttribute("logoProject", logoProject);
+        // logo
+        this.logoCommon.logo(model);
 
         // 2.公司产品-模块列表
         List<ModuleDto> moduleList = this.moduleService.getModuleDtoList("companyProduct-productModule");

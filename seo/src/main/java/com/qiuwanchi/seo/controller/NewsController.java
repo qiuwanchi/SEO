@@ -49,17 +49,17 @@ public class NewsController {
     @Autowired
     private BottomManagementCommon bottomManagementCommon;
 
+    @Autowired
+    private LogoCommon logoCommon;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
     @GetMapping("/news.html")
     public String news(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
-        // 1.logo
-        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
-        ModuleDto logoModuleDto = logoModuleList.get(0);
-        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
-        model.addAttribute("logoProject", logoProject);
+        // logo
+        this.logoCommon.logo(model);
 
         // 1新闻资讯
         List<ModuleDto> newsModuleList = this.moduleService.getModuleDtoList("News");

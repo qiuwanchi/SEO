@@ -6,6 +6,7 @@ import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.utils.BottomManagementCommon;
 import com.qiuwanchi.seo.utils.FileConfiguration;
+import com.qiuwanchi.seo.utils.LogoCommon;
 import com.qiuwanchi.seo.utils.ServerConfig;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,15 @@ public class ContactUsController {
     @Autowired
     private BottomManagementCommon bottomManagementCommon;
 
+    @Autowired
+    private LogoCommon logoCommon;
+
     @GetMapping("/contactUs.html")
     public String contactUs(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
-        // 1.logo
-        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
-        ModuleDto logoModuleDto = logoModuleList.get(0);
-        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
-        model.addAttribute("logoProject", logoProject);
+        // logo
+        this.logoCommon.logo(model);
 
         // 2.联系我们
         List<ModuleDto> contactUsModuleList = this.moduleService.getModuleDtoList("ContactUs");
