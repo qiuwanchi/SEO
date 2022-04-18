@@ -28,7 +28,7 @@
   </div>
 </div>
 <div id="case">
-  <div class="bannerx"> <img src="images/case_banner.png"> </div>
+  <div class="bannerx"> <img src="${bannerImageDto.url}" <#if bannerImageDto.alt?? && bannerImageDto.alt != ""> alt="${bannerImageDto.alt}" </#if> /> </div>
   <div class="position">
     <div class="container">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>服务案例</span></div>
   </div>
@@ -84,11 +84,11 @@ layui.use(['laypage', 'layer'], function(){
     ,prev: '<em>上一页</em>'
     ,next: '<em>下一页</em>'
     ,theme: '#297ec2'
-    ,limit: 2
+    ,limit: ${page.size}
     ,curr: ${page.current}
     ,jump: function(obj, first){
         if(!first){
-             window.location.href = '${baseUrl}/serviceCase/' + obj.curr + ".html";
+             window.location.href = '${baseUrl}/serviceCase/index_' + obj.curr + ".html";
         }
     }
   });

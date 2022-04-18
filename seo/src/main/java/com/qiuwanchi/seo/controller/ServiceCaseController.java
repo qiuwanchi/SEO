@@ -2,6 +2,7 @@ package com.qiuwanchi.seo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qiuwanchi.seo.dto.ImageDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
@@ -54,6 +55,8 @@ public class ServiceCaseController {
     @Autowired
     private LogoCommon logoCommon;
 
+    private static final long PAGE_SIZE = 6;
+
     /**
      * 服务案例栏目
      * @param model
@@ -62,21 +65,22 @@ public class ServiceCaseController {
     @GetMapping("/serviceCase.html")
     public String serviceCase(Model model){
         Page page = new Page();
-        page.setSize(2);
+        page.setSize(PAGE_SIZE);
         return serviceCase(model, page, null, null);
     }
 
     /**
      * 服务案例分页查询
      * @param model
-     * @param current 第几页
+     * @param current (index_1)第几页
      * @return
      */
     @GetMapping("/serviceCase/{current}.html")
     public String serviceCasePage(Model model, @PathVariable("current") String current){
+        String[] arr = current.split("_");
         Page page = new Page();
-        page.setSize(2);
-        page.setCurrent(Long.valueOf(current));
+        page.setSize(PAGE_SIZE);
+        page.setCurrent(Long.valueOf(arr[1]));
         return serviceCase(model, page, null, null);
     }
 
@@ -88,7 +92,7 @@ public class ServiceCaseController {
     @GetMapping("/serviceCase/{firstCategory}")
     public String serviceCaseFirstCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory){
         Page page = new Page();
-        page.setSize(2);
+        page.setSize(PAGE_SIZE);
         return serviceCase(model, page, firstCategory, null);
     }
 
@@ -100,24 +104,26 @@ public class ServiceCaseController {
      */
     @GetMapping("/serviceCase/{firstCategory}/{current}.html")
     public String serviceCaseFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") String current){
+        String[] arr = current.split("_");
         Page page = new Page();
-        page.setSize(2);
-        page.setCurrent(Long.valueOf(current));
+        page.setSize(PAGE_SIZE);
+        page.setCurrent(Long.valueOf(arr[1]));
         return serviceCase(model, page, firstCategory, null);
     }
 
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}")
     public String serviceCaseSecondCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory){
         Page page = new Page();
-        page.setSize(2);
+        page.setSize(PAGE_SIZE);
         return serviceCase(model, page, firstCategory, secondCategory);
     }
 
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/{current}.html")
     public String serviceCaseSecondCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory,@PathVariable("current") String current){
+        String[] arr = current.split("_");
         Page page = new Page();
-        page.setSize(2);
-        page.setCurrent(Long.valueOf(current));
+        page.setSize(PAGE_SIZE);
+        page.setCurrent(Long.valueOf(arr[1]));
         return serviceCase(model, page, firstCategory, secondCategory);
     }
 
@@ -158,7 +164,7 @@ public class ServiceCaseController {
         return "service_case_detail";
     }
 
-    private String serviceCase(Model model, Page page, String firstCategory, String secondCategory){
+    private String serviceCase(Model model, Page page, String firstCategory, String secondCategory) {
         // 1.baseUrl
         model.addAttribute("baseUrl", serverConfig.getUrl());
         // logo
@@ -166,17 +172,20 @@ public class ServiceCaseController {
 
         // 服务案例
         List<ModuleDto> serviceCaseModuleList = this.moduleService.getModuleDtoList("ServiceCase");
-        for (ModuleDto moduleDto : serviceCaseModuleList){
-            for (ProjectDto projectDto : moduleDto.getProjectDtoList()){
+        for (ModuleDto moduleDto : serviceCaseModuleList) {
+            for (ProjectDto projectDto : moduleDto.getProjectDtoList()) {
                 projectDto.setModuleCode(moduleDto.getCode());
             }
         }
-
         model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
+
+        //banner
+        ImageDto bannerImageDto = this.getServiceCaseBanner(firstCategory, secondCategory, serviceCaseModuleList);
+        model.addAttribute("bannerImageDto", bannerImageDto);
 
         Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, firstCategory, secondCategory);
         List<SubProjectDto> subProjectDtoList = subProjectDtoPage.getRecords();
-        for (SubProjectDto subProjectDto :  subProjectDtoList){
+        for (SubProjectDto subProjectDto : subProjectDtoList) {
             subProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(subProjectDto.getFilePath()));
         }
 
@@ -185,6 +194,46 @@ public class ServiceCaseController {
 
         this.bottomManagementCommon.bottom(model);
         return "service_case";
+    }
+
+
+    private ImageDto getServiceCaseBanner(String firstCategory, String secondCategory, List<ModuleDto> serviceCaseModuleList){
+        ImageDto imageDto = new ImageDto();
+
+        ModuleDto firstModule = serviceCaseModuleList.get(0);
+        imageDto.setUrl(firstModule.getUrl());
+        imageDto.setAlt(firstModule.getAlt());
+
+        if (StringUtils.isNotBlank(firstCategory)) {
+            ModuleDto firstCategoryModuleDto = null;
+            for (ModuleDto moduleDto : serviceCaseModuleList) {
+                if (firstCategory.equals(moduleDto.getCode())) {
+                    firstCategoryModuleDto = moduleDto;
+                    break;
+                }
+            }
+
+            if(Objects.nonNull(firstCategoryModuleDto)){
+                imageDto.setUrl(firstCategoryModuleDto.getUrl());
+                imageDto.setAlt(firstCategoryModuleDto.getAlt());
+
+                if (StringUtils.isNotBlank(secondCategory)) {
+                    ProjectDto secondCategoryProjectDto = null;
+                    for (ProjectDto projectDto : firstCategoryModuleDto.getProjectDtoList()){
+                        if (secondCategory.equals(projectDto.getCode())) {
+                            secondCategoryProjectDto = projectDto;
+                            break;
+                        }
+                    }
+
+                    if(Objects.nonNull(secondCategoryProjectDto)){
+                        imageDto.setUrl(secondCategoryProjectDto.getUrl());
+                        imageDto.setAlt(secondCategoryProjectDto.getAlt());
+                    }
+                }
+            }
+        }
+        return imageDto;
     }
 
 
