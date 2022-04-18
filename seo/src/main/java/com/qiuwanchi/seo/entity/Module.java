@@ -55,6 +55,9 @@ public class Module implements Serializable {
     @TableField("click_url")
     private String clickUrl;
 
+    @TableField("code")
+    private String code;
+
     public static final String ID = "id";
     public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";
@@ -68,5 +71,6 @@ public class Module implements Serializable {
     public static final String DESCRIPTION = "description";
     public static final String ALT = "alt";
     public static final String CLICK_URL = "click_url";
+    public static final String CODE = "code";
 
 }

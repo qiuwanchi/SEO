@@ -20,4 +20,12 @@ public interface ISubProjectService extends IService<SubProject> {
     SubProjectDto getNextSubProject(String projectId, String sort);
 
     List<SubProjectDto> recommend(String id, String[] keywordsArr);
+
+    /**
+     *
+     * @param firstCategory 一级类目
+     * @param secondCategory 二级类目
+     * @return
+     */
+    Page<SubProjectDto> getPageList(Page page, String firstCategory, String secondCategory);
 }

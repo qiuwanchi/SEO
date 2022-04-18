@@ -116,4 +116,87 @@
     </select>
 
 
+    <select id="selectPageAll" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
+            SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase'
+        )
+        ORDER BY b.update_time DESC
+    </select>
+
+    <select id="selectPageByFirstCategory" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
+            SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase' AND m.code=#{firstCategory}
+        )
+        ORDER BY b.update_time DESC
+    </select>
+
+    <select id="selectPageBySecondCategory" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
+            SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase' AND m.code=#{firstCategory} AND p.code=#{secondCategory}
+        )
+        ORDER BY b.update_time DESC
+    </select>
 </mapper>

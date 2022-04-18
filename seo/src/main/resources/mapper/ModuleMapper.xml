@@ -12,6 +12,7 @@
             b.keywords,
             b.description,
             b.alt,
+            b.code,
             b.click_url AS clickUrl,
             b.create_by AS createBy,
             b.create_time AS createTime,

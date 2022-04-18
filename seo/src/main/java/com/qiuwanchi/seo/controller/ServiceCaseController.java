@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
+import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
+import com.qiuwanchi.seo.service.ISubProjectService;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -44,78 +46,81 @@ public class ServiceCaseController {
     private IProjectService projectService;
 
     @Autowired
+    private ISubProjectService subProjectService;
+
+    @Autowired
     private BottomManagementCommon bottomManagementCommon;
 
     @Autowired
     private LogoCommon logoCommon;
+
     /**
-     * 服务案例类目
+     * 服务案例栏目
      * @param model
      * @return
      */
     @GetMapping("/serviceCase.html")
     public String serviceCase(Model model){
-        // 1.baseUrl
-        model.addAttribute("baseUrl", serverConfig.getUrl());
-
-        // logo
-        this.logoCommon.logo(model);
-
-        //
-        List<ModuleDto> serviceCaseModuleList = this.getModuleDtoList("ServiceCase");
-        model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
-
-        ModuleDto moduleDto = serviceCaseModuleList.get(0);
         Page page = new Page();
         page.setSize(2);
-        Page<ProjectDto> projectDtoPage = this.projectService.getProjectPageListByModuleId(page, moduleDto.getId());
-
-        List<ProjectDto> projectDtoList = projectDtoPage.getRecords();
-        for (ProjectDto projectDto : projectDtoList){
-            projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-        }
-        moduleDto.setProjectDtoList(projectDtoList);
-
-        model.addAttribute("serviceCaseModule", moduleDto);
-
-        model.addAttribute("page", page);
-
-        this.bottomManagementCommon.bottom(model);
-        return "service_case";
+        return serviceCase(model, page, null, null);
     }
 
     /**
-     * 分页查询
-     * @param moduleId 模块id
-     * @param currentPage 第几页
+     * 服务案例分页查询
+     * @param model
+     * @param current 第几页
      * @return
      */
-    @GetMapping("/serviceCase-page")
-    @ResponseBody
-    public Page<ProjectDto> serviceCasePage(@RequestParam("moduleId") String moduleId, @RequestParam("currentPage") long currentPage){
+    @GetMapping("/serviceCase/{current}.html")
+    public String serviceCasePage(Model model, @PathVariable("current") String current){
         Page page = new Page();
         page.setSize(2);
-        page.setCurrent(currentPage);
-        Page<ProjectDto> projectDtoPage = this.projectService.getProjectPageListByModuleId(page, moduleId);
-        List<ProjectDto> projectDtoList = projectDtoPage.getRecords();
-        for (ProjectDto projectDto : projectDtoList){
-            projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-        }
-        return projectDtoPage;
+        page.setCurrent(Long.valueOf(current));
+        return serviceCase(model, page, null, null);
     }
 
     /**
-     * 查询总数
-     * @param moduleId 模块id
+     * 服务案例一级类目分页查询
+     * @param model
      * @return
      */
-    @GetMapping("/serviceCase/count")
-    @ResponseBody
-    public Integer count(@RequestParam("moduleId") String moduleId){
-        QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Project.MODULE_ID, moduleId);
-        return this.projectService.count(queryWrapper);
+    @GetMapping("/serviceCase/{firstCategory}")
+    public String serviceCaseFirstCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory){
+        Page page = new Page();
+        page.setSize(2);
+        return serviceCase(model, page, firstCategory, null);
     }
+
+    /**
+     * 服务案例一级类目分页查询
+     * @param model
+     * @param current
+     * @return
+     */
+    @GetMapping("/serviceCase/{firstCategory}/{current}.html")
+    public String serviceCaseFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") String current){
+        Page page = new Page();
+        page.setSize(2);
+        page.setCurrent(Long.valueOf(current));
+        return serviceCase(model, page, firstCategory, null);
+    }
+
+    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}")
+    public String serviceCaseSecondCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory){
+        Page page = new Page();
+        page.setSize(2);
+        return serviceCase(model, page, firstCategory, secondCategory);
+    }
+
+    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/{current}.html")
+    public String serviceCaseSecondCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory,@PathVariable("current") String current){
+        Page page = new Page();
+        page.setSize(2);
+        page.setCurrent(Long.valueOf(current));
+        return serviceCase(model, page, firstCategory, secondCategory);
+    }
+
 
     /**
      * 服务类目-项目详情
@@ -123,15 +128,11 @@ public class ServiceCaseController {
      * @param id
      * @return
      */
-    @GetMapping("/serviceCase/{id}.html")
-    public String serviceCaseDetail(Model model, @PathVariable("id") String id){
+    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/{id}_detail.html")
+    public String serviceCaseDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory, @PathVariable("id") String id){
         model.addAttribute("baseUrl", serverConfig.getUrl());
-
-        // 1.logo
-        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
-        ModuleDto logoModuleDto = logoModuleList.get(0);
-        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
-        model.addAttribute("logoProject", logoProject);
+        // logo
+        this.logoCommon.logo(model);
 
         ProjectDto projectDto = new ProjectDto();
         Project project = this.projectService.getById(id);
@@ -157,14 +158,34 @@ public class ServiceCaseController {
         return "service_case_detail";
     }
 
-    private List<ModuleDto> getModuleDtoList(String code){
-        List<ModuleDto> moduleList = this.moduleService.getModuleDtoList(code);
-        for (ModuleDto moduleDto : moduleList){
-            if(StringUtils.isNotBlank(moduleDto.getFilePath())){
-                moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
+    private String serviceCase(Model model, Page page, String firstCategory, String secondCategory){
+        // 1.baseUrl
+        model.addAttribute("baseUrl", serverConfig.getUrl());
+        // logo
+        this.logoCommon.logo(model);
+
+        // 服务案例
+        List<ModuleDto> serviceCaseModuleList = this.moduleService.getModuleDtoList("ServiceCase");
+        for (ModuleDto moduleDto : serviceCaseModuleList){
+            for (ProjectDto projectDto : moduleDto.getProjectDtoList()){
+                projectDto.setModuleCode(moduleDto.getCode());
             }
         }
-        return  moduleList;
+
+        model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
+
+        Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, firstCategory, secondCategory);
+        List<SubProjectDto> subProjectDtoList = subProjectDtoPage.getRecords();
+        for (SubProjectDto subProjectDto :  subProjectDtoList){
+            subProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(subProjectDto.getFilePath()));
+        }
+
+        model.addAttribute("subProjectList", subProjectDtoList);
+        model.addAttribute("page", page);
+
+        this.bottomManagementCommon.bottom(model);
+        return "service_case";
     }
+
 
 }

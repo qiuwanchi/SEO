@@ -63,6 +63,9 @@ public class Project implements Serializable {
     @TableField("content")
     private String content;
 
+    @TableField("code")
+    private String code;
+
     public static final String ID = "id";
     public static final String MODULE_ID = "module_id";
     public static final String ATTACHMENT_ID = "attachment_id";
@@ -78,6 +81,7 @@ public class Project implements Serializable {
     public static final String ALT = "alt";
     public static final String CLICK_URL = "click_url";
     public static final String CONTENT = "content";
+    public static final String CODE = "code";
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();

@@ -1384,86 +1384,43 @@ a p {
 	margin-top: 10px;
 	margin-bottom: 0;
 }
-/* scrollbox */
-.scrollbox {
-	position: relative;
-	width: 1070px;
-	height: 220px;
-	overflow: hidden;
-	margin: 0 30px;
-}
-.scrollbox ul {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-}
-.scrollbox li {
-	float: left;
-	height: 240px;
-	overflow: hidden;
-	padding: 5px 0px;
-}
-.scrollbox li a {
-	float: left;
-	display: inline-block;
-	width: 205px;
-	height: 220px;
-	overflow: hidden;
-	margin-right: 10px;
-}
-.scrollbox li a img {
-	display: block;
-	width: 100%;
-	background: #eee;
-}
-.scrollbox li h3 {
-	display: block;
-	text-align: center;
-	height: 20px;
-	margin-top: 10px;
-	font-size: 16px;
-	overflow: hidden;
-}
-/* leftlist */
-#leftlist {
-	width: 999em;
-}
-/* fontlist */
-#fontlist li {
-	height: 22px;
-	line-height: 22px;
-}
-#fontlist li a {
-	width: auto;
-}
-.case_main {
-	position: relative;
+
+
+.nav_float{ 
+    float: left; 
+    position: relative; 
+    margin: 8px; 
+    margin-bottom: 0px; 
+    cursor: pointer;
 }
 .case_nav {
 	background-color: #297ec2;
-	padding: 0 30px;
-	height: 42px;
-	line-height: 42px;
+	padding: 0 20px;
+	height: 50px;
+	line-height: 50px;
 	margin-bottom: 10px;
-	padding-right: 20px;
-	width: 200px;
 	float: left;
+	color: #fff;
 }
 .case_nav i {
 	margin-left: 10px;
 }
 .case_nav_list {
-	width: 200px;
+	width: 180px;
 	position: absolute;
-	z-index: 111;
+	z-index: 2;
 	background-color: #e2e5e8;
 	margin-top: -10px;
 	display: none;
-	top: 54px;
+	top: 60px;
+	
 }
 .newsx_main .case_nav_list li {
 	padding: 0;
+	border-bottom: 1px dotted #cecece;
+	
 }
+.newsx_main .case_nav_list li:last-child{ border-bottom: none;}
 .newsx_main .case_nav_list li a {
 	display: block;
 	padding: 10px 20px;
@@ -1478,6 +1435,35 @@ a p {
 	padding-left: 20px;
 	line-height: 42px;
 }
+
+.nav_float_list{ padding: 20px 0; padding-top: 16px; margin: 0 -8px;}
+#container {
+        width: 94%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        margin: 0 auto;
+    }
+
+#container ul {
+        list-style: none;
+        position: absolute;
+        width: 10000px;
+        overflow: hidden;
+    }
+
+    #container ul li {
+        width: 250px;
+        float: left;
+        margin-right: 10px;
+
+    }
+
+    #container img {
+        width: 100%;
+    }
+    #container ul li h3{ font-size: 16px; text-align: center; line-height: 24px; font-family: "微软雅黑"; display: block; padding-top: 6px;}
+
 /* 大屏幕（大桌面显示器，大于等于 1200px） */
 @media (max-width: 1200px) {
 .newsx_main .news_list_text {

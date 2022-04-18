@@ -3,18 +3,19 @@ package com.qiuwanchi.seo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
-import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.entity.SubProject;
 import com.qiuwanchi.seo.mapper.SubProjectMapper;
 import com.qiuwanchi.seo.service.ISubProjectService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Service
 public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubProject> implements ISubProjectService {
 
     @Autowired
@@ -79,5 +80,17 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
             list.add(s);
         }
         return this.subProjectMapper.recommend(id, list);
+    }
+
+    @Override
+    public Page<SubProjectDto> getPageList(Page page, String firstCategory, String secondCategory) {
+        QueryWrapper<SubProject> queryWrapper = new QueryWrapper<>();
+        if(StringUtils.isNotBlank(firstCategory) && StringUtils.isNotBlank(secondCategory)){
+            return this.subProjectMapper.selectPageBySecondCategory(page, firstCategory, secondCategory);
+        }else if(StringUtils.isNotBlank(firstCategory) && StringUtils.isBlank(secondCategory)){
+            return this.subProjectMapper.selectPageByFirstCategory(page, firstCategory);
+        }else {
+            return this.subProjectMapper.selectPageAll(page);
+        }
     }
 }

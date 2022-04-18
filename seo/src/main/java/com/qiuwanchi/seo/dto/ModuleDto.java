@@ -39,6 +39,8 @@ public class ModuleDto {
 
     private String clickUrl;
 
+    private String code;
+
     private List<ProjectDto> projectDtoList;
 
 }

@@ -19,6 +19,7 @@ public class ProjectDto {
     private String alt;
     private String clickUrl;
     private String content;
+    private String code;
     private String createBy;
     private Date createTime;
     private String updateBy;
@@ -51,5 +52,7 @@ public class ProjectDto {
     private String fileType;
     private String filePath;
     private String fileId;
+
+    private String moduleCode;
 
 }
