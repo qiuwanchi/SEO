@@ -68,4 +68,7 @@ public class Project implements Serializable {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "code")
+    private String code;
+
 }

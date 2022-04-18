@@ -1,6 +1,7 @@
 package cn.itechyou.cms.service.impl;
 
 import cn.itechyou.cms.dao.ProjectMapper;
+import cn.itechyou.cms.entity.Module;
 import cn.itechyou.cms.entity.Project;
 import cn.itechyou.cms.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,17 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public void delete(String id) {
         this.projectMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int getCountByCode(String moduleId, String id, String code) {
+        Project project = new Project();
+        project.setCode(code);
+        project.setModuleId(moduleId);
+        List<Project> projectList = this.projectMapper.select(project);
+        if(!StringUtils.isEmpty(id)){
+            return (int)projectList.stream().filter(m -> !m.getId().equals(id)).count();
+        }
+        return projectList.size();
     }
 }

@@ -119,6 +119,9 @@
 					<div class="wu-example">
 						alt：<input name="alt" id="alt" />
 					</div>
+					<div class="wu-example">
+						类目编码：<input name="code" id="code" />
+					</div>
 
 				</form>
             </div>
@@ -244,33 +247,14 @@
 					$("#attachmentid").val(module.attachment.id);
 				}
 
-				if(!isEmpty(module.name)){
-					$("#name").val(module.name);
-				}
-
-				if(!isEmpty(module.sort)){
-					$("#sort").val(module.sort);
-				}
-
-				if(!isEmpty(module.title)){
-					$("#title").val(module.title);
-				}
-
-				if(!isEmpty(module.keywords)){
-					$("#keywords").val(module.keywords);
-				}
-
-				if(!isEmpty(module.description)){
-					$("#description").val(module.description);
-				}
-
-				if(!isEmpty(module.alt)){
-					$("#alt").val(module.alt);
-				}
-
-				if(!isEmpty(module.clickUrl)){
-					$("#clickUrl").val(module.clickUrl);
-				}
+				$("#name").val(module.name);
+				$("#sort").val(module.sort);
+				$("#title").val(module.title);
+				$("#keywords").val(module.keywords);
+				$("#description").val(module.description);
+				$("#alt").val(module.alt);
+				$("#clickUrl").val(module.clickUrl);
+				$("#code").val(module.code);
 
 				$("#aaa").html("编辑类目");
 			}
@@ -300,7 +284,7 @@
 				callbak:null
 			});
 	}
-	
+
 	function save(){
 		var name = $("#name").val();
 		if(isEmpty(name)){
@@ -313,7 +297,41 @@
 			return;
 		}
 
-		$("#form1").submit();
+
+		var code = $("#code").val();
+
+		if(!isEmpty(code)){
+			var id = $("#id").val();
+
+			$.ajax({
+				type: 'get',
+				url: "/firstPage/module/checkCode?code=" + code + "&id=" + id,
+				contentType: 'application/json',
+				async: false,
+				success: function(flag) {
+
+					if(flag){
+
+						$("body").MessageBox({
+							type: 'error',
+							message: '类目编码有重复！',
+							timeout:5000,
+							callbak:null
+						});
+
+					}else{
+						$("#form1").submit();
+					}
+
+				}
+			});
+
+
+		}else{
+			$("#form1").submit();
+		}
+
+
 	}
 	
 	function confrimRemove(id){

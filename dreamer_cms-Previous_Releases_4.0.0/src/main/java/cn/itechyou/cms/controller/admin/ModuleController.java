@@ -105,6 +105,7 @@ public class ModuleController {
 			module.setClickUrl(param.getClickUrl());
 			module.setCreateBy(TokenManager.getUserId());
 			module.setUpdateBy(TokenManager.getUserId());
+			module.setCode(param.getCode());
 			this.moduleService.add(module);
 		}else {
 			module = this.moduleService.getById(param.getId());
@@ -136,6 +137,7 @@ public class ModuleController {
 			module.setSort(param.getSort());
 			module.setName(param.getName());
 			module.setUpdateBy(TokenManager.getUserId());
+			module.setCode(param.getCode());
 			this.moduleService.update(module);
 		}
 		redirectAttributes.addAttribute("belong", module.getBelong());
@@ -156,6 +158,13 @@ public class ModuleController {
 
 		redirectAttributes.addAttribute("belong", module.getBelong());
 		return "redirect:/firstPage/module";
+	}
+
+	@GetMapping("/checkCode")
+	@ResponseBody
+	public boolean checkCode(@RequestParam("id") String id, @RequestParam("code") String code) {
+		int count = this.moduleService.getCountByCode(id, code);
+		return count > 0;
 	}
 
 	@GetMapping("/getById")

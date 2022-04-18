@@ -101,6 +101,7 @@ public class ProjectController {
 			project.setAlt(param.getAlt());
 			project.setClickUrl(param.getClickUrl());
 			project.setContent(param.getContent());
+			project.setCode(param.getCode());
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				project.setSort(param.getSort());
@@ -132,6 +133,7 @@ public class ProjectController {
 			project.setAlt(param.getAlt());
 			project.setClickUrl(param.getClickUrl());
 			project.setContent(param.getContent());
+			project.setCode(param.getCode());
 
 			this.projectService.update(project);
 		}
@@ -157,5 +159,13 @@ public class ProjectController {
 			project.setAttachment(attachment);
 		}
 		return project;
+	}
+
+	@GetMapping("/checkCode")
+	@ResponseBody
+	public boolean checkCode(@RequestParam("moduleId") String moduleId, @RequestParam("id") String id, @RequestParam("code") String code) {
+
+		int count = this.projectService.getCountByCode(moduleId, id, code);
+		return count > 0;
 	}
 }

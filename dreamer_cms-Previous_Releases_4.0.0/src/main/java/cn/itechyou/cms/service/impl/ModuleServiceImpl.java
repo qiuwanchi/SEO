@@ -5,6 +5,7 @@ import cn.itechyou.cms.entity.Module;
 import cn.itechyou.cms.service.IModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,6 +55,18 @@ public class ModuleServiceImpl implements IModuleService {
     @Override
     public void update(Module module) {
         this.moduleMapper.updateByPrimaryKey(module);
+    }
+
+    @Override
+    public int getCountByCode(String id, String code) {
+        Module module = new Module();
+        module.setCode(code);
+        List<Module> moduleList = this.moduleMapper.select(module);
+        if(!StringUtils.isEmpty(id)){
+            return (int)moduleList.stream().filter(m -> !m.getId().equals(id)).count();
+        }
+
+        return moduleList.size();
     }
 
 }

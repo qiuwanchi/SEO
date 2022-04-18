@@ -15,4 +15,6 @@ public interface IModuleService {
     void add(Module module);
 
     void update(Module module);
+
+    int getCountByCode(String id, String code);
 }

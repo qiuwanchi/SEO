@@ -36,7 +36,8 @@
 		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
 			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
-			<li class="active">项目</li>
+			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${project.name}"><i class="fa fa-home"></i> </a></li>
+			<li class="active">编辑项目</li>
 		</ul>
 		<!--breadcrumbs end -->
 	</div>
@@ -47,43 +48,43 @@
 		<div class="alert alert-block alert-danger">
 			<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
 		</div>
-		<form class="col s12" id="form1" th:action="@{/firstPage/module/project/save}" method="post">
-			<input name="attachment.filename" id="filename" type="hidden" th:value="${project.attachment.filename}"/>
-			<input name="attachment.filepath" id="filepath" type="hidden" th:value="${project.attachment.filepath}"/>
-			<input name="attachment.filetype" id="filetype" type="hidden" th:value="${project.attachment.filetype}"/>
-			<input name="attachment.filesize" id="filesize" type="hidden" th:value="${project.attachment.filesize}"/>
-			<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
-			<input name="id" id="id" type="hidden" th:value="${project.id}"/>
-			<input name="content" id="content" type="hidden"  th:value="${project.content}"/>
-			<input name="attachmentid" id="attachmentid" type="hidden" th:value="${project.attachment.id}"/>
+		<form class="col s12" id="form1" th:action="@{/subProject/save}" method="post">
+			<input name="attachment.filename" id="filename" type="hidden" th:value="${subProject.attachment.filename}"/>
+			<input name="attachment.filepath" id="filepath" type="hidden" th:value="${subProject.attachment.filepath}"/>
+			<input name="attachment.filetype" id="filetype" type="hidden" th:value="${subProject.attachment.filetype}"/>
+			<input name="attachment.filesize" id="filesize" type="hidden" th:value="${subProject.attachment.filesize}"/>
+			<input name="projectId" id="projectId" type="hidden" th:value="${project.id}"/>
+			<input name="id" id="id" type="hidden" th:value="${subProject.id}"/>
+			<input name="content" id="content" type="hidden"  th:value="${subProject.content}"/>
+			<input name="attachmentid" id="attachmentid" type="hidden" th:value="${subProject.attachment.id}"/>
 			<div id="uploader" class="wu-example">
 				<div class="btns">
 					<div id="picker">选择图片或视频...</div>
 				</div>
 			</div>
 			<div class="wu-example">
-				图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" th:value="${project.clickUrl}"/>
+				图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" th:value="${subProject.clickUrl}"/>
 			</div>
 			<div class="wu-example">
-				排序号：<input name="sort" id="sort"  th:value="${project.sort}"/>
+				排序号：<input name="sort" id="sort"  th:value="${subProject.sort}"/>
 			</div>
 			<div class="wu-example">
-				名称：<input name="name" id="name"  th:value="${project.name}"/>
+				名称：<input name="name" id="name"  th:value="${subProject.name}"/>
 			</div>
 			<div class="wu-example">
-				描述：<textarea name="describe" id="describe"  th:value="${project.describe}"></textarea>
+				描述：<textarea name="describe" id="describe"  th:value="${subProject.describe}"></textarea>
 			</div>
 			<div class="wu-example">
-				title：<input name="title" id="title" th:value="${project.title}"/>
+				title：<input name="title" id="title" th:value="${subProject.title}"/>
 			</div>
 			<div class="wu-example">
-				keywords(请用英文逗号分开各个关键字)：<input name="keywords" id="keywords" th:value="${project.keywords}"/>
+				keywords(请用英文逗号分开各个关键字)：<input name="keywords" id="keywords" th:value="${subProject.keywords}"/>
 			</div>
 			<div class="wu-example">
-				description：<input name="description" id="description" th:value="${project.description}"/>
+				description：<input name="description" id="description" th:value="${subProject.description}"/>
 			</div>
 			<div class="wu-example">
-				alt：<input name="alt" id="alt" th:value="${project.alt}"/>
+				alt：<input name="alt" id="alt" th:value="${subProject.alt}"/>
 			</div>
 
 		</form>
@@ -170,66 +171,6 @@
 		    checkboxClass: 'icheckbox_flat-grey',
 		    radioClass: 'iradio_flat-grey'
 		});
-	}
-
-	function openUploadDialog(){
-		$("#upload-dialog").modal();
-	}
-
-	function openUploadDialogForUpdate(id){
-		$.ajax({
-			type: 'get',
-			url: "/firstPage/module/project/getById?projectId=" + id,
-			contentType: 'application/json',
-			async: false,
-			success: function(project) {
-				$("#id").val(id);
-
-				if(!isEmpty(project.attachment)){
-					$("#filename").val(project.attachment.filename);
-					$("#filepath").val(project.attachment.filepath);
-					$("#filesize").val(project.attachment.filesize);
-					$("#filetype").val(project.attachment.filetype);
-					$("#attachmentid").val(project.attachment.id);
-				}
-
-				if(!isEmpty(project.name)){
-					$("#name").val(project.name);
-				}
-
-				if(!isEmpty(project.describe)){
-					$("#describe").val(project.describe);
-				}
-
-				if(!isEmpty(project.sort)){
-					$("#sort").val(project.sort);
-				}
-
-				if(!isEmpty(project.title)){
-					$("#title").val(project.title);
-				}
-
-				if(!isEmpty(project.keywords)){
-					$("#keywords").val(project.keywords);
-				}
-
-				if(!isEmpty(project.description)){
-					$("#description").val(project.description);
-				}
-
-				if(!isEmpty(project.alt)){
-					$("#alt").val(project.alt);
-				}
-
-				if(!isEmpty(project.clickUrl)){
-					$("#clickUrl").val(project.clickUrl);
-				}
-
-				$("#aaa").html("编辑");
-			}
-		});
-
-		$("#upload-dialog").modal();
 	}
 
 	function isEmpty(obj) {

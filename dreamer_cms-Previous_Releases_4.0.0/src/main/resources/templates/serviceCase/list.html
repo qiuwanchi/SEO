@@ -118,6 +118,9 @@
 					<div class="wu-example">
 						alt：<input name="alt" id="alt" />
 					</div>
+					<div class="wu-example">
+						类目编码：<input name="code" id="code" />
+					</div>
 
 				</form>
             </div>
@@ -243,33 +246,14 @@
 					$("#attachmentid").val(project.attachment.id);
 				}
 
-				if(!isEmpty(project.name)){
-					$("#name").val(project.name);
-				}
-
-				if(!isEmpty(project.sort)){
-					$("#sort").val(project.sort);
-				}
-
-				if(!isEmpty(project.title)){
-					$("#title").val(project.title);
-				}
-
-				if(!isEmpty(project.keywords)){
-					$("#keywords").val(project.keywords);
-				}
-
-				if(!isEmpty(project.description)){
-					$("#description").val(project.description);
-				}
-
-				if(!isEmpty(project.alt)){
-					$("#alt").val(project.alt);
-				}
-
-				if(!isEmpty(project.clickUrl)){
-					$("#clickUrl").val(project.clickUrl);
-				}
+				$("#name").val(project.name);
+				$("#sort").val(project.sort);
+				$("#title").val(project.title);
+				$("#keywords").val(project.keywords);
+				$("#description").val(project.description);
+				$("#alt").val(project.alt);
+				$("#clickUrl").val(project.clickUrl);
+				$("#code").val(project.code);
 
 				$("#aaa").html("编辑子类目");
 			}
@@ -312,7 +296,39 @@
 			return;
 		}
 
-		$("#form1").submit();
+		var code = $("#code").val();
+
+		if(!isEmpty(code)){
+			var id = $("#id").val();
+			var moduleId = $("#moduleId").val();
+
+			$.ajax({
+				type: 'get',
+				url: "/firstPage/module/project/checkCode?code=" + code + "&id=" + id + "&moduleId=" + moduleId,
+				contentType: 'application/json',
+				async: false,
+				success: function(flag) {
+
+					if(flag){
+
+						$("body").MessageBox({
+							type: 'error',
+							message: '类目编码有重复！',
+							timeout:5000,
+							callbak:null
+						});
+
+					}else{
+						$("#form1").submit();
+					}
+
+				}
+			});
+
+
+		}else{
+			$("#form1").submit();
+		}
 	}
 	
 	function confrimRemove(id){

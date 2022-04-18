@@ -173,66 +173,6 @@
 		});
 	}
 
-	function openUploadDialog(){
-		$("#upload-dialog").modal();
-	}
-
-	function openUploadDialogForUpdate(id){
-		$.ajax({
-			type: 'get',
-			url: "/firstPage/module/project/getById?projectId=" + id,
-			contentType: 'application/json',
-			async: false,
-			success: function(project) {
-				$("#id").val(id);
-
-				if(!isEmpty(project.attachment)){
-					$("#filename").val(project.attachment.filename);
-					$("#filepath").val(project.attachment.filepath);
-					$("#filesize").val(project.attachment.filesize);
-					$("#filetype").val(project.attachment.filetype);
-					$("#attachmentid").val(project.attachment.id);
-				}
-
-				if(!isEmpty(project.name)){
-					$("#name").val(project.name);
-				}
-
-				if(!isEmpty(project.describe)){
-					$("#describe").val(project.describe);
-				}
-
-				if(!isEmpty(project.sort)){
-					$("#sort").val(project.sort);
-				}
-
-				if(!isEmpty(project.title)){
-					$("#title").val(project.title);
-				}
-
-				if(!isEmpty(project.keywords)){
-					$("#keywords").val(project.keywords);
-				}
-
-				if(!isEmpty(project.description)){
-					$("#description").val(project.description);
-				}
-
-				if(!isEmpty(project.alt)){
-					$("#alt").val(project.alt);
-				}
-
-				if(!isEmpty(project.clickUrl)){
-					$("#clickUrl").val(project.clickUrl);
-				}
-
-				$("#aaa").html("编辑");
-			}
-		});
-
-		$("#upload-dialog").modal();
-	}
-
 	function isEmpty(obj) {
 		if (obj == null || obj == "" || obj == "undefined") {
 			return true;
