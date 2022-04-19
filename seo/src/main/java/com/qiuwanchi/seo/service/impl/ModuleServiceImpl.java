@@ -74,6 +74,11 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         return moduleDtoList;
     }
 
+    @Override
+    public List<ModuleDto> getSimpleModuleDtoList(String belong) {
+        return this.moduleMapper.getModuleList(belong);
+    }
+
     private void intProjectSeoValue(List<ProjectDto> projectDtoList){
         for (ProjectDto projectDto : projectDtoList){
             if(StringUtils.isNotBlank(projectDto.getFilePath())){

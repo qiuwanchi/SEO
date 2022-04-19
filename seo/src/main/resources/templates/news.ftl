@@ -32,11 +32,18 @@
 		<img src="${newsModule.url}">
 	</div>
 	<div class="container main">
-		<div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>新闻资讯</span></div>
+		<div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>
+		 <#if firstCategory??>
+            |<a href="${baseUrl}/news.html">新闻资讯</a>|<span>${newsModule.name}</span>
+		 <#else>
+            |<span>新闻资讯</span>
+		 </#if>
+        </div>
+
 		<div class="newsx_main clearfix">
 			<div class="page_nav_news layui-col-xs12 layui-col-sm4 layui-col-md3">
 				<#list newsModuleList as newsModule>
-					<span <#if newsModule_index ==0>class="active"</#if>>${newsModule.name}</span>
+					<a href="${baseUrl}/news/${newsModule.code}/"> <span <#if newsModule_index == clickCategorySort>class="active"</#if>>${newsModule.name}</span> </a>
 				</#list>
 			</div>
 			<div class="layui-col-xs12 layui-col-sm8 layui-col-md9">
@@ -63,9 +70,9 @@
 			</#list>
 
 			</ul>
+			<div id="paging"></div>
 		  </div>
-			</div>
-	  
+		</div>
 	</div>
 </div>
 <#include "footer.ftl"/>
@@ -89,9 +96,26 @@ layui.use(['laypage', 'layer'], function(){
   ,layer = layui.layer;
   laypage.render({
     elem: 'paging'
-    ,count: 100
+    ,count: ${page.total}
+    ,first: '首页'
+    ,last: '尾页'
+    ,prev: '<em>上一页</em>'
+    ,next: '<em>下一页</em>'
     ,theme: '#297ec2'
+    ,limit: ${page.size}
+    ,curr: ${page.current}
+    ,jump: function(obj, first){
+        if(!first){
+            var firstCategory = '${newsModule.code}';
+            var url = '${baseUrl}/serviceCase/';
+            if(firstCategory.length != 0){
+                url = url + firstCategory + '/';
+            }
+            window.location.href = url + 'page_' + obj.curr + '.html';
+        }
+    }
   });
+
 });
 </script>
 </body>

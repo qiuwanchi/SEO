@@ -31,8 +31,8 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     }
 
     @Override
-    public Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId) {
-        return this.projectMapper.getProjectPageListByModuleId(page,moduleId);
+    public Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId, String orderBy, String absOrDesc) {
+        return this.projectMapper.getProjectPageListByModuleId(page,moduleId, orderBy, absOrDesc);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.qiuwanchi.seo.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.entity.Module;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,41 +54,104 @@ public class NewsController {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
-    @GetMapping("/news.html")
-    public String news(Model model){
-        model.addAttribute("baseUrl", serverConfig.getUrl());
+    // 默认每页条数
+    private static final long PAGE_SIZE = 6;
 
-        // logo
+    @GetMapping("/news.html")
+    public String newsIndex(Model model) {
+        Page page = new Page();
+        page.setSize(PAGE_SIZE);
+        return this.news(model, page, null);
+    }
+
+    @GetMapping("/news/{current}.html")
+    public String newsIndexPage(Model model, @PathVariable("current") String current) {
+        String[] arr = current.split("_");
+        Page page = new Page();
+        page.setCurrent(Long.valueOf(arr[1]));
+        page.setSize(PAGE_SIZE);
+        return this.news(model, page, null);
+    }
+
+    @GetMapping("/news/{firstCategory}")
+    public String newsFirstCategory(Model model, @PathVariable("firstCategory") String firstCategory) {
+        Page page = new Page();
+        page.setSize(PAGE_SIZE);
+        return this.news(model, page, firstCategory);
+    }
+
+    @GetMapping("/news/{firstCategory}/{current}.html")
+    public String newsFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") String current) {
+        String[] arr = current.split("_");
+        Page page = new Page();
+        page.setCurrent(Long.valueOf(arr[1]));
+        page.setSize(PAGE_SIZE);
+        return this.news(model, page, firstCategory);
+    }
+
+    private String news(Model model, Page page, String firstCategory) {
+        model.addAttribute("baseUrl", serverConfig.getUrl());
+        // 1.logo
         this.logoCommon.logo(model);
 
-        // 1新闻资讯
-        List<ModuleDto> newsModuleList = this.moduleService.getModuleDtoList("News");
+        // 2.新闻资讯类目列表
+        List<ModuleDto> newsModuleList = this.moduleService.getSimpleModuleDtoList("News");
         model.addAttribute("newsModuleList", newsModuleList);
-        if(!CollectionUtils.isEmpty(newsModuleList)){
-            ModuleDto newsModule = newsModuleList.get(0);
-            model.addAttribute("newsModule", newsModule);
-            List<ProjectDto> newsProjectList = CollectionUtils.isEmpty(newsModule.getProjectDtoList()) ? new ArrayList<>() : newsModule.getProjectDtoList();
-            for (ProjectDto projectDto : newsProjectList){
-                String str = sdf.format(projectDto.getCreateTime());
-                String[] arrStr = str.split(",");
-                projectDto.setYears(arrStr[0]);
-                projectDto.setDay(arrStr[1]);
-                projectDto.setMonthDay(arrStr[0].split("-")[1] + "-" + projectDto.getDay());
-            }
 
-            newsProjectList.sort(new Comparator<ProjectDto>() {
-                @Override
-                public int compare(ProjectDto o1, ProjectDto o2) {
-                    return o2.getCreateTime().compareTo(o1.getCreateTime());
-                }
-            });
-            model.addAttribute("newsProjectList", newsProjectList);
+        // 点击的类目序号
+        int clickCategorySort = this.getClickCategorySort(firstCategory, newsModuleList);
+
+        // 类目编码
+        model.addAttribute("firstCategory", firstCategory);
+
+        // 点击的序号
+        model.addAttribute("clickCategorySort", clickCategorySort);
+
+        ModuleDto newsModule = newsModuleList.get(clickCategorySort);
+        newsModule.setUrl(UrlAssemblyUtils.getImageUrl(newsModule.getFilePath()));
+        // 所点击的类目对象
+        model.addAttribute("newsModule", newsModule);
+
+        // 分页查询的此类目下的项目
+        Page<ProjectDto> projectDtoPage = this.projectService.getProjectPageListByModuleId(page, newsModule.getId(), Project.UPDATE_TIME, "desc");
+
+        List<ProjectDto> newsProjectList = projectDtoPage.getRecords();
+        for (ProjectDto projectDto : newsProjectList) {
+            String str = sdf.format(projectDto.getCreateTime());
+            String[] arrStr = str.split(",");
+            projectDto.setYears(arrStr[0]);
+            projectDto.setDay(arrStr[1]);
+            projectDto.setMonthDay(arrStr[0].split("-")[1] + "-" + projectDto.getDay());
+            projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
         }
 
-        this.bottomManagementCommon.bottom(model);
+        model.addAttribute("page", page);
 
+        model.addAttribute("newsProjectList", newsProjectList);
+        this.bottomManagementCommon.bottom(model);
         return "news";
     }
+
+    /**
+     * 获取点击的类目序号
+     * @param firstCategory
+     * @param newsModuleList
+     * @return
+     */
+    private int getClickCategorySort(String firstCategory, List<ModuleDto> newsModuleList) {
+        int clickCategorySort = 0;
+        if (StringUtils.isNotBlank(firstCategory)) {
+            for (int i = 0; i < newsModuleList.size(); i++) {
+                ModuleDto moduleDto = newsModuleList.get(i);
+                if (firstCategory.equals(moduleDto.getCode())) {
+                    clickCategorySort = i;
+                    break;
+                }
+            }
+        }
+        return clickCategorySort;
+    }
+
 
     @GetMapping("/news/{id}.html")
     public String detail(Model model, @PathVariable("id") String id){

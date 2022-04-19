@@ -14,7 +14,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     List<ProjectDto> getProjectListByModuleId(@Param("moduleId")String moduleId);
 
-    Page<ProjectDto> getProjectPageListByModuleId(Page page, @Param("moduleId")String moduleId);
+    Page<ProjectDto> getProjectPageListByModuleId(Page page, @Param("moduleId")String moduleId, @Param("orderBy")String orderBy, @Param("absOrDesc") String absOrDesc);
 
     List<ProjectDto> getProjectListByModuleIds(@Param("moduleIds")List<String> moduleIds);
 

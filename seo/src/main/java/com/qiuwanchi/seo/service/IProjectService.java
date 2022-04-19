@@ -13,7 +13,7 @@ public interface IProjectService extends IService<Project> {
 
     List<ProjectDto> getProjectListByModuleIds(List<String> moduleIds);
 
-    Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId);
+    Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId, String orderBy, String absOrDesc);
 
     ProjectDto getPreProject(String moduleId, int sort);
 
