@@ -88,7 +88,19 @@ layui.use(['laypage', 'layer'], function(){
     ,curr: ${page.current}
     ,jump: function(obj, first){
         if(!first){
-             window.location.href = '${baseUrl}/serviceCase/index_' + obj.curr + ".html";
+
+            var firstCategory = '${firstCategory}';
+            var secondCategory = '${secondCategory}';
+            var url = '${baseUrl}/serviceCase/';
+            if(firstCategory.length != 0){
+                url = url + firstCategory + '/';
+            }
+
+            if(secondCategory.length != 0){
+                url = url + secondCategory + '/';
+            }
+
+            window.location.href = url + 'index_' + obj.curr + '.html';
         }
     }
   });

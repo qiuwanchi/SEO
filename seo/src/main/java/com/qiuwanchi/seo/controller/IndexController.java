@@ -10,6 +10,7 @@ import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.LogoCommon;
 import com.qiuwanchi.seo.utils.ServerConfig;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -115,6 +116,7 @@ public class IndexController {
                         projectDto.setDay(arrStr[1]);
                     }
                 }
+
             }
         }
 

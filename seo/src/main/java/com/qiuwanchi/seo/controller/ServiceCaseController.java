@@ -55,7 +55,7 @@ public class ServiceCaseController {
     @Autowired
     private LogoCommon logoCommon;
 
-    private static final long PAGE_SIZE = 6;
+    private static final long PAGE_SIZE = 8;
 
     /**
      * 服务案例栏目
@@ -191,6 +191,9 @@ public class ServiceCaseController {
 
         model.addAttribute("subProjectList", subProjectDtoList);
         model.addAttribute("page", page);
+
+        model.addAttribute("firstCategory", firstCategory == null ? "" : firstCategory);
+        model.addAttribute("secondCategory", secondCategory == null ? "" : secondCategory);
 
         this.bottomManagementCommon.bottom(model);
         return "service_case";

@@ -42,9 +42,9 @@
 </div>
 <div class="kf">
 	<ul>
-	  <li class="this"><a href="javascript:;"><img src="${baseUrl}/images/icon1.png"><p>电话咨询</p></a></li>
-	  <li><a href="javascript:;"><img src="${baseUrl}/images/icon2.png"><p>QQ咨询</p></a></li>
-	  <li><a href="javascript:;"><img src="${baseUrl}/images/icon3.png"><p>在线留言</p></a></li>
+	  <li class="this"><a href="javascript:;"><img src="${baseUrl}/images/icon1.png"><p>在线咨询</p></a></li>
+	  <li><a href="javascript:;"><img src="${baseUrl}/images/icon1.png"><p>电话咨询</p></a></li>
+	  <li><a href="javascript:;"><img src="${baseUrl}/images/icon3.png"><p>留言</p></a></li>
 	  <li class="top"><a href="javascript:;"><img src="${baseUrl}/images/icon4.png"></a></li>
 	</ul>
 </div>
