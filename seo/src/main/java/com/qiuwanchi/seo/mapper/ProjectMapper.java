@@ -18,5 +18,11 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     List<ProjectDto> getProjectListByModuleIds(@Param("moduleIds")List<String> moduleIds);
 
-    List<ProjectDto> recommend(@Param("projectId")String id, @Param("keywordsList")List<String> keywordsList);
+    List<ProjectDto> recommend(@Param("category")String category, @Param("projectId")String id, @Param("keywordsList")List<String> keywordsList);
+
+    ProjectDto selectByNumber(@Param("number")int number);
+
+    ProjectDto getPreProject(@Param("moduleId")String moduleId, @Param("currentProjectId")String currentProjectId, @Param("sort")int sort);
+
+    ProjectDto getNextProject(@Param("moduleId")String moduleId, @Param("currentProjectId")String currentProjectId, @Param("sort")int sort);
 }

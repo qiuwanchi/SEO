@@ -15,9 +15,11 @@ public interface IProjectService extends IService<Project> {
 
     Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId, String orderBy, String absOrDesc);
 
-    ProjectDto getPreProject(String moduleId, int sort);
+    ProjectDto getPreProject(String moduleId, String currentProjectId, int sort);
 
-    ProjectDto getNextProject(String moduleId, int sort);
+    ProjectDto getNextProject(String moduleId, String currentProjectId, int sort);
 
-    List<ProjectDto> recommend(String id, List<String> keywordsList);
+    List<ProjectDto> recommend(String category, String id, List<String> keywordsList);
+
+    ProjectDto selectByNumber(int number);
 }

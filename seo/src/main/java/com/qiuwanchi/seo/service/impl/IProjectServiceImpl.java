@@ -9,6 +9,7 @@ import com.qiuwanchi.seo.mapper.ProjectMapper;
 import com.qiuwanchi.seo.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,43 +37,25 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     }
 
     @Override
-    public ProjectDto getPreProject(String moduleId, int sort) {
-        QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Project.MODULE_ID, moduleId);
-        queryWrapper.lt(Project.SORT, sort);
-        queryWrapper.orderByDesc(Project.SORT);
-        queryWrapper.last("limit 1");
-        Project project = this.projectMapper.selectOne(queryWrapper);
-
-        if(Objects.isNull(project)){
-            return null;
-        }
-
-        ProjectDto projectDto = new ProjectDto();
-        projectDto.setId(project.getId());
-        projectDto.setName(project.getName());
-        return projectDto;
+    public ProjectDto getPreProject(String moduleId, String currentProjectId, int sort) {
+        return this.projectMapper.getPreProject(moduleId, currentProjectId ,sort);
     }
 
     @Override
-    public ProjectDto getNextProject(String moduleId, int sort) {
-        QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Project.MODULE_ID, moduleId);
-        queryWrapper.gt(Project.SORT, sort);
-        queryWrapper.orderByAsc(Project.SORT);
-        queryWrapper.last("limit 1");
-        Project project = this.projectMapper.selectOne(queryWrapper);
-        if(Objects.isNull(project)){
-            return null;
-        }
-        ProjectDto projectDto = new ProjectDto();
-        projectDto.setId(project.getId());
-        projectDto.setName(project.getName());
-        return projectDto;
+    public ProjectDto getNextProject(String moduleId, String currentProjectId, int sort) {
+        return this.projectMapper.getNextProject(moduleId, currentProjectId, sort);
     }
 
     @Override
-    public List<ProjectDto> recommend(String id, List<String> keywordsList) {
-        return this.projectMapper.recommend(id, keywordsList);
+    public List<ProjectDto> recommend(String category, String id, List<String> keywordsList) {
+        if(CollectionUtils.isEmpty(keywordsList)){
+            return new ArrayList<>();
+        }
+        return this.projectMapper.recommend(category, id, keywordsList);
+    }
+
+    @Override
+    public ProjectDto selectByNumber(int number) {
+        return this.projectMapper.selectByNumber(number);
     }
 }

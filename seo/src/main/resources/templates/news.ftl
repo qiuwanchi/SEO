@@ -52,16 +52,16 @@
 			<#list newsProjectList as newsProject>
 			<li class="clearfix">
 				<div class="news_list_img">
-					<a href="${baseUrl}/news/${newsProject.id}.html" target="_blank">
+					<a href="${baseUrl}/news/${newsProject.moduleCode}/${newsProject.number}.html" target="_blank">
 					<img src="${newsProject.url}"/>
 					</a>
 				</div>
 				<div class="news_list_data">
 					 <strong>${newsProject.monthDay}</strong>
-					 <span><a href="${baseUrl}/news/${newsProject.id}.html" target="_blank">→</a></span>
+					 <span><a href="${baseUrl}/news/${newsProject.moduleCode}/${newsProject.number}.html" target="_blank">→</a></span>
 				</div>
 				<div class="news_list_text">
-					<a href="${baseUrl}/news/${newsProject.id}.html" target="_blank">
+					<a href="${baseUrl}/news/${newsProject.moduleCode}/${newsProject.number}.html" target="_blank">
 					<h1>${newsProject.name}</h1>
 					<p>${newsProject.describeMsg}</p>
 					</a>

@@ -64,11 +64,10 @@ public class NewsController {
         return this.news(model, page, null);
     }
 
-    @GetMapping("/news/{current}.html")
-    public String newsIndexPage(Model model, @PathVariable("current") String current) {
-        String[] arr = current.split("_");
+    @GetMapping("/news/page_{current}.html")
+    public String newsIndexPage(Model model, @PathVariable("current") long current) {
         Page page = new Page();
-        page.setCurrent(Long.valueOf(arr[1]));
+        page.setCurrent(current);
         page.setSize(PAGE_SIZE);
         return this.news(model, page, null);
     }
@@ -80,11 +79,10 @@ public class NewsController {
         return this.news(model, page, firstCategory);
     }
 
-    @GetMapping("/news/{firstCategory}/{current}.html")
-    public String newsFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") String current) {
-        String[] arr = current.split("_");
+    @GetMapping("/news/{firstCategory}/page_{current}.html")
+    public String newsFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") long current) {
         Page page = new Page();
-        page.setCurrent(Long.valueOf(arr[1]));
+        page.setCurrent(current);
         page.setSize(PAGE_SIZE);
         return this.news(model, page, firstCategory);
     }
@@ -153,59 +151,50 @@ public class NewsController {
     }
 
 
-    @GetMapping("/news/{id}.html")
-    public String detail(Model model, @PathVariable("id") String id){
+    @GetMapping("/news/{firstCategory}/{number}.html")
+    public String detail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("number") int number){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
         // 1.logo
-        List<ModuleDto> logoModuleList = this.moduleService.getModuleDtoList("LOGO");
-        ModuleDto logoModuleDto = logoModuleList.get(0);
-        ProjectDto logoProject = CollectionUtils.isEmpty(logoModuleDto.getProjectDtoList()) ? new ProjectDto() : logoModuleDto.getProjectDtoList().get(0);
-        model.addAttribute("logoProject", logoProject);
+        this.logoCommon.logo(model);
 
-        Project project = this.projectService.getById(id);
-        ProjectDto projectDto = new ProjectDto();
-        BeanUtils.copyProperties(project, projectDto);
+        ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
 
-        String str = sdf.format(projectDto.getCreateTime());
+        String str = sdf.format(currentProjectDto.getCreateTime());
         String[] arrStr = str.split(",");
-        projectDto.setYears(arrStr[0]);
-        projectDto.setDay(arrStr[1]);
+        currentProjectDto.setYears(arrStr[0]);
+        currentProjectDto.setDay(arrStr[1]);
+        currentProjectDto.setCreateBy(Objects.isNull(currentProjectDto.getCreateBy()) ? "admin" : currentProjectDto.getCreateBy());
 
-        Module module = this.moduleService.getById(project.getModuleId());
-        projectDto.setModuleName(module.getName());
-        projectDto.setCreateBy(Objects.isNull(project.getCreateBy()) ? "admin" : project.getCreateBy());
-        if(StringUtils.isBlank(projectDto.getContent())){
-            projectDto.setContent(StringUtils.EMPTY);
+        if(StringUtils.isBlank(currentProjectDto.getContent())){
+            currentProjectDto.setContent(StringUtils.EMPTY);
         }else{
-            projectDto.setContent(Utils.htmlDecode(projectDto.getContent()));
+            currentProjectDto.setContent(Utils.htmlDecode(currentProjectDto.getContent()));
         }
 
         List<ProjectDto> list =  new ArrayList();
-        list.add(projectDto);
+        list.add(currentProjectDto);
         this.intProjectSeoValue(list);
-        model.addAttribute("newsProject", projectDto);
+        model.addAttribute("newsProject", currentProjectDto);
 
-        List<ProjectDto> recommendProjectDtoList = new ArrayList<>();
         List<String> keywordsList = new ArrayList<>();
-        if(StringUtils.isNotBlank(projectDto.getKeywords())){
-            projectDto.setKeywords(Utils.replaceAll(projectDto.getKeywords()));
-            keywordsList = Utils.toList(projectDto.getKeywords());
-
-            // 相关推荐
-            recommendProjectDtoList = this.projectService.recommend(projectDto.getId(), keywordsList);
+        if(StringUtils.isNotBlank(currentProjectDto.getKeywords())){
+            currentProjectDto.setKeywords(Utils.replaceAll(currentProjectDto.getKeywords()));
+            keywordsList = Utils.toList(currentProjectDto.getKeywords());
         }
-        model.addAttribute("recommendProjectDtoList", recommendProjectDtoList);
-
         // 关键字
         model.addAttribute("keywordsList", keywordsList);
 
+        // 相关推荐
+        List<ProjectDto> recommendProjectDtoList = this.projectService.recommend("News", currentProjectDto.getId(), keywordsList);
+        model.addAttribute("recommendProjectDtoList", recommendProjectDtoList);
+
         // 上一篇
-        ProjectDto preProject = this.projectService.getPreProject(project.getModuleId(), project.getSort());
+        ProjectDto preProject = this.projectService.getPreProject(currentProjectDto.getModuleId(), currentProjectDto.getId(), currentProjectDto.getSort());
         model.addAttribute("preProject", preProject);
 
         // 下一篇
-        ProjectDto nextProject = this.projectService.getNextProject(project.getModuleId(), project.getSort());
+        ProjectDto nextProject = this.projectService.getNextProject(currentProjectDto.getModuleId(), currentProjectDto.getId(), currentProjectDto.getSort());
         model.addAttribute("nextProject", nextProject);
 
         this.bottomManagementCommon.bottom(model);

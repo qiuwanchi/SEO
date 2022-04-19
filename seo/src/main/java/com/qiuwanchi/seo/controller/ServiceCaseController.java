@@ -77,12 +77,11 @@ public class ServiceCaseController {
      * @param current (index_1)第几页
      * @return
      */
-    @GetMapping("/serviceCase/{current}.html")
-    public String serviceCasePage(Model model, @PathVariable("current") String current){
-        String[] arr = current.split("_");
+    @GetMapping("/serviceCase/page_{current}.html")
+    public String serviceCasePage(Model model, @PathVariable("current") long current){
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        page.setCurrent(Long.valueOf(arr[1]));
+        page.setCurrent(current);
         return serviceCase(model, page, null, null);
     }
 
@@ -105,11 +104,10 @@ public class ServiceCaseController {
      * @return
      */
     @GetMapping("/serviceCase/{firstCategory}/page_{current}.html")
-    public String serviceCaseFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") String current){
-        String[] arr = current.split("_");
+    public String serviceCaseFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") long current){
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        page.setCurrent(Long.valueOf(arr[1]));
+        page.setCurrent(current);
         return serviceCase(model, page, firstCategory, null);
     }
 
@@ -121,11 +119,10 @@ public class ServiceCaseController {
     }
 
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/page_{current}.html")
-    public String serviceCaseSecondCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory,@PathVariable("current") String current){
-        String[] arr = current.split("_");
+    public String serviceCaseSecondCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory,@PathVariable("current") long current){
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        page.setCurrent(Long.valueOf(arr[1]));
+        page.setCurrent(current);
         return serviceCase(model, page, firstCategory, secondCategory);
     }
 

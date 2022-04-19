@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="newsx_detail clearfix">
       <div class="layui-col-xs12 layui-col-md9 newsx_detail_l">
-      	  <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/news.html">新闻资讯</a>|<a href="${baseUrl}/news.html">${newsProject.moduleName}</a>|<span>${newsProject.name}</span></div>
+      	  <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/news.html">新闻资讯</a>|<a href="${baseUrl}/news/${newsProject.moduleCode}/">${newsProject.moduleName}</a>|<span>${newsProject.name}</span></div>
       	  <div style="padding: 30px;">
       	  <h1>${newsProject.name}</h1>
       	  <div class="news_data"><span>发布日期：${newsProject.years}-${newsProject.day}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者：${newsProject.createBy}</span></div>
@@ -55,14 +55,14 @@
 
           	<div class="article_left">上一篇：
 			<#if preProject??>
-				<a href="${baseUrl}/news/${preProject.id}.html" target="_blank">${preProject.name}</a>
+				<a href="${baseUrl}/news/${preProject.moduleCode}/${preProject.number}.html" target="_blank">${preProject.name}</a>
 			<#else>
 				<a href="javascript:;">无</a>
 			</#if>
 			</div>
           	<div class="article_right">下一篇：
 				<#if nextProject??>
-					<a href="${baseUrl}/news/${nextProject.id}.html" target="_blank">${nextProject.name}</a>
+					<a href="${baseUrl}/news/${nextProject.moduleCode}/${nextProject.number}.html" target="_blank">${nextProject.name}</a>
 				<#else>
 					<a href="javascript:;">无</a>
 			</#if>
@@ -74,7 +74,7 @@
       		<h3 class="clearfix"><span></span><strong>相关推荐</strong></h3>
       		<ul>
 				<#list recommendProjectDtoList as recommendProject>
-					<li><a href="${baseUrl}/news/${recommendProject.id}.html" target="_blank">●&nbsp;${recommendProject.name}</a></li>
+					<li><a href="${baseUrl}/news/${recommendProject.moduleCode}/${recommendProject.number}.html" target="_blank">●&nbsp;${recommendProject.name}</a></li>
 				</#list>
       		</ul>
       	</div>
