@@ -195,8 +195,26 @@ public class ServiceCaseController {
         model.addAttribute("firstCategory", firstCategory == null ? "" : firstCategory);
         model.addAttribute("secondCategory", secondCategory == null ? "" : secondCategory);
 
+        ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
+        model.addAttribute("firstCategoryModuleDto", firstCategoryModuleDto);
+
         this.bottomManagementCommon.bottom(model);
         return "service_case";
+    }
+
+    private ModuleDto getFirstCategoryModuleDto(String firstCategory, List<ModuleDto> serviceCaseModuleList){
+
+        if (StringUtils.isBlank(firstCategory)){
+            return null;
+        }
+
+        for (ModuleDto moduleDto : serviceCaseModuleList){
+            if (firstCategory.equals(moduleDto.getCode())) {
+                return moduleDto;
+            }
+        }
+
+        return null;
     }
 
 

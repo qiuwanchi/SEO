@@ -30,7 +30,14 @@
 <div id="case">
   <div class="bannerx"> <img src="${bannerImageDto.url}" <#if bannerImageDto.alt?? && bannerImageDto.alt != ""> alt="${bannerImageDto.alt}" </#if> /> </div>
   <div class="position">
-    <div class="container">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>服务案例</span></div>
+    <div class="container">当前位置：<a href="${baseUrl}/index.html">首页</a>
+    <#if firstCategoryModuleDto??>
+    |<a href="${baseUrl}/serviceCase.html">服务案例</a>|<span>${firstCategoryModuleDto.name}</span>
+    <#else>
+    |<span>服务案例</span>
+    </#if>
+
+    </div>
   </div>
   <div class="container main">
     <div class="newsx_main case_main">
