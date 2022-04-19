@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>关于我们</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="${baseUrl}/css/style.css">
 </head>
 <body>
 <div class="c-nav" id="c-nav">
@@ -13,16 +13,17 @@
     <div class="flexItem"> <img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> /> </div>
     <div class="flexItem clearfix">
       <ul>
-        <li><a href="${baseUrl}/index.html">首页</a></li>
+		<li><a href="${baseUrl}/index.html">首页</a></li>
         <li class="active"><a href="${baseUrl}/aboutUs.html">关于我们</a></li>
         <li><a href="${baseUrl}/products.html">公司产品</a></li>
         <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
+		<li><a href="solution.html">解决方案</a></li>
         <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
         <li><a href="${baseUrl}/contactUs.html">联系我们</a></li>
       </ul>
-      <div class="search">
-        <input type="text" class="search_text" placeholder="关键字搜索" />
-        <input type="button" class="search_btn" value="搜索" />
+      <div class="kftel">
+        <h2>400-0000-033</h2>
+        <span>客服服务热线</span>
       </div>
     </div>
   </div>
@@ -42,7 +43,7 @@
       <div class="main_wh about2">
         <div class="main-title title_hot"><img src="images/title_one.PNG"></div>
         <ul class="wh_list clearfix">
-          <#list oneStopServiceProjectDtoList as oneStopServiceProject>
+		<#list oneStopServiceProjectDtoList as oneStopServiceProject>
           <li class="layui-col-sm4 layui-col-md2">
             <div class="wh_tnt"> <a href="javascript:;">
               <div><img src="${oneStopServiceProject.url}">
@@ -50,30 +51,26 @@
               </div>
               </a> </div>
           </li>
-          </#list>
-
+		</#list>
         </ul>
       </div>
       <div class="layui-row detail1_3 about3 clearfix">
         <div class="main-title title_hot"><img src="images/title_yw.PNG"></div>
         <div class="layui-tab layui-tab-brief clearfix " lay-filter="docDemoTabBrief">
           <ul class="layui-tab-title layui-col-xs12 layui-col-md2  clearfix">
-
             <#list businessScopeProjectDtoList as businessScopeProject>
               <li <#if businessScopeProject_index ==0> class="layui-this" </#if>>${businessScopeProject.name}</li>
             </#list>
           </ul>
           <div class="layui-tab-content layui-col-xs12 layui-col-md10">
-
-            <#list businessScopeProjectDtoList as businessScopeProject>
+		  <#list businessScopeProjectDtoList as businessScopeProject>
             <div class="layui-tab-item <#if businessScopeProject_index ==0>layui-show</#if> clearfix">
               <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="${businessScopeProject.url}"></div>
               <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
                 ${businessScopeProject.content}
               </div>
             </div>
-            </#list>
-
+		  </#list>
           </div>
         </div>
       </div>
@@ -82,41 +79,40 @@
           <div class="main-title title_hot"><img src="images/title_ys.PNG"></div>
           <p class="ys_p">苏州好奇数字科技有限公司自创立以来，坚持科技创新，是一家快速成长、锐意进取的互动多媒体公司。公司专注于更好的视觉效果、人机互动体验开发。为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</p>
           <ul class="clearfix ys_list">
-
-            <#list companyAdvantageProjectDtoList as companyAdvantageProject>
+		  <#list companyAdvantageProjectDtoList as companyAdvantageProject>
             <li>
               <div class="ys_tnt">
                 <div class="ys_img"><img src="${companyAdvantageProject.url}" <#if companyAdvantageProject.alt?? && companyAdvantageProject.alt != ""> alt="${companyAdvantageProject.alt}" </#if>></div>
                 <h3>${companyAdvantageProject.name}</h3>
                 <span>${companyAdvantageProject.describeMsg}</span> </div>
             </li>
-            </#list>
-
+		  </#list>
+			
           </ul>
         </div>
       </div>
       <div class="about4">
         <div class="main-title title_video"><img src="images/title_ry.PNG"></div>
-        <div class="scrollbox">
-          <ul id="leftlist">
-            <#list honoraryQualificationMap?keys as k>
-              <li>
-                <#list honoraryQualificationMap[k] as honoraryQualificationProject>
-                <a href="javascript:;" target="_blank"><img src="${honoraryQualificationProject.url}" alt="" />
-                <h3>${honoraryQualificationProject.name}</h3>
-                </a>
-                </#list>
-              </li>
-            </#list>
+        <div id="container">
+          <ul id="content">
+		  <#list honoraryQualificationMap?keys as k>
+                <li>
+				<#list honoraryQualificationMap[k] as honoraryQualificationProject>
+				<a href="javasript:;" target="_blank">
+				<img src="${honoraryQualificationProject.url}" alt="" />
+				<h3>${honoraryQualificationProject.name}</h3>
+				</a>
+				</#list>
 
-          </ul>
-        </div>
+				</#list>
+            </ul>
+		</div>
       </div>
     </div>
   </div>
 </div>
 <#include "footer.ftl"/>
-<script type="text/javascript" src="js/jquery.rollGallery_yeso.js"></script> 
+<script type="text/javascript" src="${baseUrl}/scrollForever.js"></script>
 <script type="text/javascript">
 
 layui.use(['carousel', 'form','element'], function(){
@@ -126,17 +122,37 @@ layui.use(['carousel', 'form','element'], function(){
 
 });
 
-$(document).ready(function($){
+ /* window.onload比 $(function(){}) 加载的更晚一些，这样那些宽度的计算在Chrome中就可以准确计算了*/
+    window.onload = function () {
 
-	
-	$("#leftlist").rollGallery({
-		direction:"left",
-		speed:1500,
-		showNum:1
-	});
+        /*计算一个segment的宽度*/
 
-	
-});
+        var segmentWidth = 0;
+        $("#container #content li").each(function () {
+            segmentWidth += $(this).outerWidth(true);
+        });
+
+        $("#container #content li").clone().appendTo($("#container #content"));
+
+        run(20000);
+
+        function run(interval) {
+            $("#container #content").animate({ "left": -segmentWidth }, interval, "linear", function () {
+                $("#container #content").css("left", 0);
+                run(20000);
+            });
+        }
+
+        $("#container").mouseenter(function () {
+            $("#container #content").stop();
+        }).mouseleave(function () {
+            var passedCourse = -parseInt($("#container #content").css("left"));
+            var time = 20000 * (1 - passedCourse / segmentWidth);
+            run(time);
+        });
+    };
+
 </script>
+
 </body>
 </html>
