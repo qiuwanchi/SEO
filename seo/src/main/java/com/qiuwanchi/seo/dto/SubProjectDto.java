@@ -8,6 +8,7 @@ import java.util.Date;
 public class SubProjectDto {
 
     private String id;
+    private Integer number;
     private String name;
     private String describeMsg;
     private String projectId;
@@ -51,5 +52,8 @@ public class SubProjectDto {
     private String fileType;
     private String filePath;
     private String fileId;
+
+    private String firstCategory;
+    private String secondCategory;
 
 }

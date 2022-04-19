@@ -15,9 +15,9 @@ public interface IProjectService extends IService<Project> {
 
     Page<ProjectDto> getProjectPageListByModuleId(Page page, String moduleId);
 
-    ProjectDto getPreProject(String moduleId, String sort);
+    ProjectDto getPreProject(String moduleId, int sort);
 
-    ProjectDto getNextProject(String moduleId, String sort);
+    ProjectDto getNextProject(String moduleId, int sort);
 
-    List<ProjectDto> recommend(String id, String[] keywordsArr);
+    List<ProjectDto> recommend(String id, List<String> keywordsList);
 }

@@ -11,6 +11,8 @@ public class ModuleDto {
 
     private String id;
 
+    private Integer number;
+
     private String name;
 
     private String belong;

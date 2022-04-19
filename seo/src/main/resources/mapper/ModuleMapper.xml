@@ -5,6 +5,7 @@
     <select id="getModuleList" resultType="com.qiuwanchi.seo.dto.ModuleDto">
         SELECT
             b.id,
+            b.number,
             b.name,
             b.attachment_id AS attachmentId,
             b.sort,

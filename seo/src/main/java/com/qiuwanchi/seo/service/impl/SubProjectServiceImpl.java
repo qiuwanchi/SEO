@@ -8,6 +8,7 @@ import com.qiuwanchi.seo.entity.SubProject;
 import com.qiuwanchi.seo.mapper.SubProjectMapper;
 import com.qiuwanchi.seo.service.ISubProjectService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,54 +38,22 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
     }
 
     @Override
-    public SubProjectDto getPreSubProject(String projectId, String sort) {
-        QueryWrapper<SubProject> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SubProject.PROJECT_ID, projectId);
-        queryWrapper.lt(SubProject.SORT, sort);
-        queryWrapper.orderByDesc(SubProject.SORT);
-        queryWrapper.last("limit 1");
-        SubProject subProject = this.subProjectMapper.selectOne(queryWrapper);
-
-        if(Objects.isNull(subProject)){
-            return null;
-        }
-
-        SubProjectDto subProjectDto = new SubProjectDto();
-        subProjectDto.setId(subProject.getId());
-        subProjectDto.setName(subProject.getName());
-        return subProjectDto;
+    public SubProjectDto getPreSubProject(String projectId, String currentSubProjectId, int sort) {
+        return this.subProjectMapper.getPreSubProject(projectId, currentSubProjectId, sort);
     }
 
     @Override
-    public SubProjectDto getNextSubProject(String projectId, String sort) {
-        QueryWrapper<SubProject> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SubProject.PROJECT_ID, projectId);
-        queryWrapper.gt(SubProject.SORT, sort);
-        queryWrapper.orderByAsc(SubProject.SORT);
-        queryWrapper.last("limit 1");
-        SubProject subProject = this.subProjectMapper.selectOne(queryWrapper);
-        if(Objects.isNull(subProject)){
-            return null;
-        }
-        SubProjectDto subProjectDto = new SubProjectDto();
-        subProjectDto.setId(subProject.getId());
-        subProjectDto.setName(subProject.getName());
-        return subProjectDto;
+    public SubProjectDto getNextSubProject(String projectId, String currentSubProjectId, int sort) {
+        return this.subProjectMapper.getNextSubProject(projectId, currentSubProjectId, sort);
     }
 
     @Override
-    public List<SubProjectDto> recommend(String id, String[] keywordsArr) {
-        List<String> list = new ArrayList<>();
-
-        for (String s : keywordsArr){
-            list.add(s);
-        }
-        return this.subProjectMapper.recommend(id, list);
+    public List<SubProjectDto> recommend(String id, List<String> keywordsList) {
+        return this.subProjectMapper.recommend(id, keywordsList);
     }
 
     @Override
     public Page<SubProjectDto> getPageList(Page page, String firstCategory, String secondCategory) {
-        QueryWrapper<SubProject> queryWrapper = new QueryWrapper<>();
         if(StringUtils.isNotBlank(firstCategory) && StringUtils.isNotBlank(secondCategory)){
             return this.subProjectMapper.selectPageBySecondCategory(page, firstCategory, secondCategory);
         }else if(StringUtils.isNotBlank(firstCategory) && StringUtils.isBlank(secondCategory)){
@@ -92,5 +61,10 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
         }else {
             return this.subProjectMapper.selectPageAll(page);
         }
+    }
+
+    @Override
+    public SubProjectDto getByNumber(int number) {
+        return this.subProjectMapper.selectByNumber(number);
     }
 }

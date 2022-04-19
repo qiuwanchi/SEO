@@ -15,11 +15,11 @@ public interface ISubProjectService extends IService<SubProject> {
 
     Page<SubProjectDto> getProjectPageListByProjectId(Page page, String projectId);
 
-    SubProjectDto getPreSubProject(String projectId, String sort);
+    SubProjectDto getPreSubProject(String projectId, String currentSubProjectId, int sort);
 
-    SubProjectDto getNextSubProject(String projectId, String sort);
+    SubProjectDto getNextSubProject(String projectId, String currentSubProjectId, int sort);
 
-    List<SubProjectDto> recommend(String id, String[] keywordsArr);
+    List<SubProjectDto> recommend(String id, List<String> keywordsList);
 
     /**
      *
@@ -28,4 +28,6 @@ public interface ISubProjectService extends IService<SubProject> {
      * @return
      */
     Page<SubProjectDto> getPageList(Page page, String firstCategory, String secondCategory);
+
+    SubProjectDto getByNumber(int number);
 }

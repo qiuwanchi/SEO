@@ -5,6 +5,7 @@
     <select id="getProjectListByProjectId" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
             b.id,
+            b.number,
             b.name,
             b.describe_msg AS describeMsg,
             b.project_id AS projectId,
@@ -31,6 +32,7 @@
     <select id="getProjectListByProjectIds" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
             b.id,
+            b.number,
             b.name,
             b.describe_msg AS describeMsg,
             b.project_id AS projectId,
@@ -59,6 +61,7 @@
     <select id="getProjectPageListByProjectId" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
         b.id,
+        b.number,
         b.name,
         b.describe_msg AS describeMsg,
         b.project_id AS projectId,
@@ -82,10 +85,11 @@
         ORDER BY b.sort
     </select>
 
-
+    <!-- 推荐 -->
     <select id="recommend" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
         b.id,
+        b.number,
         b.name,
         b.describe_msg AS describeMsg,
         b.project_id AS projectId,
@@ -99,15 +103,16 @@
         b.create_by AS createBy,
         b.create_time AS createTime,
         b.update_by AS updateBy,
-        b.update_time AS updateTime
-        FROM sub_project b JOIN project p ON b.project_id=p.id
-        JOIN module m ON p.module_id=m.id AND m.belong='News'
-
+        b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id
+        LEFT JOIN module m ON p.module_id=m.id AND m.belong='ServiceCase'
         WHERE  b.id !=#{subProjectId} AND
         (
         1=0
         <foreach item="item" index="index" collection="keywordsList" open="" separator=" " close="">
-            OR b.keywords LIKE "%${item},%" OR b.keywords LIKE "%,${item}%"
+            OR b.keywords LIKE "%${item}%"
         </foreach>
 
         )
@@ -119,6 +124,7 @@
     <select id="selectPageAll" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
         b.id,
+        b.number,
         b.name,
         b.describe_msg AS describeMsg,
         b.project_id AS projectId,
@@ -133,12 +139,14 @@
         b.create_time AS createTime,
         b.update_by AS updateBy,
         b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory,
         a.filename AS fileName,
         a.filesize AS fileSize,
         a.filetype AS fileType,
         a.filepath AS filePath,
         a.file_id AS fileId
-        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id LEFT JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
             SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase'
         )
         ORDER BY b.update_time DESC
@@ -147,6 +155,7 @@
     <select id="selectPageByFirstCategory" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
         b.id,
+        b.number,
         b.name,
         b.describe_msg AS describeMsg,
         b.project_id AS projectId,
@@ -161,12 +170,14 @@
         b.create_time AS createTime,
         b.update_by AS updateBy,
         b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory,
         a.filename AS fileName,
         a.filesize AS fileSize,
         a.filetype AS fileType,
         a.filepath AS filePath,
         a.file_id AS fileId
-        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id LEFT JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
             SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase' AND m.code=#{firstCategory}
         )
         ORDER BY b.update_time DESC
@@ -175,6 +186,7 @@
     <select id="selectPageBySecondCategory" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
         SELECT
         b.id,
+        b.number,
         b.name,
         b.describe_msg AS describeMsg,
         b.project_id AS projectId,
@@ -189,14 +201,111 @@
         b.create_time AS createTime,
         b.update_by AS updateBy,
         b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory,
         a.filename AS fileName,
         a.filesize AS fileSize,
         a.filetype AS fileType,
         a.filepath AS filePath,
         a.file_id AS fileId
-        FROM sub_project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
-            SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase' AND m.code=#{firstCategory} AND p.code=#{secondCategory}
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id LEFT JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.project_id IN (
+        SELECT p.id FROM project p JOIN module m ON m.id=p.module_id WHERE m.belong='ServiceCase' AND m.code=#{firstCategory} AND p.code=#{secondCategory}
         )
         ORDER BY b.update_time DESC
+    </select>
+
+
+    <select id="selectByNumber" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.number,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.content,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id LEFT JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.number=${number}
+        ORDER BY b.update_time DESC
+    </select>
+
+    <select id="getPreSubProject" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.number,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id LEFT JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id
+        WHERE b.project_id=#{projectId}
+        AND b.id !=#{currentSubProjectId}
+        AND b.sort  <![CDATA[ <= ]]> #{sort}
+        ORDER BY b.sort DESC limit 1
+    </select>
+
+    <select id="getNextSubProject" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+        b.id,
+        b.number,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.project_id AS projectId,
+        b.attachment_id AS attachmentId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime,
+        p.code AS secondCategory,
+        m.code AS firstCategory,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM sub_project b LEFT JOIN project p ON b.project_id=p.id LEFT JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id
+        WHERE b.project_id=#{projectId}
+        AND b.id !=#{currentSubProjectId}
+        AND b.sort <![CDATA[ >= ]]> #{sort}
+        ORDER BY b.sort limit 1
     </select>
 </mapper>

@@ -36,7 +36,7 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     }
 
     @Override
-    public ProjectDto getPreProject(String moduleId, String sort) {
+    public ProjectDto getPreProject(String moduleId, int sort) {
         QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Project.MODULE_ID, moduleId);
         queryWrapper.lt(Project.SORT, sort);
@@ -55,7 +55,7 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     }
 
     @Override
-    public ProjectDto getNextProject(String moduleId, String sort) {
+    public ProjectDto getNextProject(String moduleId, int sort) {
         QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Project.MODULE_ID, moduleId);
         queryWrapper.gt(Project.SORT, sort);
@@ -72,13 +72,7 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     }
 
     @Override
-    public List<ProjectDto> recommend(String id, String[] keywordsArr) {
-
-        List<String> list = new ArrayList<>();
-
-        for (String s : keywordsArr){
-            list.add(s);
-        }
-        return this.projectMapper.recommend(id, list);
+    public List<ProjectDto> recommend(String id, List<String> keywordsList) {
+        return this.projectMapper.recommend(id, keywordsList);
     }
 }

@@ -59,7 +59,7 @@
        <#list subProjectList as subProject>
 
         <li class="layui-col-xs6 layui-col-sm4 layui-col-md3">
-          <a href="case_detail.html">
+          <a href="${baseUrl}/serviceCase/${subProject.firstCategory}/${subProject.secondCategory}/${subProject.number}.html">
               <div><img src="${subProject.url}"></div>
               <h2>${subProject.name}</h2>
           </a>
@@ -107,7 +107,7 @@ layui.use(['laypage', 'layer'], function(){
                 url = url + secondCategory + '/';
             }
 
-            window.location.href = url + 'index_' + obj.curr + '.html';
+            window.location.href = url + 'page_' + obj.curr + '.html';
         }
     }
   });

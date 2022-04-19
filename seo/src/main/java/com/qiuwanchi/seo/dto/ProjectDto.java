@@ -8,6 +8,7 @@ import java.util.Date;
 public class ProjectDto {
 
     private String id;
+    private Integer number;
     private String name;
     private String describeMsg;
     private String moduleId;

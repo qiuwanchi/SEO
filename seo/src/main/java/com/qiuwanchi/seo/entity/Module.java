@@ -19,6 +19,9 @@ public class Module implements Serializable {
     @TableId("id")
     private String id;
 
+    @TableId("number")
+    private Integer number;
+
     @TableField("attachment_id")
     private String attachmentId;
 
@@ -59,6 +62,7 @@ public class Module implements Serializable {
     private String code;
 
     public static final String ID = "id";
+    public static final String NUMBER = "number";
     public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";
     public static final String BELONG = "belong";

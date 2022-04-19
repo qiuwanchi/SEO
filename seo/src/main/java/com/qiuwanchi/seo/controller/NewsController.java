@@ -126,17 +126,11 @@ public class NewsController {
         List<ProjectDto> recommendProjectDtoList = new ArrayList<>();
         List<String> keywordsList = new ArrayList<>();
         if(StringUtils.isNotBlank(projectDto.getKeywords())){
-            String keywords = projectDto.getKeywords();
-            keywords = keywords.replaceAll("，", ",");
-            projectDto.setKeywords(keywords);
-
-            String[] keywordsArr = keywords.split(",");
-            for (String k : keywordsArr){
-                keywordsList.add(k);
-            }
+            projectDto.setKeywords(Utils.replaceAll(projectDto.getKeywords()));
+            keywordsList = Utils.toList(projectDto.getKeywords());
 
             // 相关推荐
-            recommendProjectDtoList = this.projectService.recommend(projectDto.getId(), keywordsArr);
+            recommendProjectDtoList = this.projectService.recommend(projectDto.getId(), keywordsList);
         }
         model.addAttribute("recommendProjectDtoList", recommendProjectDtoList);
 

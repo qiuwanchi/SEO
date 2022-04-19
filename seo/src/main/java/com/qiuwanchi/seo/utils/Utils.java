@@ -1,5 +1,8 @@
 package com.qiuwanchi.seo.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utils {
 
     public static final String HTTP = "http://";
@@ -38,4 +41,21 @@ public class Utils {
 
         return content;
     }
+
+
+    public static List<String> toList(String keywords){
+        List<String> keywordsList = new ArrayList<>();
+        keywords = keywords.replaceAll("，", ",");
+        String[] keywordsArr = keywords.split(",");
+        for (String k : keywordsArr){
+            keywordsList.add(k);
+        }
+
+        return keywordsList;
+    }
+
+    public static String replaceAll(String keywords){
+        return keywords.replaceAll("，", ",");
+    }
+
 }

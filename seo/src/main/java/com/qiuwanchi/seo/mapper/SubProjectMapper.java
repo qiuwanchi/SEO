@@ -25,4 +25,10 @@ public interface SubProjectMapper extends BaseMapper<SubProject> {
     Page<SubProjectDto> selectPageByFirstCategory(Page page, @Param("firstCategory")String firstCategory);
 
     Page<SubProjectDto> selectPageBySecondCategory(Page page, @Param("firstCategory")String firstCategory, @Param("secondCategory")String secondCategory);
+
+    SubProjectDto selectByNumber(@Param("number")Integer number);
+
+    SubProjectDto getNextSubProject(@Param("projectId")String projectId, @Param("currentSubProjectId")String currentSubProjectId, @Param("sort")int sort);
+
+    SubProjectDto getPreSubProject(@Param("projectId")String projectId, @Param("currentSubProjectId")String currentSubProjectId, @Param("sort")int sort);
 }

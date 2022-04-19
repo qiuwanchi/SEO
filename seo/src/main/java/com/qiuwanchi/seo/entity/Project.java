@@ -21,6 +21,9 @@ public class Project implements Serializable {
     @TableId("id")
     private String id;
 
+    @TableId("number")
+    private Integer number;
+
     @TableField("module_id")
     private String moduleId;
 
@@ -31,7 +34,7 @@ public class Project implements Serializable {
     private String name;
 
     @TableField("sort")
-    private String sort;
+    private Integer sort;
 
     @TableField("create_by")
     private String createBy;
@@ -67,6 +70,7 @@ public class Project implements Serializable {
     private String code;
 
     public static final String ID = "id";
+    public static final String NUMBER = "number";
     public static final String MODULE_ID = "module_id";
     public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";

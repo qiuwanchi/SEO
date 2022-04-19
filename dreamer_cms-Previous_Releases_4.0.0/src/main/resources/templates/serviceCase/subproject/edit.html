@@ -385,10 +385,14 @@
     var t1 = window.setTimeout(function t(){
     	var content = $("#content").val();
     	content = html_decode(content);
-    	UE.getEditor('editor').setContent(content);
+    	var obj = UE.getEditor('editor');
 
-    	window.clearTimeout(t1);
-    }, 1000)
+    	if(obj){
+    		obj.setContent(content);
+    		window.clearTimeout(t1);
+    	}
+
+    }, 5000)
 
 
 

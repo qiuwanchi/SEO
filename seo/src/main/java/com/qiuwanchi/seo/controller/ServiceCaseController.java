@@ -6,6 +6,7 @@ import com.qiuwanchi.seo.dto.ImageDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
+import com.qiuwanchi.seo.entity.Attachment;
 import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -102,7 +104,7 @@ public class ServiceCaseController {
      * @param current
      * @return
      */
-    @GetMapping("/serviceCase/{firstCategory}/{current}.html")
+    @GetMapping("/serviceCase/{firstCategory}/page_{current}.html")
     public String serviceCaseFirstCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("current") String current){
         String[] arr = current.split("_");
         Page page = new Page();
@@ -118,7 +120,7 @@ public class ServiceCaseController {
         return serviceCase(model, page, firstCategory, secondCategory);
     }
 
-    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/{current}.html")
+    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/page_{current}.html")
     public String serviceCaseSecondCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory,@PathVariable("current") String current){
         String[] arr = current.split("_");
         Page page = new Page();
@@ -131,33 +133,59 @@ public class ServiceCaseController {
     /**
      * 服务类目-项目详情
      * @param model
-     * @param id
+     * @param number
      * @return
      */
-    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/{id}_detail.html")
-    public String serviceCaseDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory, @PathVariable("id") String id){
+    @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/{number}.html")
+    public String serviceCaseDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory, @PathVariable("number") int number){
         model.addAttribute("baseUrl", serverConfig.getUrl());
         // logo
         this.logoCommon.logo(model);
-
-        ProjectDto projectDto = new ProjectDto();
-        Project project = this.projectService.getById(id);
+        SubProjectDto currentSubProjectDto = this.subProjectService.getByNumber(number);
+        Project project = this.projectService.getById(currentSubProjectDto.getProjectId());
+        model.addAttribute("project", project);
         Module module = this.moduleService.getById(project.getModuleId());
-        projectDto.setModuleName(module.getName());
-        projectDto.setId(project.getId());
-        projectDto.setName(project.getName());
-        projectDto.setModuleId(project.getModuleId());
-        projectDto.setCreateTime(project.getCreateTime());
-        projectDto.setCreateBy(Objects.isNull(project.getCreateBy()) ? "admin" : project.getCreateBy());
-        model.addAttribute("currentProject", projectDto);
+        model.addAttribute("module", module);
+
+        currentSubProjectDto.setCreateBy(Objects.isNull(currentSubProjectDto.getCreateBy()) ? "admin" : currentSubProjectDto.getCreateBy());
+        if(StringUtils.isBlank(currentSubProjectDto.getContent())){
+            currentSubProjectDto.setContent(StringUtils.EMPTY);
+        }else{
+            currentSubProjectDto.setContent(Utils.htmlDecode(currentSubProjectDto.getContent()));
+        }
+
+        if(StringUtils.isNotBlank(currentSubProjectDto.getFilePath())){
+            currentSubProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(currentSubProjectDto.getFilePath()));
+        }else {
+
+            if(StringUtils.isNotBlank(project.getAttachmentId())){
+                Attachment attachment = this.attachmentService.getById(project.getAttachmentId());
+                currentSubProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(attachment.getFilepath()));
+            }
+        }
+
+        model.addAttribute("currentSubProject", currentSubProjectDto);
+
+        List<String> keywordsList = new ArrayList<>();
+
+        if(StringUtils.isNotBlank(currentSubProjectDto.getKeywords())){
+            currentSubProjectDto.setKeywords(Utils.replaceAll(currentSubProjectDto.getKeywords()));
+            keywordsList = Utils.toList(currentSubProjectDto.getKeywords());
+        }
+        // 关键字
+        model.addAttribute("keywordsList", keywordsList);
+
+        // 相关推荐
+        List<SubProjectDto> recommendSubProjectDtoList = this.subProjectService.recommend(currentSubProjectDto.getId(), keywordsList);
+        model.addAttribute("recommendSubProjectDtoList", recommendSubProjectDtoList);
 
         // 上一篇
-        ProjectDto preProject = this.projectService.getPreProject(project.getModuleId(), project.getSort());
-        model.addAttribute("preProject", preProject);
+        SubProjectDto preSubProjectDto = this.subProjectService.getPreSubProject(currentSubProjectDto.getProjectId(), currentSubProjectDto.getId(), currentSubProjectDto.getSort());
+        model.addAttribute("preSubProjectDto", preSubProjectDto);
 
         // 下一篇
-        ProjectDto nextProject = this.projectService.getNextProject(project.getModuleId(), project.getSort());
-        model.addAttribute("nextProject", nextProject);
+        SubProjectDto nextSubProjectDto = this.subProjectService.getNextSubProject(currentSubProjectDto.getProjectId(), currentSubProjectDto.getId(), currentSubProjectDto.getSort());
+        model.addAttribute("nextSubProjectDto", nextSubProjectDto);
 
         this.bottomManagementCommon.bottom(model);
 
@@ -216,7 +244,6 @@ public class ServiceCaseController {
 
         return null;
     }
-
 
     private ImageDto getServiceCaseBanner(String firstCategory, String secondCategory, List<ModuleDto> serviceCaseModuleList){
         ImageDto imageDto = new ImageDto();
