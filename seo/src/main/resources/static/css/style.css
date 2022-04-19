@@ -76,39 +76,13 @@ a p {
 .c-nav ul li a:hover {
 	color: #297ec2;
 }
-.c-nav .search {
-	float: right;
-	margin-top: 10px;
-	margin-left: 10px;
-	border: 1px solid #dbdbdb;
-	height: 36px;
-	width: 180px;
-	border-radius: 36px;
+.c-nav .kftel{
+    float: right;
+    margin-left: 10px;
+    width: 180px;
 }
-.c-nav .search .search_text {
-	border: none;
-	height: 24px;
-	line-height: 24px;
-	margin-top: 6px;
-	font-size: 12px;
-	margin-left: 10px;
-	width: 110px;
-	display: block;
-	float: left;
-}
-.c-nav .search .search_btn {
-	background: #297ec2;
-	color: #fff;
-	border: none;
-	float: right;
-	display: block;
-	height: 30px;
-	margin-top: 3px;
-	border-radius: 24px;
-	width: 50px;
-	cursor: pointer;
-	margin-right: 3px;
-}
+.c-nav .kftel h2{ font-size: 24px; color: #297ec2; text-align: right; font-style: italic;}
+.c-nav .kftel span{ text-align: right; font-size: 16px; color: #999; display: block;}
 .c-nav .logo {
 	height: 80px;
 	width: 200px;
@@ -656,14 +630,21 @@ a p {
 	color: #fff;
 	padding-top: 4px;
 }
-.kf ul li img {
-	padding-top: 10px;
+.kf ul li .layui-icon {
+	display: block;
+	font-size: 40px;
+	color: #e5e5e5;
+	padding-top: 6px;
 }
+.kf ul li .layui-icon-top{  padding-top:12px;font-size: 50px;}
+.kf ul li .layui-icon-survey{ font-size: 36px; padding-top: 10px;}
+.kf img{  padding-top: 10px;}
 .kf ul .top {
 	cursor: pointer;
 }
 .kf ul .top img {
 	margin-top: 8px;
+	height: auto;
 }
 .kf ul li:hover {
 	background-color: #297ec2;
@@ -1197,6 +1178,8 @@ a p {
 	line-height: 26px;
 	font-size: 16px;
 }
+.detail1_3 .more{ margin-left: 0; background-color: #297ec2;}
+.detail1_3 .more a{ color: #fff;}
 .detail4 .pic_list {
 	padding: 0 20px;
 }
@@ -1356,7 +1339,7 @@ a p {
 	height: 180px;
 	font-size: 20px;
 	text-align: center;
-	padding-top: 110px;
+	padding-top: 50px;
 }
 .goods_tit strong {
 	color: #999;
@@ -1463,7 +1446,8 @@ a p {
         width: 100%;
     }
     #container ul li h3{ font-size: 16px; text-align: center; line-height: 24px; font-family: "微软雅黑"; display: block; padding-top: 6px;}
-
+.goods_tit .layui-icon{ font-size: 50px; display: block; color: #999; padding-bottom: 10px;}
+.title_jj{ margin: 10px auto;}
 /* 大屏幕（大桌面显示器，大于等于 1200px） */
 @media (max-width: 1200px) {
 .newsx_main .news_list_text {
