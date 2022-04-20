@@ -112,7 +112,6 @@
   </div>
 </div>
 <#include "footer.ftl"/>
-<script type="text/javascript" src="${baseUrl}/scrollForever.js"></script>
 <script type="text/javascript">
 
 layui.use(['carousel', 'form','element'], function(){
