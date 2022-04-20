@@ -61,7 +61,7 @@
 	  <#list subProjectList as subProject>
         <li class="layui-col-xs6 layui-col-sm4 layui-col-md3"> 
 		<a href="${baseUrl}/serviceCase/${subProject.firstCategory}/${subProject.secondCategory}/${subProject.number}.html">
-          <div><img src="${subProject.url}"></div>
+          <div><img src="${subProject.url}" <#if subProject.alt?? && subProject.alt != ""> alt="${subProject.alt}" </#if>></div>
           <h2>${subProject.name}</h2>
           </a> 
 		</li>

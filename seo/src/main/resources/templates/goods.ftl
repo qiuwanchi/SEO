@@ -29,7 +29,7 @@
   </div>
 </div>
 <div id="case">
-  <div class="bannerx"> <img src="images/goods_banner.jpg"> </div>
+  <div class="bannerx"> <img src="images/goods_banner.jpg" alt="公司产品"> </div>
   <div class="position">
     <div class="container">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>公司产品</span></div>
   </div>
@@ -49,7 +49,7 @@
         <ul class="case_list clearfix">
           <#list productModule.projectDtoList as project>
 		  <li class="layui-col-xs6 layui-col-sm4 layui-col-md4"> <a href="${baseUrl}/products/${productModule.code}/${project.number}.html">
-            <div><img src="${project.url}"></div>
+            <div><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
             <h2>${project.name}</h2>
             </a> </li>
 		  </#list>
