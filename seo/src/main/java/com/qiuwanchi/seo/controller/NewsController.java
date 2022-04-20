@@ -3,7 +3,6 @@ package com.qiuwanchi.seo.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
-import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
@@ -11,11 +10,9 @@ import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -61,7 +58,9 @@ public class NewsController {
     public String newsIndex(Model model) {
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        return this.news(model, page, null);
+        String returnStr = this.news(model, page, null);
+        this.generatePageHtml(model, page, null);
+        return returnStr;
     }
 
     @GetMapping("/news/page_{current}.html")
@@ -69,14 +68,18 @@ public class NewsController {
         Page page = new Page();
         page.setCurrent(current);
         page.setSize(PAGE_SIZE);
-        return this.news(model, page, null);
+        String returnStr = this.news(model, page, null);
+        this.generatePageHtml(model, page, null);
+        return returnStr;
     }
 
     @GetMapping("/news/{firstCategory}")
     public String newsFirstCategory(Model model, @PathVariable("firstCategory") String firstCategory) {
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        return this.news(model, page, firstCategory);
+        String returnStr = this.news(model, page, firstCategory);
+        this.generatePageHtml(model, page, null);
+        return returnStr;
     }
 
     @GetMapping("/news/{firstCategory}/page_{current}.html")
@@ -84,7 +87,14 @@ public class NewsController {
         Page page = new Page();
         page.setCurrent(current);
         page.setSize(PAGE_SIZE);
-        return this.news(model, page, firstCategory);
+        String returnStr = this.news(model, page, firstCategory);
+        this.generatePageHtml(model, page, null);
+        return returnStr;
+    }
+
+    private void generatePageHtml(Model model, Page page, String firstCategory){
+        String html = NewsGeneratePageUtil.generatePageHtml(page, firstCategory);
+        model.addAttribute("pageHtml", html);
     }
 
     private String news(Model model, Page page, String firstCategory) {
