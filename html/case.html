@@ -179,7 +179,27 @@
           <h2>国务院安委会制定部署安全生产15条措施</h2>
           </a> </li>
       </ul>
-      <div id="paging"></div>
+      
+	  <div id="newPage" class="clearfix">
+<ul class="clearfix">
+  <span>共56条</span>
+  <li class="noclick">上一页</li>
+  <li>首页</li>
+  <li class="page_active">1</li>
+  <li>2</li>
+  <li>3</li>
+  <li>4</li>
+  <li>5</li>
+  <li>6</li>
+  <li>7</li>
+  <li>8</li>
+  <li>9</li>
+  <li>10</li>
+  <li>尾页</li>
+  <li>下一页</li>
+</ul>
+</div>
+	  
     </div>
   </div>
 </div>
@@ -248,21 +268,6 @@
 	      this.className = this == f ? 'active' : 'none'
 	    });
 	  });
-//参考layui官方文档
-layui.use(['laypage', 'layer'], function(){
-  var laypage = layui.laypage
-  ,layer = layui.layer;
-  laypage.render({
-    elem: 'paging'
-    ,count: 100
-    ,first: '首页'
-    ,last: '尾页'
-    ,prev: '<em>上一页</em>'
-    ,next: '<em>下一页</em>'
-    ,theme: '#297ec2'
-  });
-
-});
 
 
 //回到顶部
@@ -285,5 +290,46 @@ $(".case_nav").on("click", function(e){
 
 
 </script>
+
+<style type="text/css">
+	#newPage{
+	  padding-right: 0;
+	  margin-top: 0px;
+	}
+	#newPage ul{ 
+	  float:right
+	}
+	#newPage span{
+		float:left;
+	  display:block;
+	  line-height:28px;
+	  padding-right:6px;
+	  color:#666
+	}
+	#newPage li{
+		float:left;
+		border: 1px solid #d1dbe5;
+		padding: 0 10px;
+		height: 28px;
+		line-height: 28px;
+		background-color: #fff;
+		color: #333;
+		font-size: 14px; 
+	  cursor:pointer;
+	  margin-left:6px
+	  }
+	#newPage .page_active{
+		border:1px solid #297ec2;
+		background-color: #297ec2;
+		color: #fff;
+		cursor: default;}
+	#newPage .noclick{
+		border-color: #eee!important;
+		background-color: #FBFBFB!important;
+		color: #d2d2d2!important;
+		cursor: not-allowed!important;
+		opacity: 1;
+	}
+</style>
 </body>
 </html>
