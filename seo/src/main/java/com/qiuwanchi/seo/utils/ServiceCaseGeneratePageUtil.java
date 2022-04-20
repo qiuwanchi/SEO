@@ -62,11 +62,12 @@ public class ServiceCaseGeneratePageUtil {
 
         if(currentPage != 1 && currentPage > 1){
             stringBuffer.append(getALabelLeft(currentPage - 1, firstCategory, secondCategory));
+        }else{
+            stringBuffer.append("<a href=\"javascript:;\">");
         }
         stringBuffer.append("上一页");
-        if(currentPage != 1 && currentPage > 1){
-            stringBuffer.append(getALabelRight());
-        }
+
+        stringBuffer.append(getALabelRight());
         stringBuffer.append("</li>");
         return stringBuffer.toString();
     }
@@ -88,11 +89,11 @@ public class ServiceCaseGeneratePageUtil {
 
         if(currentPage != totalPages && currentPage < totalPages){
             stringBuffer.append(getALabelLeft(currentPage + 1, firstCategory, secondCategory));
+        }else{
+            stringBuffer.append("<a href=\"javascript:;\">");
         }
         stringBuffer.append("下一页");
-        if(currentPage != totalPages && currentPage < totalPages){
-            stringBuffer.append(getALabelRight());
-        }
+        stringBuffer.append(getALabelRight());
         stringBuffer.append("</li>");
         return stringBuffer.toString();
     }
@@ -114,13 +115,13 @@ public class ServiceCaseGeneratePageUtil {
 
         if(currentPage != 1 && currentPage > 1){
             stringBuffer.append(getALabelLeft(1, firstCategory, secondCategory));
+        }else{
+            stringBuffer.append("<a href=\"javascript:;\">");
         }
         stringBuffer.append("首页");
-        if(currentPage != 1 && currentPage > 1){
-            stringBuffer.append(getALabelRight());
-        }
-        stringBuffer.append("</li>");
+        stringBuffer.append(getALabelRight());
 
+        stringBuffer.append("</li>");
         return stringBuffer.toString();
     }
 
@@ -141,11 +142,11 @@ public class ServiceCaseGeneratePageUtil {
 
         if(currentPage != totalPages && currentPage < totalPages){
             stringBuffer.append(getALabelLeft(totalPages, firstCategory, secondCategory));
+        }else{
+            stringBuffer.append("<a href=\"javascript:;\">");
         }
         stringBuffer.append("尾页");
-        if(currentPage != totalPages && currentPage < totalPages){
-            stringBuffer.append(getALabelRight());
-        }
+        stringBuffer.append(getALabelRight());
         stringBuffer.append("</li>");
 
         return stringBuffer.toString();

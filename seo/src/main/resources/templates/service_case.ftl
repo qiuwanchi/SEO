@@ -103,48 +103,48 @@ $(".case_nav").on("click", function(e){
 </script>
 
 <style type="text/css">
-    #newPage{
-      padding-right: 0;
-      margin-top: 0px;
-    }
-    #newPage ul{
-      float:right
-    }
-    #newPage span{
-        float:left;
-      display:block;
-      line-height:28px;
-      padding-right:6px;
-      color:#666
-    }
-    #newPage li{
-        float:left;
-
-      }
-    #newPage li a{
-        display:block;
-        border: 1px solid #d1dbe5;
-        padding: 0 10px;
-        height: 28px;
-        line-height: 28px;
-        background-color: #fff;
-        color: #333;
-        font-size: 14px;
-      cursor:pointer;
-      margin-left:6px
-    }
-    #newPage .page_active a{
-        border:1px solid #297ec2;
-        background-color: #297ec2;
-        color: #fff;
-        cursor: default;}
-    #newPage .noclick a{
-        border-color: #eee!important;
-        background-color: #FBFBFB!important;
-        color: #d2d2d2!important;
-        cursor: not-allowed!important;
-        opacity: 1;
-    }
+#newPage{
+  padding-right: 0;
+  margin-top: 0px;
+}
+#newPage ul{
+  float:right
+}
+#newPage span{
+    float:left;
+  display:block;
+  line-height:28px;
+  padding-right:6px;
+  color:#666
+}
+#newPage li{
+    float:left;
+    padding:0;
+  }
+#newPage li a{
+    display:block;
+    border: 1px solid #d1dbe5;
+    padding: 0 10px;
+    height: 28px;
+    line-height: 28px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+  cursor:pointer;
+  margin-left:6px
+}
+#newPage .page_active a{
+    border:1px solid #297ec2;
+    background-color: #297ec2;
+    color: #fff;
+    cursor: default;}
+#newPage .noclick a{
+    border-color: #eee!important;
+    background-color: #FBFBFB!important;
+    color: #d2d2d2!important;
+    cursor: not-allowed!important;
+    opacity: 1;
+}
 </style>
 </body>
 </html>
