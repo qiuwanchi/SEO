@@ -13,13 +13,13 @@
     <div class="flexItem"> <img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> /> </div>
     <div class="flexItem clearfix">
       <ul>
-		<li><a href="${baseUrl}/index.html">首页</a></li>
-        <li class="active"><a href="${baseUrl}/aboutUs.html">关于我们</a></li>
-        <li><a href="${baseUrl}/products.html">公司产品</a></li>
-        <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
-		<li><a href="solution.html">解决方案</a></li>
-        <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
-        <li><a href="${baseUrl}/contactUs.html">联系我们</a></li>
+          <li><a href="${baseUrl}/index.html">首页</a></li>
+          <li class="active"><a href="${baseUrl}/aboutUs.html">关于我们</a></li>
+          <li><a href="${baseUrl}/products.html">公司产品</a></li>
+          <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
+          <li><a href="${baseUrl}/solution.html">解决方案</a></li>
+          <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
+          <li><a href="${baseUrl}/contactUs.html">联系我们</a></li>
       </ul>
       <div class="kftel">
         <h2>400-0000-033</h2>
