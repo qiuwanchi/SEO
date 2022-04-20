@@ -45,7 +45,7 @@
 	<li class="this"><a href="javascript:;"><i class="layui-icon layui-icon-chat" ></i>
 		<p>在线咨询</p>
 	</a></li>
-	<li><a href="javascript:;"><img src="${baseUrl}/images/icon1.png" alt="电话资讯">
+	<li><a href="javascript:;"><img src="${baseUrl}/images/icon1.png" alt="电话咨询">
 		<p>电话咨询</p>
 	</a></li>
 	<li><a href="javascript:;"><i class="layui-icon layui-icon-survey" ></i>
