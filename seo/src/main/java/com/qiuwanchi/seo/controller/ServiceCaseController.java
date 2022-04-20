@@ -68,7 +68,9 @@ public class ServiceCaseController {
     public String serviceCase(Model model){
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        return serviceCase(model, page, null, null);
+        String returnStr = serviceCase(model, page, null, null);
+        this.generatePageHtml(model, page, null, null);
+        return returnStr;
     }
 
     /**
@@ -82,7 +84,9 @@ public class ServiceCaseController {
         Page page = new Page();
         page.setSize(PAGE_SIZE);
         page.setCurrent(current);
-        return serviceCase(model, page, null, null);
+        String returnStr = serviceCase(model, page, null, null);
+        this.generatePageHtml(model, page, null, null);
+        return returnStr;
     }
 
     /**
@@ -94,7 +98,9 @@ public class ServiceCaseController {
     public String serviceCaseFirstCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory){
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        return serviceCase(model, page, firstCategory, null);
+        String returnStr = serviceCase(model, page, firstCategory, null);
+        this.generatePageHtml(model, page, firstCategory, null);
+        return returnStr;
     }
 
     /**
@@ -108,14 +114,18 @@ public class ServiceCaseController {
         Page page = new Page();
         page.setSize(PAGE_SIZE);
         page.setCurrent(current);
-        return serviceCase(model, page, firstCategory, null);
+        String returnStr = serviceCase(model, page, firstCategory, null);
+        this.generatePageHtml(model, page, firstCategory, null);
+        return returnStr;
     }
 
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}")
     public String serviceCaseSecondCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory){
         Page page = new Page();
         page.setSize(PAGE_SIZE);
-        return serviceCase(model, page, firstCategory, secondCategory);
+        String returnStr = serviceCase(model, page, firstCategory, secondCategory);
+        this.generatePageHtml(model, page, firstCategory, secondCategory);
+        return returnStr;
     }
 
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/page_{current}.html")
@@ -123,7 +133,9 @@ public class ServiceCaseController {
         Page page = new Page();
         page.setSize(PAGE_SIZE);
         page.setCurrent(current);
-        return serviceCase(model, page, firstCategory, secondCategory);
+        String returnStr = serviceCase(model, page, firstCategory, secondCategory);
+        this.generatePageHtml(model, page, firstCategory, secondCategory);
+        return returnStr;
     }
 
 
@@ -225,6 +237,11 @@ public class ServiceCaseController {
 
         this.bottomManagementCommon.bottom(model);
         return "service_case";
+    }
+
+    private void generatePageHtml(Model model, Page page, String firstCategory, String secondCategory){
+        String html = ServiceCaseGeneratePageUtil.generatePageHtml(page, firstCategory, secondCategory);
+        model.addAttribute("pageHtml", html);
     }
 
     private ModuleDto getFirstCategoryModuleDto(String firstCategory, List<ModuleDto> serviceCaseModuleList){
