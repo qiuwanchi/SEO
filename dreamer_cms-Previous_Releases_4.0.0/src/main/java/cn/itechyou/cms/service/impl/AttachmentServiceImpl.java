@@ -1,18 +1,16 @@
 package cn.itechyou.cms.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import cn.itechyou.cms.common.SearchEntity;
 import cn.itechyou.cms.dao.AttachmentMapper;
 import cn.itechyou.cms.entity.Attachment;
 import cn.itechyou.cms.service.AttachmentService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * 附件管理
