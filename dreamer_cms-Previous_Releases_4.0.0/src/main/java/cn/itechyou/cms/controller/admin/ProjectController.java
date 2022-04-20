@@ -44,8 +44,8 @@ public class ProjectController {
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("module", module);
 
-		// 公司产品/业务范围/公司新闻
-		if("companyProduct-productModule".equals(module.getBelong()) || "BusinessScope".equals(module.getBelong()) || "News".equals(module.getBelong())){
+		// 关于我们-公司介绍/公司产品/业务范围/公司新闻
+		if("CompanyIntroduction".equals(module.getBelong()) || "companyProduct-productModule".equals(module.getBelong()) || "BusinessScope".equals(module.getBelong()) || "News".equals(module.getBelong())){
 			return "firstPage/module/project/list2";
 		}
 

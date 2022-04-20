@@ -29,24 +29,21 @@
   </div>
 </div>
 <div id="about">
-  <div class="bannerx"> <img  src="${companyIntroductionProjectDto.url}" <#if companyIntroductionProjectDto.alt?? && companyIntroductionProjectDto.alt != ""> alt="${companyIntroductionProjectDto.alt}" </#if> /> </div>
+  <div class="bannerx"> <img  src="${aboutUsBannerProjectDto.url}" <#if aboutUsBannerProjectDto.alt?? && aboutUsBannerProjectDto.alt != ""> alt="${aboutUsBannerProjectDto.alt}" </#if> /> </div>
   <div class="container main about">
-    <div class="position">当前位置：<a href="index.html">首页</a>|<span>关于我们</span></div>
+    <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>关于我们</span></div>
     <div class="goods_detail about_detail  clearfix">
       <div class="detail1 about1 clearfix">
-        <div class="about_l"><img src="images/about.jpg"></div>
-        <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
+        <div class="about_l"><img src="${companyIntroductionProjectDto.url}" <#if companyIntroductionProjectDto.alt?? && companyIntroductionProjectDto.alt != ""> alt="${companyIntroductionProjectDto.alt}" </#if>></div>
+        ${companyIntroductionProjectDto.content}
       </div>
       <div class="main_wh about2">
-        <div class="main-title title_hot"><img src="images/title_one.PNG"></div>
+        <div class="main-title title_hot"><img src="images/title_one.PNG" alt="一站式服务"></div>
         <ul class="wh_list clearfix">
 		<#list oneStopServiceProjectDtoList as oneStopServiceProject>
           <li class="layui-col-sm4 layui-col-md2">
             <div class="wh_tnt"> <a href="javascript:;">
-              <div><img src="${oneStopServiceProject.url}">
+              <div><img src="${oneStopServiceProject.url}" <#if oneStopServiceProject.alt?? && oneStopServiceProject.alt != ""> alt="${oneStopServiceProject.alt}" </#if>>
                 <h3>${oneStopServiceProject.name}</h3>
               </div>
               </a> </div>
@@ -55,7 +52,7 @@
         </ul>
       </div>
       <div class="layui-row detail1_3 about3 clearfix">
-        <div class="main-title title_hot"><img src="images/title_yw.PNG"></div>
+        <div class="main-title title_hot"><img src="images/title_yw.PNG" alt="业务范围"></div>
         <div class="layui-tab layui-tab-brief clearfix " lay-filter="docDemoTabBrief">
           <ul class="layui-tab-title layui-col-xs12 layui-col-md2  clearfix">
             <#list businessScopeProjectDtoList as businessScopeProject>
@@ -65,7 +62,7 @@
           <div class="layui-tab-content layui-col-xs12 layui-col-md10">
 		  <#list businessScopeProjectDtoList as businessScopeProject>
             <div class="layui-tab-item <#if businessScopeProject_index ==0>layui-show</#if> clearfix">
-              <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="${businessScopeProject.url}"></div>
+              <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="${businessScopeProject.url}" <#if businessScopeProject.alt?? && businessScopeProject.alt != ""> alt="${businessScopeProject.alt}" </#if> ></div>
               <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
                 ${businessScopeProject.content}
               </div>
@@ -76,7 +73,7 @@
       </div>
       <div class="main_ys about4">
         <div class="container">
-          <div class="main-title title_hot"><img src="images/title_ys.PNG"></div>
+          <div class="main-title title_hot"><img src="images/title_ys.PNG" alt="我们的优势"></div>
           <p class="ys_p">苏州好奇数字科技有限公司自创立以来，坚持科技创新，是一家快速成长、锐意进取的互动多媒体公司。公司专注于更好的视觉效果、人机互动体验开发。为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</p>
           <ul class="clearfix ys_list">
 		  <#list companyAdvantageProjectDtoList as companyAdvantageProject>
@@ -92,14 +89,14 @@
         </div>
       </div>
       <div class="about4">
-        <div class="main-title title_video"><img src="images/title_ry.PNG"></div>
+        <div class="main-title title_video"><img src="images/title_ry.PNG" alt="荣誉资质"></div>
         <div id="container">
           <ul id="content">
 		  <#list honoraryQualificationMap?keys as k>
                 <li>
 				<#list honoraryQualificationMap[k] as honoraryQualificationProject>
-				<a href="javasript:;" target="_blank">
-				<img src="${honoraryQualificationProject.url}" alt="" />
+				<a href="javasript:;" <#if honoraryQualificationProject.clickUrl?? && honoraryQualificationProject.clickUrl != ""> href="${honoraryQualificationProject.clickUrl}"  target="_blank" </#if>>
+				<img src="${honoraryQualificationProject.url}" <#if honoraryQualificationProject.alt?? && honoraryQualificationProject.alt != ""> alt="${honoraryQualificationProject.alt}" </#if> />
 				<h3>${honoraryQualificationProject.name}</h3>
 				</a>
 				</#list>

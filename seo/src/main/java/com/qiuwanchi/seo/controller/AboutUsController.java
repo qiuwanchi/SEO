@@ -44,11 +44,27 @@ public class AboutUsController {
         // logo
         this.logoCommon.logo(model);
 
+        // 2.关于我们-banner图
+        List<ModuleDto> aboutUsBannerModuleList = this.moduleService.getModuleDtoList("AboutUs_Banner");
+        ModuleDto  aboutUsBannerModuleDto = aboutUsBannerModuleList.get(0);
+        List<ProjectDto> aboutUsBannerProjectDtoList = aboutUsBannerModuleDto.getProjectDtoList();
+        ProjectDto aboutUsBannerProjectDto = aboutUsBannerProjectDtoList.get(0);
+        model.addAttribute("aboutUsBannerProjectDto", aboutUsBannerProjectDto);
+
         // 2.公司介绍
         List<ModuleDto> companyIntroductionModuleList = this.moduleService.getModuleDtoList("CompanyIntroduction");
         ModuleDto companyIntroductionModuleDto = companyIntroductionModuleList.get(0);
         List<ProjectDto> companyIntroductionProjectDtoList = companyIntroductionModuleDto.getProjectDtoList();
         ProjectDto companyIntroductionProjectDto = companyIntroductionProjectDtoList.get(0);
+        companyIntroductionProjectDto.setModuleName(companyIntroductionModuleDto.getName());
+        companyIntroductionProjectDto.setModuleCode(companyIntroductionModuleDto.getCode());
+
+        if(StringUtils.isBlank(companyIntroductionProjectDto.getContent())){
+            companyIntroductionProjectDto.setContent(StringUtils.EMPTY);
+        }else{
+            companyIntroductionProjectDto.setContent(Utils.htmlDecode(companyIntroductionProjectDto.getContent()));
+        }
+
         model.addAttribute("companyIntroductionProjectDto", companyIntroductionProjectDto);
 
         // 3.一站式服务

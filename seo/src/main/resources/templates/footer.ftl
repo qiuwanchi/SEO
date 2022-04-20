@@ -32,7 +32,7 @@
 		<h2>关注我们</h2>
 		<ul class="clearfix">
 			<#list scanCodeProjectList as scanCodeProject>
-			<li><img src="${scanCodeProject.url}"><p>${scanCodeProject.name}</p></li>
+			<li><img src="${scanCodeProject.url}" <#if scanCodeProject.alt?? && scanCodeProject.alt != ""> alt="${scanCodeProject.alt}" </#if>><p>${scanCodeProject.name}</p></li>
 		</#list>
 	</ul>
 </div>
@@ -45,13 +45,13 @@
 	<li class="this"><a href="javascript:;"><i class="layui-icon layui-icon-chat" ></i>
 		<p>在线咨询</p>
 	</a></li>
-	<li><a href="javascript:;"><img src="${baseUrl}/images/icon1.png">
+	<li><a href="javascript:;"><img src="${baseUrl}/images/icon1.png" alt="电话资讯">
 		<p>电话咨询</p>
 	</a></li>
 	<li><a href="javascript:;"><i class="layui-icon layui-icon-survey" ></i>
 		<p>在线留言</p>
 	</a></li>
-	<li class="top"><a href="javascript:;"><img src="${baseUrl}/images/icon4.png"></i></a></li>
+	<li class="top"><a href="javascript:;"><img src="${baseUrl}/images/icon4.png" alt="top"></i></a></li>
 </ul>
 </div>
 <script type="text/javascript" src="${baseUrl}/layui/layui.js"></script>
