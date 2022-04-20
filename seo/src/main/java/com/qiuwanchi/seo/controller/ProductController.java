@@ -2,6 +2,7 @@ package com.qiuwanchi.seo.controller;
 
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
+import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -60,21 +62,19 @@ public class ProductController {
         return "goods";
     }
 
-    private List<ModuleDto> getModuleDtoList(String code){
-        List<ModuleDto> moduleList = this.moduleService.getModuleDtoList(code);
-        for (ModuleDto moduleDto : moduleList){
-            if(StringUtils.isNotBlank(moduleDto.getFilePath())){
-                moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
-            }
+    @GetMapping("/products/{firstCategory}/{number}.html")
+    public String productsDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("number") int number){
+        model.addAttribute("baseUrl", serverConfig.getUrl());
 
-            if(StringUtils.isBlank(moduleDto.getTitle())){
-                moduleDto.setTitle(moduleDto.getName());
-            }
-            if(StringUtils.isBlank(moduleDto.getAlt())){
-                moduleDto.setAlt(moduleDto.getName());
-            }
-        }
-        return  moduleList;
+        // logo
+        this.logoCommon.logo(model);
+
+        ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
+
+
+        this.bottomManagementCommon.bottom(model);
+
+        return "goods_detail";
     }
 
 }

@@ -48,7 +48,7 @@
         </div>
         <ul class="case_list clearfix">
           <#list productModule.projectDtoList as project>
-		  <li class="layui-col-xs6 layui-col-sm4 layui-col-md4"> <a href="goods_detail.html">
+		  <li class="layui-col-xs6 layui-col-sm4 layui-col-md4"> <a href="${baseUrl}/products/${productModule.code}/${project.number}.html">
             <div><img src="${project.url}"></div>
             <h2>${project.name}</h2>
             </a> </li>

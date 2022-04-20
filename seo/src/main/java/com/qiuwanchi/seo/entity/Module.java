@@ -28,6 +28,9 @@ public class Module implements Serializable {
     @TableField("name")
     private String name;
 
+    @TableField("describe_msg")
+    private String describeMsg;
+
     @TableField("belong")
     private String belong;
 
@@ -65,6 +68,7 @@ public class Module implements Serializable {
     public static final String NUMBER = "number";
     public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";
+    public static final String DESCRIBE_MSG = "describe_msg";
     public static final String BELONG = "belong";
     public static final String CREATE_BY = "create_by";
     public static final String CREATE_TIME = "create_time";

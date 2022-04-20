@@ -33,6 +33,9 @@ public class Project implements Serializable {
     @TableField("name")
     private String name;
 
+    @TableField("describe_msg")
+    private String describeMsg;
+
     @TableField("sort")
     private Integer sort;
 
@@ -74,6 +77,7 @@ public class Project implements Serializable {
     public static final String MODULE_ID = "module_id";
     public static final String ATTACHMENT_ID = "attachment_id";
     public static final String NAME = "name";
+    public static final String DESCRIBE_MSG = "describe_msg";
     public static final String SORT = "sort";
     public static final String CREATE_BY = "create_by";
     public static final String CREATE_TIME = "create_time";

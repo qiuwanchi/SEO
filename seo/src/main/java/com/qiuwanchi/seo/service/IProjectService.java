@@ -22,4 +22,5 @@ public interface IProjectService extends IService<Project> {
     List<ProjectDto> recommend(String category, String id, List<String> keywordsList);
 
     ProjectDto selectByNumber(int number);
+
 }
