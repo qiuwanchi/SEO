@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ModuleServiceImpl implements IModuleService {
@@ -59,8 +60,20 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public int getCountByCode(String id, String code) {
+
+        Module dbModule = null;
+        if(!StringUtils.isEmpty(id)){
+            Module module = new Module();
+            module.setId(id);
+            dbModule = this.moduleMapper.selectOne(module);
+        }
+
         Module module = new Module();
         module.setCode(code);
+        if(Objects.nonNull(dbModule)){
+            module.setBelong(dbModule.getBelong());
+        }
+
         List<Module> moduleList = this.moduleMapper.select(module);
         if(!StringUtils.isEmpty(id)){
             return (int)moduleList.stream().filter(m -> !m.getId().equals(id)).count();

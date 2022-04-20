@@ -44,7 +44,7 @@
 	  <#list productModuleList as productModule>
       <div id="goods_${productModule_index}" class="goodsx_num clearfix">
         <div class="goods_tit">
-          <h3><i class="layui-icon layui-icon-template-1" ></i>${productModule.name}<strong>Exhibition hall multimedia</strong></h3>
+          <h3><i class="layui-icon layui-icon-template-1" ></i>${productModule.name}<strong><#if productModule.describeMsg?? && productModule.describeMsg != ""> ${productModule.describeMsg} </#if></strong></h3>
         </div>
         <ul class="case_list clearfix">
           <#list productModule.projectDtoList as project>

@@ -7,6 +7,7 @@
             b.id,
             b.number,
             b.name,
+            b.describe_msg AS describeMsg,
             b.attachment_id AS attachmentId,
             b.sort,
             b.title,

@@ -25,6 +25,9 @@ public class Module implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "describe_msg")
+    private String describeMsg;
+
     @Column(name = "belong")
     private String belong;
 

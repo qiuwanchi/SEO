@@ -106,6 +106,7 @@ public class ModuleController {
 			module.setCreateBy(TokenManager.getUserId());
 			module.setUpdateBy(TokenManager.getUserId());
 			module.setCode(param.getCode());
+			module.setDescribeMsg(param.getDescribeMsg());
 			this.moduleService.add(module);
 		}else {
 			module = this.moduleService.getById(param.getId());
@@ -138,6 +139,7 @@ public class ModuleController {
 			module.setName(param.getName());
 			module.setUpdateBy(TokenManager.getUserId());
 			module.setCode(param.getCode());
+			module.setDescribeMsg(param.getDescribeMsg());
 			this.moduleService.update(module);
 		}
 		redirectAttributes.addAttribute("belong", module.getBelong());
