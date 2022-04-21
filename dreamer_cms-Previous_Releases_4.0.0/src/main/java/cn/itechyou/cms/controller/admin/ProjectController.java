@@ -1,14 +1,8 @@
 package cn.itechyou.cms.controller.admin;
 
-import cn.itechyou.cms.entity.Attachment;
-import cn.itechyou.cms.entity.Module;
-import cn.itechyou.cms.entity.Project;
-import cn.itechyou.cms.entity.SeoVideo;
+import cn.itechyou.cms.entity.*;
 import cn.itechyou.cms.security.token.TokenManager;
-import cn.itechyou.cms.service.AttachmentService;
-import cn.itechyou.cms.service.IModuleService;
-import cn.itechyou.cms.service.IProjectService;
-import cn.itechyou.cms.service.ISeoVideoService;
+import cn.itechyou.cms.service.*;
 import cn.itechyou.cms.utils.ServerConfig;
 import cn.itechyou.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +39,9 @@ public class ProjectController {
 	@Autowired
 	private ServerConfig serverConfig;
 
+	@Autowired
+	private IConstantDefinitionService constantDefinitionService;
+
 	/**
 	 * 列表
 	 */
@@ -61,9 +58,12 @@ public class ProjectController {
 		model.addAttribute("isAdd", this.isAdd(module));
 		model.addAttribute("isDelete", this.isDelete(module));
 
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
+
 		// 关于我们-公司介绍/公司产品/业务范围/公司新闻
 		if("CompanyIntroduction".equals(module.getBelong()) || "companyProduct-productModule".equals(module.getBelong()) || "BusinessScope".equals(module.getBelong()) || "News".equals(module.getBelong())){
-			return "firstPage/module/project/list2";
+			return "firstPage/module/project/projectContentList";
 		}
 
 		if("ServiceCase".equals(module.getBelong())){
@@ -93,6 +93,8 @@ public class ProjectController {
 	public String toAdd(Model model, String moduleId, String id) {
 		Module module = this.moduleService.getById(moduleId);
 		model.addAttribute("module", module);
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
 
 		if(!StringUtils.isEmpty(id)){
 			Project project = this.projectService.getById(id);

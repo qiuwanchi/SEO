@@ -29,13 +29,15 @@
 </head>
 
 <body>
+<input type="hidden" value="firstPage/module/project/add.html">
 <div class="row">
 	<div class="col-md-12">
 		<h1 class="panel-heading"></h1>
 		<!--breadcrumbs start -->
 		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
-			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
+			<li><a th:href="@{/firstPage/module(belong=${module.belong})}" th:text="${constantDefinition.name}"><i class="fa fa-home"></i> </a></li>
+			<li><a th:href="@{/firstPage/module/project(moduleId=${module.id})}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
 			<li class="active">添加项目</li>
 		</ul>
 		<!--breadcrumbs end -->
@@ -58,17 +60,17 @@
 			<input name="attachmentid" id="attachmentid" type="hidden"/>
 			<div id="uploader" class="wu-example">
 				<div class="btns">
-					<div id="picker">选择图片或视频...</div>
+					<div id="picker"><span style="color:red">*</span>选择图片...</div>
 				</div>
 			</div>
 			<div class="wu-example">
-				图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
+				图片的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
 			</div>
 			<div class="wu-example">
-				排序号：<input name="sort" id="sort"  />
+				<span style="color:red">*</span>排序号：<input name="sort" id="sort"  />
 			</div>
 			<div class="wu-example">
-				名称：<input name="name" id="name"  />
+				<span style="color:red">*</span>名称：<input name="name" id="name"  />
 			</div>
 			<div class="wu-example">
 				描述：<textarea name="describe" id="describe"  ></textarea>
@@ -123,7 +125,11 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false
+	        resize: false,
+	        accept: {
+				extensions: 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/*'
+	        }
 	    });
     	uploader.on('fileQueued', function(file) {
 
@@ -244,18 +250,7 @@
 		if(isEmpty(filepath)){
 			$("body").MessageBox({
 				type: 'error',
-				message: '请选择图片或视频！',
-				timeout:5000,
-				callbak:null
-			});
-			return;
-		}
-
-		var name = $("#name").val();
-		if(isEmpty(name)){
-			$("body").MessageBox({
-				type: 'error',
-				message: '请填写名称！',
+				message: '请选择图片！',
 				timeout:5000,
 				callbak:null
 			});
@@ -278,6 +273,17 @@
 			$("body").MessageBox({
 				type: 'error',
 				message: '排序必须为数字，并且必须大于0！',
+				timeout:5000,
+				callbak:null
+			});
+			return;
+		}
+
+		var name = $("#name").val();
+		if(isEmpty(name)){
+			$("body").MessageBox({
+				type: 'error',
+				message: '请填写名称！',
 				timeout:5000,
 				callbak:null
 			});
