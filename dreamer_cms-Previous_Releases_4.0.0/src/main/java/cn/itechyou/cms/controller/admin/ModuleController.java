@@ -62,10 +62,29 @@ public class ModuleController {
 		model.addAttribute("moduleList", moduleList);
 		model.addAttribute("belong", belong);
 
+		model.addAttribute("isAdd", this.isAdd(belong));
+		model.addAttribute("isDelete", this.isDelete(belong));
+
 		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(belong);
 		model.addAttribute("constantDefinition", constantDefinition);
 
 		return "firstPage/module/moduleList";
+	}
+
+	private boolean isAdd(String belong){
+		if("ContactUs".equalsIgnoreCase(belong)){
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean isDelete(String belong){
+		if("ContactUs".equalsIgnoreCase(belong)){
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

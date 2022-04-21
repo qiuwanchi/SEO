@@ -32,7 +32,7 @@
 <section class="panel">
 	<div class="panel-body">
          <!-- <span class="pull-right badge badge-info">32</span> -->
-         <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:onclick="javascript: openUploadDialog()">
+         <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:if="${isAdd}" th:onclick="javascript: openUploadDialog()">
              <i class="fa fa-plus"></i>添加类目
          </button>
     </div>
@@ -58,8 +58,8 @@
 
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${module.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑类目</a>
-					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${module.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
+					<span th:if="${isDelete}">&nbsp;|&nbsp;</span>
+					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:if="${isDelete}" th:aid="${module.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 
 					<span th:if="${module.attachmentId != null && module.attachmentId !=''}">&nbsp;|&nbsp;</span>
 					<a th:if="${module.attachmentId != null && module.attachmentId !=''}" th:href="@{/admin/attachment/download(id=${module.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载图片预览</a>
