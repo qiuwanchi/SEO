@@ -69,7 +69,7 @@
 			</#list>
             
           </ul>
-          <div class="more"><a href="${baseUrl}/products/${productModule.code}/">查看更多 》</a></div>
+          <div class="more"><a href="${baseUrl}/products.html#goods_${productModule_index}">查看更多 》</a></div>
         </div>
         </#list>
       </div>
