@@ -17,24 +17,24 @@
 </head>
 
 <body>
+<input type="hidden" value="serviceCase/serviceCaseList.html">
 <div class="row">
-    <div class="col-md-12">
-    	<h1 class="panel-heading"></h1>
-        <!--breadcrumbs start -->
-        <ul class="breadcrumb">
+	<div class="col-md-12">
+		<h1 class="panel-heading"></h1>
+		<!--breadcrumbs start -->
+		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
-			<li><a th:href="@{/firstPage/module(belong=)}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
-			<li><a th:href="@{/firstPage/module(belong=)}" th:text="${project.name}"><i class="fa fa-home"></i> </a></li>
-			<li class="active">项目列表</li>
+			<li><a th:href="@{/firstPage/module(belong=${module.belong})}" th:text="${constantDefinition.name}"><i class="fa fa-home"></i> </a></li>
+			<li class="active"  th:text="${module.name}"></li>
 		</ul>
-        <!--breadcrumbs end -->
-    </div>
+		<!--breadcrumbs end -->
+	</div>
 </div>
 <section class="panel">
 	<div class="panel-body">
          <!-- <span class="pull-right badge badge-info">32</span> -->
-         <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:onclick="toAdd();">
-             <i class="fa fa-plus"></i>添加项目
+         <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:onclick="javascript: openUploadDialog()">
+             <i class="fa fa-plus"></i>添加子类目
          </button>
     </div>
 
@@ -49,21 +49,22 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="subProject : ${subProjectList}">
-				<td th:text="${subProjectStat.index+1}"></td>
-				<td th:text="${subProject.name}"></td>
-				<td th:text="${subProject.sort}"></td>
+			<tr th:each="project : ${projectList}">
+				<td th:text="${projectStat.index+1}"></td>
+				<td th:text="${project.name}"></td>
+				<td th:text="${project.sort}"></td>
 				<td>
-					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${subProject.id}" th:onclick="javascript: toEdit(this.getAttribute('aid'))">编辑</a>
+					<a th:href="@{/subProject(projectId=${project.id})}" class="btn btn-xs btn-success" >查看项目列表</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a th:href="@{/admin/attachment/download(id=${subProject.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑子类目</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" th:aid="${subProject.attachment.id}" class="btn btn-xs btn-success copyDownloadUrlBtn" th:onclick="javascript:copyDownloadUrl(this.getAttribute('aid'))">复制下载链接</a>
-					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${subProject.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
+					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${project.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
+
+					<span th:if="${project.attachmentId != null && project.attachmentId !=''}">&nbsp;|&nbsp;</span>
+					<a th:if="${project.attachmentId != null && project.attachmentId !=''}" th:href="@{/admin/attachment/download(id=${project.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
 				</td>
 			</tr>
-			<tr th:if="${#lists.isEmpty(subProjectList)}">
+			<tr th:if="${#lists.isEmpty(projectList)}">
 				<td colspan="7" align="center">无数据</td>
 			</tr>
 			</tbody>
@@ -76,17 +77,54 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title" id="aaa">添加</h4>
+                <h4 class="modal-title" id="aaa">添加子类目</h4>
             </div>
-			<div class="modal-body">
-				<div class="alert alert-block alert-danger">
+				<div class="modal-body"><div class="alert alert-block alert-danger">
 					<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
 				</div>
-				<form class="col s12" id="form1" th:action="@{/subProject/toAdd}" method="post">
-					<input name="projectId" id="projectId" type="hidden" th:value="${project.id}"/>
+            	<form class="col s12" id="form1" th:action="@{/firstPage/module/project/save}" method="post">
+					<input name="attachment.filename" id="filename" type="hidden" />
+					<input name="attachment.filepath" id="filepath" type="hidden" />
+					<input name="attachment.filetype" id="filetype" type="hidden" />
+					<input name="attachment.filesize" id="filesize" type="hidden" />
+					<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
+					<input name="attachmentid" id="attachmentid" type="hidden"/>
+
+					<input name="belong" id="belong" type="hidden" th:value="${module.belong}"/>
 					<input name="id" id="id" type="hidden"/>
+
+					<div id="uploader" class="wu-example">
+						<div class="btns">
+							banner: <div id="picker">选择图片或视频...</div> <button type="button" class="btn btn-primary btn-addon btn-sm" onclick="clearPicture();">清除图片或视频</button>
+						</div>
+					</div>
+					<div class="wu-example">
+						图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
+					</div>
+					<div class="wu-example">
+						排序号：<input name="sort" id="sort" />
+					</div>
+					<div class="wu-example">
+						名称：<input name="name" id="name" />
+					</div>
+					<div class="wu-example">
+						title：<input name="title" id="title" />
+					</div>
+					<div class="wu-example">
+						keywords(请用英文逗号分开各个关键字)：<input name="keywords" id="keywords" />
+					</div>
+					<div class="wu-example">
+						description：<input name="description" id="description" />
+					</div>
+					<div class="wu-example">
+						alt：<input name="alt" id="alt" />
+					</div>
+					<div class="wu-example">
+						类目编码：<input name="code" id="code" />
+					</div>
+
 				</form>
-			</div>
+            </div>
             <div class="modal-footer">
             	<button type="button" class="btn btn-primary btn-addon btn-sm" onclick="save();">确定</button>
             </div>
@@ -187,15 +225,10 @@
 		});
 	}
 	
-	function toAdd(){
-		$("#form1").submit();
+	function openUploadDialog(){
+			$("#aaa").html("添加子类目");
+		$("#upload-dialog").modal();
 	}
-
-	function toEdit(id){
-		$("#id").val(id);
-		$("#form1").submit();
-	}
-
 
 	function openUploadDialogForUpdate(id){
 		$.ajax({
@@ -214,39 +247,16 @@
 					$("#attachmentid").val(project.attachment.id);
 				}
 
-				if(!isEmpty(project.name)){
-					$("#name").val(project.name);
-				}
+				$("#name").val(project.name);
+				$("#sort").val(project.sort);
+				$("#title").val(project.title);
+				$("#keywords").val(project.keywords);
+				$("#description").val(project.description);
+				$("#alt").val(project.alt);
+				$("#clickUrl").val(project.clickUrl);
+				$("#code").val(project.code);
 
-				if(!isEmpty(project.describe)){
-					$("#describe").val(project.describe);
-				}
-
-				if(!isEmpty(project.sort)){
-					$("#sort").val(project.sort);
-				}
-
-				if(!isEmpty(project.title)){
-					$("#title").val(project.title);
-				}
-
-				if(!isEmpty(project.keywords)){
-					$("#keywords").val(project.keywords);
-				}
-
-				if(!isEmpty(project.description)){
-					$("#description").val(project.description);
-				}
-
-				if(!isEmpty(project.alt)){
-					$("#alt").val(project.alt);
-				}
-
-				if(!isEmpty(project.clickUrl)){
-					$("#clickUrl").val(project.clickUrl);
-				}
-
-				$("#aaa").html("编辑");
+				$("#aaa").html("编辑子类目");
 			}
 		});
 
@@ -260,18 +270,22 @@
 		return false;
     }
 
-	function save(){
-		var filepath = $("#filepath").val();
-		if(isEmpty(filepath)){
-			$("body").MessageBox({
-				type: 'error',
-				message: '请选择图片或视频！',
+	function clearPicture(){
+		$("#filename").val('');
+		$("#filepath").val('');
+		$("#filesize").val('');
+		$("#filetype").val('');
+		$("#attachmentid").val('');
+
+		$("body").MessageBox({
+				type: 'success',
+				message: '已清除！',
 				timeout:5000,
 				callbak:null
 			});
-			return;
-		}
-
+	}
+	
+	function save(){
 		var name = $("#name").val();
 		if(isEmpty(name)){
 			$("body").MessageBox({
@@ -282,7 +296,40 @@
 			});
 			return;
 		}
-		$("#form1").submit();
+
+		var code = $("#code").val();
+
+		if(!isEmpty(code)){
+			var id = $("#id").val();
+			var moduleId = $("#moduleId").val();
+
+			$.ajax({
+				type: 'get',
+				url: "/firstPage/module/project/checkCode?code=" + code + "&id=" + id + "&moduleId=" + moduleId,
+				contentType: 'application/json',
+				async: false,
+				success: function(flag) {
+
+					if(flag){
+
+						$("body").MessageBox({
+							type: 'error',
+							message: '类目编码有重复！',
+							timeout:5000,
+							callbak:null
+						});
+
+					}else{
+						$("#form1").submit();
+					}
+
+				}
+			});
+
+
+		}else{
+			$("#form1").submit();
+		}
 	}
 	
 	function confrimRemove(id){

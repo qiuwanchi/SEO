@@ -58,7 +58,10 @@ public class SubProjectController {
 		Module module = this.moduleService.getById(project.getModuleId());
 		model.addAttribute("module", module);
 
-		return "serviceCase/subProject/list";
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
+
+		return "serviceCase/subProject/subProjectList";
 	}
 
 	@PostMapping("/toAdd")
@@ -68,6 +71,9 @@ public class SubProjectController {
 
 		Module module = this.moduleService.getById(project.getModuleId());
 		model.addAttribute("module", module);
+
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
 
 		if(!StringUtils.isEmpty(id)){
 			SubProject subProject = this.subProjectService.getById(id);

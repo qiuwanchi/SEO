@@ -68,7 +68,7 @@ public class ProjectController {
 		}
 
 		if("ServiceCase".equals(module.getBelong())){
-			return "serviceCase/list";
+			return "serviceCase/serviceCaseList";
 		}
 
 		return "firstPage/module/project/projectList";

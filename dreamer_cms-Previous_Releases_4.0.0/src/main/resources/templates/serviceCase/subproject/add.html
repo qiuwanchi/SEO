@@ -29,14 +29,16 @@
 </head>
 
 <body>
+<input type="hidden" value="serviceCase/subProject/add.html">
 <div class="row">
 	<div class="col-md-12">
 		<h1 class="panel-heading"></h1>
 		<!--breadcrumbs start -->
 		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
-			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
-			<li><a th:href="@{/firstPage/module(belong=1)}" th:text="${project.name}"><i class="fa fa-home"></i> </a></li>
+			<li><a th:href="@{/firstPage/module(belong=${module.belong})}" th:text="${constantDefinition.name}"><i class="fa fa-home"></i> </a></li>
+			<li><a th:href="@{/firstPage/module/project(moduleId=${module.id})}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
+			<li><a th:href="@{/subProject(projectId=${project.id})}" th:text="${project.name}"><i class="fa fa-home"></i> </a></li>
 			<li class="active">添加项目</li>
 		</ul>
 		<!--breadcrumbs end -->
