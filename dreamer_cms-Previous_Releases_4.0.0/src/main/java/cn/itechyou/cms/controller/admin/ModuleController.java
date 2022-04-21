@@ -65,8 +65,7 @@ public class ModuleController {
 		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(belong);
 		model.addAttribute("constantDefinition", constantDefinition);
 
-
-		return "firstPage/module/list";
+		return "firstPage/module/moduleList";
 	}
 
 	/**

@@ -58,6 +58,9 @@ public class ProjectController {
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("module", module);
 
+		model.addAttribute("isAdd", this.isAdd(module));
+		model.addAttribute("isDelete", this.isDelete(module));
+
 		// 关于我们-公司介绍/公司产品/业务范围/公司新闻
 		if("CompanyIntroduction".equals(module.getBelong()) || "companyProduct-productModule".equals(module.getBelong()) || "BusinessScope".equals(module.getBelong()) || "News".equals(module.getBelong())){
 			return "firstPage/module/project/list2";
@@ -67,7 +70,23 @@ public class ProjectController {
 			return "serviceCase/list";
 		}
 
-		return "firstPage/module/project/list";
+		return "firstPage/module/project/projectList";
+	}
+
+	private boolean isAdd(Module module){
+		if("LOGO".equalsIgnoreCase(module.getBelong())){
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean isDelete(Module module){
+		if("LOGO".equalsIgnoreCase(module.getBelong())){
+			return false;
+		}
+
+		return true;
 	}
 
 	@PostMapping("/toAdd")

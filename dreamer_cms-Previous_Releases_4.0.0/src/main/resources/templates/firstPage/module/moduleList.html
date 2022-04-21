@@ -17,9 +17,10 @@
 </head>
 
 <body>
+<input type="hidden" value="firstPage/module/moduleList.html">
 <div class="row">
     <div class="col-md-12">
-    	<h1 class="panel-heading" th:text="${constantDefinition.name}"></h1>
+    	<h1 class="panel-heading"></h1>
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
@@ -61,7 +62,7 @@
 					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${module.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 
 					<span th:if="${module.attachmentId != null && module.attachmentId !=''}">&nbsp;|&nbsp;</span>
-					<a th:if="${module.attachmentId != null && module.attachmentId !=''}" th:href="@{/admin/attachment/download(id=${module.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
+					<a th:if="${module.attachmentId != null && module.attachmentId !=''}" th:href="@{/admin/attachment/download(id=${module.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载图片预览</a>
 				</td>
 			</tr>
 			<tr th:if="${#lists.isEmpty(moduleList)}">
@@ -95,17 +96,17 @@
 
 					<div id="uploader" class="wu-example">
 						<div class="btns">
-							banner: <div id="picker">选择图片或视频...</div> <button type="button" class="btn btn-primary btn-addon btn-sm" onclick="clearPicture();">清除图片或视频</button>
+							banner: <div id="picker">选择图片</div> <button type="button" class="btn btn-primary btn-addon btn-sm" onclick="clearPicture();">清除图片或视频</button>
 						</div>
 					</div>
 					<div class="wu-example">
-						图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
+						图片的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
 					</div>
 					<div class="wu-example">
-						排序号：<input name="sort" id="sort" />
+						<span style="color:red">*</span>排序号：<input name="sort" id="sort" />
 					</div>
 					<div class="wu-example">
-						名称：<input name="name" id="name" />
+						<span style="color:red">*</span>名称：<input name="name" id="name" />
 					</div>
 					<div class="wu-example">
 						描述：<input name="describeMsg" id="describeMsg" />
@@ -123,7 +124,7 @@
 						alt：<input name="alt" id="alt" />
 					</div>
 					<div class="wu-example">
-						类目编码：<input name="code" id="code" />
+						<span style="color:red">*</span>类目编码：<input name="code" id="code" />
 					</div>
 
 				</form>
@@ -177,7 +178,11 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false
+	        resize: false,
+	        accept: {
+				extensions: 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/*'
+	        }
 	    });
     	uploader.on('fileQueued', function(file) {
     		
@@ -290,6 +295,29 @@
 	}
 
 	function save(){
+
+		var sort = $("#sort").val();
+		if(isEmpty(sort)){
+			$("body").MessageBox({
+				type: 'error',
+				message: '请填排序号！',
+				timeout:5000,
+				callbak:null
+			});
+			return;
+		}
+
+		var posPattern = /^\d+$/;
+		if(!posPattern.test(sort)){
+			$("body").MessageBox({
+				type: 'error',
+				message: '排序必须为数字，并且必须大于0！',
+				timeout:5000,
+				callbak:null
+			});
+			return;
+		}
+
 		var name = $("#name").val();
 		if(isEmpty(name)){
 			$("body").MessageBox({
@@ -301,40 +329,40 @@
 			return;
 		}
 
-
 		var code = $("#code").val();
-
-		if(!isEmpty(code)){
-			var id = $("#id").val();
-
-			$.ajax({
-				type: 'get',
-				url: "/firstPage/module/checkCode?code=" + code + "&id=" + id,
-				contentType: 'application/json',
-				async: false,
-				success: function(flag) {
-
-					if(flag){
-
-						$("body").MessageBox({
-							type: 'error',
-							message: '类目编码有重复！',
-							timeout:5000,
-							callbak:null
-						});
-
-					}else{
-						$("#form1").submit();
-					}
-
-				}
+		if(isEmpty(code)){
+			$("body").MessageBox({
+				type: 'error',
+				message: '请填类目编码！',
+				timeout:5000,
+				callbak:null
 			});
-
-
-		}else{
-			$("#form1").submit();
+			return;
 		}
 
+		var id = $("#id").val();
+		$.ajax({
+			type: 'get',
+			url: "/firstPage/module/checkCode?code=" + code + "&id=" + id,
+			contentType: 'application/json',
+			async: false,
+			success: function(flag) {
+
+				if(flag){
+
+					$("body").MessageBox({
+						type: 'error',
+						message: '类目编码有重复！',
+						timeout:5000,
+						callbak:null
+					});
+
+				}else{
+					$("#form1").submit();
+				}
+
+			}
+		});
 
 	}
 	
