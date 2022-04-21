@@ -61,7 +61,7 @@
           <ul class=" clearfix pic_list">
 			
 			<#list productModule.projectDtoList as project>
-            <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
+            <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/products/${productModule.code}/${project.number}.html" target="_blank">
               <div class="main_img"><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
               <h1>${project.name}</h1>
               </a>
@@ -69,7 +69,7 @@
 			</#list>
             
           </ul>
-          <div class="more"><a href="#">查看更多 》</a></div>
+          <div class="more"><a href="${baseUrl}/products/${productModule.code}/">查看更多 》</a></div>
         </div>
         </#list>
       </div>
@@ -222,23 +222,18 @@
                 <div class="rl"><span>${project.day}</span>
                   <p>${project.years}</p>
                 </div>
-                <div class="text"> 
-				<#if project.clickUrl?? && project.clickUrl != "">
-					<a href="${project.clickUrl}" target="_blank">
-			    </#if>   
+                <div class="text">
+                  <a href="${baseUrl}/news/${newsModule.code}/${project.number}.html" target="_blank">
                   <h3>${project.name}</h3>
                   <h4>${project.describeMsg}</h4>
-				<#if project.clickUrl?? && project.clickUrl != "">
-					</a>
-				</#if> 
-				  
+				  </a>
 				  </div>
               </div>
 			</#list>
 			
             </div>
             <div class="clearfix"></div>
-            <div class="more"><a href="javascript:;">查看更多 》</a></div>
+            <div class="more"><a href="${baseUrl}/news/${newsModule.code}/" target="_blank">查看更多 》</a></div>
           </div>
 		</#list>
 		  

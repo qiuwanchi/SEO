@@ -51,6 +51,9 @@ public class SolutionController {
      */
     @GetMapping("/solution.html")
     public String serviceCase(Model model){
+        model.addAttribute("baseUrl", serverConfig.getUrl());
+        // 1.logo
+        this.logoCommon.logo(model);
 
         return "solution";
     }

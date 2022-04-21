@@ -62,4 +62,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 	public Attachment queryAttachmentByCode(String key) {
 		return attachmentMapper.selectByCode(key);
 	}
+
+	@Override
+	public Attachment getByFileId(String fileId) {
+		Attachment attachment = new Attachment();
+		attachment.setFileId(fileId);
+		return this.attachmentMapper.selectOne(attachment);
+	}
 }

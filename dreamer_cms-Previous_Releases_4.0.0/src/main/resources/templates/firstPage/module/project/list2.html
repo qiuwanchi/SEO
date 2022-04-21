@@ -57,7 +57,7 @@
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览图片</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a th:href="@{/firstPage/module/project/videoList(id=${project.id})}" target="_blank" class="btn btn-xs btn-success">查看视频</a>
+					<a th:href="@{/firstPage/module/project/videoList(belongId=${project.id})}" target="_blank" class="btn btn-xs btn-success">查看视频</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" th:aid="${project.attachment.id}" class="btn btn-xs btn-success copyDownloadUrlBtn" th:onclick="javascript:copyDownloadUrl(this.getAttribute('aid'))">复制下载链接</a>
 					<span>&nbsp;|&nbsp;</span>

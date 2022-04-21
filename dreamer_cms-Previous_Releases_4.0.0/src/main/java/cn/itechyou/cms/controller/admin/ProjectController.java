@@ -19,6 +19,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -186,17 +190,15 @@ public class ProjectController {
 	 * @return
 	 */
 	@GetMapping("/videoList")
-	public String videoList(Model model, @RequestParam("id") String belongId) {
+	public String videoList(Model model, @RequestParam("belongId") String belongId) {
 		List<SeoVideo> seoVideoList = this.seoVideoService.selectByBelongId(belongId);
+		int i = 0;
 		for (SeoVideo seoVideo : seoVideoList){
 			seoVideo.setAttachment(this.attachmentService.queryAttachmentById(seoVideo.getAttachmentId()));
+			seoVideo.setSort(i++);
 		}
 		model.addAttribute("baseUrl", serverConfig.getUrl());
 		model.addAttribute("seoVideoList", seoVideoList);
-		if(!CollectionUtils.isEmpty(seoVideoList)){
-			model.addAttribute("id", seoVideoList.get(0).getAttachmentId());
-		}
-
 		model.addAttribute("belongId", belongId);
 
 		return "firstPage/videoList";
@@ -231,10 +233,9 @@ public class ProjectController {
 
 		this.seoVideoService.save(seoVideo);
 
-		redirectAttributes.addAttribute("id", seoVideo.getBelongId());
+		redirectAttributes.addAttribute("belongId", seoVideo.getBelongId());
 
 		return "redirect:/firstPage/module/project/videoList";
 	}
-
 
 }

@@ -24,6 +24,9 @@ public class SeoVideo implements Serializable {
     @Column(name = "belong_id")
     private String belongId;
 
+    @Column(name = "sort")
+    private int sort;
+
     @Column(name = "create_by")
     private String createBy;
 
