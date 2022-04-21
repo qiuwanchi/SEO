@@ -1,12 +1,15 @@
 package com.qiuwanchi.seo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
+import com.qiuwanchi.seo.dto.SeoVideoDto;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
+import com.qiuwanchi.seo.service.ISeoVideoService;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +51,9 @@ public class NewsController {
 
     @Autowired
     private LogoCommon logoCommon;
+
+    @Autowired
+    private ISeoVideoService seoVideoService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
@@ -186,6 +192,15 @@ public class NewsController {
         list.add(currentProjectDto);
         this.intProjectSeoValue(list);
         model.addAttribute("newsProject", currentProjectDto);
+
+        List<SeoVideoDto> seoVideoDtoList = this.seoVideoService.getVideoListByBelongId(currentProjectDto.getId());
+        List<String> seoVideoUrlArray = new ArrayList<>();
+        for (SeoVideoDto seoVideoDto : seoVideoDtoList){
+            seoVideoDto.setUrl(UrlAssemblyUtils.getVideoUrl(seoVideoDto.getFilePath()));
+            seoVideoUrlArray.add(seoVideoDto.getUrl());
+        }
+        model.addAttribute("seoVideoDtoList", seoVideoDtoList);
+        model.addAttribute("seoVideoUrlArray", JSON.toJSONString(seoVideoUrlArray));
 
         List<String> keywordsList = new ArrayList<>();
         if(StringUtils.isNotBlank(currentProjectDto.getKeywords())){
