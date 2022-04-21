@@ -60,6 +60,10 @@ public class ProjectController {
 
 		// 关于我们-公司介绍/公司产品/业务范围/公司新闻
 		if("CompanyIntroduction".equals(module.getBelong()) || "companyProduct-productModule".equals(module.getBelong()) || "BusinessScope".equals(module.getBelong()) || "News".equals(module.getBelong())){
+
+			boolean isFirstCategory = this.idFirstCategory(module.getBelong());
+			model.addAttribute("isFirstCategory", isFirstCategory);
+
 			return "firstPage/module/project/projectContentList";
 		}
 
@@ -68,6 +72,10 @@ public class ProjectController {
 		}
 
 		return "firstPage/module/project/projectList";
+	}
+
+	private boolean idFirstCategory(String belong) {
+		return "CompanyIntroduction".equalsIgnoreCase(belong) || "BusinessScope".equalsIgnoreCase(belong);
 	}
 
 	private boolean isAdd(Module module){
@@ -92,6 +100,8 @@ public class ProjectController {
 		model.addAttribute("module", module);
 		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
 		model.addAttribute("constantDefinition", constantDefinition);
+		boolean isFirstCategory = this.idFirstCategory(module.getBelong());
+		model.addAttribute("isFirstCategory", isFirstCategory);
 
 		if(!StringUtils.isEmpty(id)){
 			Project project = this.projectService.getById(id);

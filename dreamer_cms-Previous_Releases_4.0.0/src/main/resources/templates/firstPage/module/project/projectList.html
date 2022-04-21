@@ -59,8 +59,6 @@
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览图片</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" th:aid="${project.attachment.id}" class="btn btn-xs btn-success copyDownloadUrlBtn" th:onclick="javascript:copyDownloadUrl(this.getAttribute('aid'))">复制图片下载链接</a>
-					<span th:if="${isDelete}">&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:if="${isDelete}"  th:aid="${project.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 				</td>
 			</tr>
