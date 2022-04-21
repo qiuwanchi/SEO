@@ -34,9 +34,6 @@ public class ProjectController {
 	private IProjectService projectService;
 
 	@Autowired
-	private ISeoVideoService seoVideoService;
-
-	@Autowired
 	private ServerConfig serverConfig;
 
 	@Autowired
@@ -202,61 +199,6 @@ public class ProjectController {
 
 		int count = this.projectService.getCountByCode(moduleId, id, code);
 		return count > 0;
-	}
-
-	/**
-	 * 视频列表
-	 * @param model
-	 * @param belongId
-	 * @return
-	 */
-	@GetMapping("/videoList")
-	public String videoList(Model model, @RequestParam("belongId") String belongId) {
-		List<SeoVideo> seoVideoList = this.seoVideoService.selectByBelongId(belongId);
-		int i = 0;
-		for (SeoVideo seoVideo : seoVideoList){
-			seoVideo.setAttachment(this.attachmentService.queryAttachmentById(seoVideo.getAttachmentId()));
-			seoVideo.setSort(i++);
-		}
-		model.addAttribute("baseUrl", serverConfig.getUrl());
-		model.addAttribute("seoVideoList", seoVideoList);
-		model.addAttribute("belongId", belongId);
-
-		return "firstPage/videoList";
-	}
-
-	/**
-	 * 保存视频
-	 * @param model
-	 * @param param
-	 * @param redirectAttributes
-	 * @return
-	 */
-	@PostMapping("/videoSave")
-	public String videoSave(Model model, SeoVideo param, RedirectAttributes redirectAttributes) {
-		Attachment attachment = param.getAttachment();
-		attachment.setId(UUIDUtils.getPrimaryKey());
-		attachment.setCode(UUIDUtils.getCharAndNumr(8));
-		attachment.setCreateBy(TokenManager.getUserId());
-		attachment.setCreateTime(new Date());
-		attachment.setUpdateBy(TokenManager.getUserId());
-		attachment.setUpdateTime(new Date());
-		this.attachmentService.save(attachment);
-
-		SeoVideo seoVideo = new SeoVideo();
-		seoVideo.setBelongId(param.getBelongId());
-		seoVideo.setId(UUIDUtils.getPrimaryKey());
-		seoVideo.setCreateBy(TokenManager.getUserId());
-		seoVideo.setCreateTime(new Date());
-		seoVideo.setUpdateBy(TokenManager.getUserId());
-		seoVideo.setUpdateTime(new Date());
-		seoVideo.setAttachmentId(attachment.getId());
-
-		this.seoVideoService.save(seoVideo);
-
-		redirectAttributes.addAttribute("belongId", seoVideo.getBelongId());
-
-		return "redirect:/firstPage/module/project/videoList";
 	}
 
 }

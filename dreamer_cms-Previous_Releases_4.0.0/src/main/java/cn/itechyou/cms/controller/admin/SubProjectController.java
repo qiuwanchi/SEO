@@ -1,14 +1,9 @@
 package cn.itechyou.cms.controller.admin;
 
-import cn.itechyou.cms.entity.Attachment;
-import cn.itechyou.cms.entity.Module;
-import cn.itechyou.cms.entity.Project;
-import cn.itechyou.cms.entity.SubProject;
+import cn.itechyou.cms.entity.*;
 import cn.itechyou.cms.security.token.TokenManager;
-import cn.itechyou.cms.service.AttachmentService;
-import cn.itechyou.cms.service.IModuleService;
-import cn.itechyou.cms.service.IProjectService;
-import cn.itechyou.cms.service.ISubProjectService;
+import cn.itechyou.cms.service.*;
+import cn.itechyou.cms.utils.ServerConfig;
 import cn.itechyou.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +30,15 @@ public class SubProjectController {
 
 	@Autowired
 	private IModuleService moduleService;
+
+	@Autowired
+	private ISeoVideoService seoVideoService;
+
+	@Autowired
+	private ServerConfig serverConfig;
+
+	@Autowired
+	private IConstantDefinitionService constantDefinitionService;
 
 	/**
 	 * 列表
@@ -160,5 +164,80 @@ public class SubProjectController {
 			subProject.setAttachment(attachment);
 		}
 		return subProject;
+	}
+
+	/**
+	 * 视频列表
+	 * @param model
+	 * @param belongId
+	 * @return
+	 */
+	@GetMapping("/videoList")
+	public String videoList(Model model, @RequestParam("fromType") String fromType, @RequestParam("belongId") String belongId) {
+		model.addAttribute("fromType", fromType);
+		ConstantDefinition constantDefinition = null;
+		Module module = null;
+		Project project = null;
+		if("project".equalsIgnoreCase(fromType)){
+			project = this.projectService.getById(belongId);
+			module = this.moduleService.getById(project.getModuleId());
+			constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		}else {
+			SubProject subProject = this.subProjectService.getById(belongId);
+			project = this.projectService.getById(subProject.getProjectId());
+			module = this.moduleService.getById(project.getModuleId());
+			constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+			model.addAttribute("subProject", subProject);
+		}
+		model.addAttribute("constantDefinition", constantDefinition);
+		model.addAttribute("module", module);
+		model.addAttribute("project", project);
+
+		List<SeoVideo> seoVideoList = this.seoVideoService.selectByBelongId(belongId);
+		int i = 0;
+		for (SeoVideo seoVideo : seoVideoList){
+			seoVideo.setAttachment(this.attachmentService.queryAttachmentById(seoVideo.getAttachmentId()));
+			seoVideo.setSort(i++);
+		}
+		model.addAttribute("baseUrl", serverConfig.getUrl());
+		model.addAttribute("seoVideoList", seoVideoList);
+		model.addAttribute("belongId", belongId);
+
+		return "firstPage/videoList";
+	}
+
+	/**
+	 * 保存视频
+	 * @param model
+	 * @param param
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@PostMapping("/videoSave")
+	public String videoSave(Model model, @RequestParam("fromType") String fromType, SeoVideo param, RedirectAttributes redirectAttributes) {
+		Attachment attachment = param.getAttachment();
+		attachment.setId(UUIDUtils.getPrimaryKey());
+		attachment.setCode(UUIDUtils.getCharAndNumr(8));
+		attachment.setCreateBy(TokenManager.getUserId());
+		attachment.setCreateTime(new Date());
+		attachment.setUpdateBy(TokenManager.getUserId());
+		attachment.setUpdateTime(new Date());
+		this.attachmentService.save(attachment);
+
+		SeoVideo seoVideo = new SeoVideo();
+		seoVideo.setBelongId(param.getBelongId());
+		seoVideo.setId(UUIDUtils.getPrimaryKey());
+		seoVideo.setCreateBy(TokenManager.getUserId());
+		seoVideo.setCreateTime(new Date());
+		seoVideo.setUpdateBy(TokenManager.getUserId());
+		seoVideo.setUpdateTime(new Date());
+		seoVideo.setAttachmentId(attachment.getId());
+
+		this.seoVideoService.save(seoVideo);
+
+		redirectAttributes.addAttribute("fromType", fromType);
+		redirectAttributes.addAttribute("belongId", seoVideo.getBelongId());
+
+		return "redirect:/subProject/videoList";
 	}
 }

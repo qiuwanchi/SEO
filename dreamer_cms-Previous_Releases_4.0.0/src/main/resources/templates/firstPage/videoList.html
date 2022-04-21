@@ -19,31 +19,39 @@
 <body>
 <div class="row">
     <div class="col-md-12">
-    	<h1 class="panel-heading">视频列表</h1>
+    	<h1 class="panel-heading"></h1>
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
-			<li class="active" >视频列表</li>
-		</ul>
+            <li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
+            <li><a th:href="@{/firstPage/module(belong=${module.belong})}" th:text="${constantDefinition.name}"><i class="fa fa-home"></i> </a></li>
+            <li><a th:href="@{/firstPage/module/project(moduleId=${module.id})}" th:text="${module.name}"><i class="fa fa-home"></i> </a></li>
+            <li><a href="javascript:;" th:text="${project.name}"><i class="fa fa-home"></i> </a></li>
+            <li class="active">视频列表</li>
+        </ul>
 
+        <section class="panel">
+            <div class="panel-body">
+                <!-- <span class="pull-right badge badge-info">32</span> -->
+                <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:onclick="javascript: openUploadDialog()">
+                    <i class="fa fa-plus"></i>添加视频
+                </button>
+            </div>
+
+        </section>
         <span th:each="seoVideo : ${seoVideoList}">
-            <div class="divcss5" th:id="dplayer+${seoVideoStat.index}"><span th:text="${seoVideo.sort}"></span></div>
+            <p>排序号:<span th:text="${seoVideo.sort}"></span>  <a href="javascript:;"  th:aid="${seoVideo.id}"  onclick="onDelete(this.getAttribute('aid'));">删除</a> </p>
+            <div class="divcss5" th:id="dplayer+${seoVideoStat.index}"></div>
+            <p></p>
+            <hr size="100" color="black"/>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
         </span>
 
     </div>
 </div>
-<section class="panel">
-	<div class="panel-body">
-         <!-- <span class="pull-right badge badge-info">32</span> -->
-         <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:onclick="javascript: openUploadDialog()">
-             <i class="fa fa-plus"></i>添加视频
-         </button>
-    </div>
 
-	<div class="panel-body table-responsive">
-	</div>
-
-</section>
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="upload-dialog" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -55,12 +63,13 @@
 					<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
 				</div>
                     <input name="attachmentId" id="attachmentId" type="hidden" th:value="${belongId}"/>
-            	<form class="col s12" id="form1" th:action="@{/firstPage/module/project/videoSave}" method="post">
+            	<form class="col s12" id="form1" th:action="@{/subProject/videoSave}" method="post">
 					<input name="attachment.filename" id="filename" type="hidden" />
 					<input name="attachment.filepath" id="filepath" type="hidden" />
 					<input name="attachment.filetype" id="filetype" type="hidden" />
 					<input name="attachment.filesize" id="filesize" type="hidden" />
-					<input name="belongId" id="belongId" type="hidden" th:value="${belongId}"/>
+                    <input name="belongId" id="belongId" type="hidden" th:value="${belongId}"/>
+                    <input name="fromType" id="fromType" type="hidden" th:value="${fromType}"/>
 
 					<div id="uploader" class="wu-example">
 						<div class="btns">
@@ -106,7 +115,10 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false
+	        resize: false,
+            accept: {
+				mimeTypes: 'video/*'
+	        }
 	    });
     	uploader.on('fileQueued', function(file) {
     		
@@ -264,33 +276,12 @@
 		window.location.href="/firstPage/module/delete?id="+currentID;
 		$("#remove-dialog").modal('hide');
 	}
-	
-	function copyDownloadUrl(id){
-	//system.website
-		var content = "/admin/attachment/download?id=" + id;
-		var clipboard = new Clipboard('.copyDownloadUrlBtn',{
-			text: function() {
-				return content;
-			}
-		});
-		clipboard.on('success', function(e) {
-			$("body").MessageBox({
-				type: 'success',
-				message: '复制成功！',
-				timeout:3000,
-				callbak:null
-			});
-		});
-	
-		clipboard.on('error', function(e) {
-			$("body").MessageBox({
-				type: 'error',
-				message: '复制失败！',
-				timeout:3000,
-				callbak:null
-			});
-		});
+
+	function onDelete(id){
+
+
 	}
+
 </script>
 
 <script type="text/javascript" th:inline="javascript">
@@ -312,15 +303,7 @@ for(var i = 0;i < seoVideoList.length; i++){
         autoplay:true,
     });
 }
-<!--//播放器控制-->
-<!--const dp = new DPlayer({-->
 
-<!--    container: document.getElementById('dplayer'),-->
-<!--    video: {-->
-<!--        url:  'http://' + baseUrl + '/video/f32ccd40de95417fa87a2a701b568b0a.mp4',-->
-<!--    },-->
-<!--	autoplay:true,-->
-<!--});-->
 </script>
 
 <style type="text/css">
