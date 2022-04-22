@@ -62,6 +62,13 @@ public class ProductController {
         return "goods";
     }
 
+    /**
+     * 公司唱片详情页
+     * @param model
+     * @param firstCategory
+     * @param number
+     * @return
+     */
     @GetMapping("/products/{firstCategory}/{number}.html")
     public String productsDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("number") int number){
         model.addAttribute("baseUrl", serverConfig.getUrl());
@@ -70,6 +77,7 @@ public class ProductController {
         this.logoCommon.logo(model);
 
         ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
+        model.addAttribute("currentProjectDto", currentProjectDto);
 
 
         this.bottomManagementCommon.bottom(model);
