@@ -104,7 +104,9 @@ public class ProductController {
         model.addAttribute("systemCharacteristicsProjectDtoList", systemCharacteristicsProjectDtoList);
 
         // 5 应用场景
-        List<SubProjectDto> subProjectDtoList = this.subProjectService.getProjectListByProjectId(currentProjectDto.getId());
+        List<SubProjectDto> applicationScenarioSubProjectDtoList = this.subProjectService.getProjectListByProjectId(currentProjectDto.getId());
+        this.intSubProjectSeoValue(applicationScenarioSubProjectDtoList);
+        model.addAttribute("applicationScenarioSubProjectDtoList", applicationScenarioSubProjectDtoList);
 
         // 底部
         this.bottomManagementCommon.bottom(model);
@@ -114,6 +116,35 @@ public class ProductController {
         return "goods_detail";
     }
 
+
+    private void intSubProjectSeoValue(List<SubProjectDto> subProjectDtoList){
+        for (SubProjectDto subProjectDto : subProjectDtoList){
+            if(StringUtils.isNotBlank(subProjectDto.getFilePath())){
+                subProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(subProjectDto.getFilePath()));
+            }
+
+            if(StringUtils.isBlank(subProjectDto.getTitle())){
+                subProjectDto.setTitle(subProjectDto.getName());
+            }
+
+            if(StringUtils.isBlank(subProjectDto.getAlt())){
+                subProjectDto.setAlt(subProjectDto.getName());
+            }
+
+            if(StringUtils.isNotBlank(subProjectDto.getClickUrl())){
+                if(!Utils.isStartsWith(subProjectDto.getClickUrl(), Utils.HTTP)){
+                    subProjectDto.setClickUrl(Utils.HTTP + subProjectDto.getClickUrl());
+                }
+            }
+
+            if(StringUtils.isBlank(subProjectDto.getContent())){
+                subProjectDto.setContent(StringUtils.EMPTY);
+            }else{
+                subProjectDto.setContent(Utils.htmlDecode(subProjectDto.getContent()));
+            }
+
+        }
+    }
 
 
     private void intProjectSeoValue(List<ProjectDto> projectDtoList){

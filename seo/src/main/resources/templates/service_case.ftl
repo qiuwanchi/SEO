@@ -49,7 +49,7 @@
         <ul class="case_nav_list">
 		
 		<#list serviceCaseModule.projectDtoList as serviceCaseProject>
-          <li><a href="${baseUrl}/serviceCase/${serviceCaseProject.moduleCode}/${serviceCaseProject.code}">${serviceCaseProject.name}</a></li>
+          <li><a href="${baseUrl}/serviceCase/${serviceCaseProject.moduleCode}/${serviceCaseProject.code}/">${serviceCaseProject.name}</a></li>
 		</#list>
           
         </ul>

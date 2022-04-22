@@ -29,15 +29,21 @@
   </div>
 </div>
 <div id="case">
-<div class="bannerx"> <img  class="logo" src="${currentProjectDto.url}" <#if currentProjectDto.alt?? && currentProjectDto.alt != ""> alt="${currentProjectDto.alt}" </#if> /> </div>
+<div class="bannerx"> <img  src="${currentProjectDto.url}" <#if currentProjectDto.alt?? && currentProjectDto.alt != ""> alt="${currentProjectDto.alt}" </#if> /> </div>
 <div class="container main goodsx">
 <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/products.html">公司产品</a>|<a href="${baseUrl}/products/${currentProjectDto.moduleCode}/">${currentProjectDto.moduleName}</a>|<span>${currentProjectDto.name}</span></div>
 <div class="goods_detail clearfix">
 <div class="detail1 clearfix">
-  <div class="layui-col-xs12 layui-col-md5 detail1_l"><img src="${seoImageDto.url}" <#if seoImageDto.alt?? && seoImageDto.alt != ""> alt="${seoImageDto.alt}" </#if> /></div></div>
+  <div class="layui-col-xs12 layui-col-md5 detail1_l"><img src="${seoImageDto.url}" <#if seoImageDto.alt?? && seoImageDto.alt != ""> alt="${seoImageDto.alt}" </#if> /></div>
   <div class="layui-col-xs12 layui-col-md7 detail1_r">
     ${currentProjectDto.content}
-    <div class="getPrice"><a href="javascript:;">获取详细报价</a></div>
+	<div class="getPrice">
+      <#if currentProjectDto.clickUrl?? && currentProjectDto.clickUrl !="">
+        <a href="${currentProjectDto.clickUrl}" target="_blank">获取详细报价</a>
+      <#else>
+        <a href="javascript:;">获取详细报价</a>
+      </#if>
+    </div>
   </div>
 </div>
 <div class="detail2 clearfix">
@@ -45,68 +51,57 @@
     <h2>展厅智能中控系统特点</h2>
     <span>Features of intelligent central control system in exhibition hall</span> </div>
   <ul class="detail2_ul clearfix">
+	<#list systemCharacteristicsProjectDtoList as systemCharacteristics>
+    <li class="clearfix">
+      <#if systemCharacteristics.clickUrl?? && systemCharacteristics.clickUrl !="">
+	    <a href="${systemCharacteristics.clickUrl}" target="_blank">
+      <#else>
+        <a href="javascript:;">
+      </#if>
 
-    <#list systemCharacteristicsProjectDtoList as systemCharacteristics>
-      <li class="clearfix">
-        <a href="javascript:;"> <img src="${systemCharacteristics.url}" <#if systemCharacteristics.alt?? && systemCharacteristics.alt != ""> alt="${systemCharacteristics.alt}" </#if>> </a>
-        <#if systemCharacteristics_index+1 != systemCharacteristicsProjectDtoList?size >
-          <span><img src="images/arrow.png"></span>
-        </#if>
-      </li>
+      <img src="${systemCharacteristics.url}" <#if systemCharacteristics.alt?? && systemCharacteristics.alt != ""> alt="${systemCharacteristics.alt}" </#if>> </a>
+	<#if systemCharacteristics_index+1 != systemCharacteristicsProjectDtoList?size >
+		<span><img src="${baseUrl}/images/arrow.png"></span>
+	</#if>
+	</li>
     </#list>
   </ul>
 </div>
 <div class="layui-row detail1_3 clearfix">
   <div class="layui-tab layui-tab-brief clearfix " lay-filter="docDemoTabBrief">
     <ul class="layui-tab-title layui-col-xs12 layui-col-md2  clearfix">
-      <li class="layui-this">应用场景</li>
-      <li>应用场景1</li>
-      <li>应用场景2</li>
-      <li>应用场景3</li>
-      <li>应用场景4</li>
+	  <#list applicationScenarioSubProjectDtoList as applicationScenario>
+      <li <#if applicationScenario_index == 0> class="layui-this" </#if>>${applicationScenario.name}</li>
+	  </#list>
     </ul>
     <div class="layui-tab-content layui-col-xs12 layui-col-md10">
-      <div class="layui-tab-item layui-show clearfix">
-        <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="images/img_good1.jpg"></div>
+	<#list applicationScenarioSubProjectDtoList as applicationScenario>
+      <div class="layui-tab-item <#if applicationScenario_index == 0>layui-show</#if> clearfix">
+        <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="${applicationScenario.url}" <#if applicationScenario.alt?? && applicationScenario.alt != ""> alt="${applicationScenario.alt}" </#if>></div>
         <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-          <div class="more"><a href="#">查看更多 》</a></div>
-
+          <#if applicationScenario.content?? && applicationScenario.content !="">
+          ${applicationScenario.content}
+          <#else>
+            <p></p>
+          </#if>
+		  
+		  <div class="more">
+		  <#if applicationScenario.clickUrl?? && applicationScenario.clickUrl !="">
+		    <a href="${applicationScenario.clickUrl}" target="_blank">查看更多 》</a>
+		  <#else>
+		    <a href="javascript:;">查看更多 》</a>
+		  </#if>
+		  </div>
+          
         </div>
       </div>
-      <div class="layui-tab-item clearfix">
-        <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="images/img_good2.jpg"></div>
-        <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        </div>
-      </div>
-      <div class="layui-tab-item clearfix">
-        <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="images/img_good1.jpg"></div>
-        <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        </div>
-      </div>
-      <div class="layui-tab-item clearfix">
-        <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="images/img_good2.jpg"></div>
-        <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        </div>
-      </div>
-      <div class="layui-tab-item clearfix">
-        <div class="layui-col-xs12 layui-col-md7 detail1_3_l"><img src="images/img_good2.jpg"></div>
-        <div class="layui-col-xs12 layui-col-md5 detail1_3_r">
-          <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-        </div>
-      </div>
+	</#list>
+      
     </div>
   </div>
 </div>
 <div class="main_video detail4">
-  <div class="main-title title_video"><img src="images/title_video.PNG"></div>
+  <div class="main-title title_video"><img src="${baseUrl}/images/title_video.PNG"></div>
   <ul class=" clearfix pic_list">
     <li class="layui-col-xs12  layui-col-sm6 layui-col-md3"> <a href="#">
       <div class="main_img"><img src="images/pic1.jpg"></div>
@@ -229,7 +224,7 @@
 <script type="text/javascript">
 
 layui.use(['carousel', 'form','element'], function(){
-var carousel = layui.carousel
+  var carousel = layui.carousel
   ,form = layui.form
   ,element = layui.element
 
