@@ -25,7 +25,7 @@ public class SubProject implements Serializable {
     private String name;
 
     @Column(name = "describe_msg")
-    private String describe;
+    private String describeMsg;
 
     @Column(name = "project_id")
     private String projectId;

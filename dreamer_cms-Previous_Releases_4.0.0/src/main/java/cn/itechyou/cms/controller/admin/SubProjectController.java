@@ -105,7 +105,7 @@ public class SubProjectController {
 			subProject = new SubProject();
 			subProject.setId(UUIDUtils.getPrimaryKey());
 			subProject.setName(param.getName());
-			subProject.setDescribe(param.getDescribe());
+			subProject.setDescribeMsg(param.getDescribeMsg());
 			subProject.setAttachmentId(attachment.getId());
 			subProject.setProjectId(param.getProjectId());
 			subProject.setTitle(param.getTitle());
@@ -137,7 +137,7 @@ public class SubProjectController {
 				subProject.setSort(param.getSort());
 			}
 			subProject.setName(param.getName());
-			subProject.setDescribe(param.getDescribe());
+			subProject.setDescribeMsg(param.getDescribeMsg());
 			subProject.setAttachmentId(attachment.getId());
 			subProject.setTitle(param.getTitle());
 			subProject.setKeywords(param.getKeywords());

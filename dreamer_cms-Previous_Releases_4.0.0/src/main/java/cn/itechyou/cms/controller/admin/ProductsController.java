@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
@@ -38,6 +41,9 @@ public class ProductsController {
 
 	@Autowired
 	private ServerConfig serverConfig;
+
+	@Autowired
+	private ISubProjectService subProjectService;
 
 	/**
 	 * 列表
@@ -234,4 +240,116 @@ public class ProductsController {
 		redirectAttributes.addAttribute("projectId", project.getModuleId());
 		return "redirect:/products/characteristic";
 	}
+
+	/**
+	 * 应用场景列表
+	 * @param model
+	 * @param projectId
+	 * @return
+	 */
+	@GetMapping("/applicationScenarios")
+	public String applicationScenarios(Model model, String projectId) {
+		List<SubProject> subProjectList = this.subProjectService.getByProjectId(projectId);
+		for (SubProject subProject : subProjectList){
+			Attachment attachment = this.attachmentService.queryAttachmentById(subProject.getAttachmentId());
+			subProject.setAttachment(attachment);
+		}
+		Project project = this.projectService.getById(projectId);
+		Module module = this.moduleService.getById(project.getModuleId());
+		model.addAttribute("project", project);
+		model.addAttribute("module", module);
+		model.addAttribute("subProjectList", subProjectList);
+
+		return "products/applicationScenariosList";
+	}
+
+	@RequestMapping("/toAdd")
+	public String toAdd(Model model, String moduleId, String projectId, String id) {
+		Module module = this.moduleService.getById(moduleId);
+		model.addAttribute("module", module);
+
+		Project project = this.projectService.getById(projectId);
+		model.addAttribute("project", project);
+
+		if(!StringUtils.isEmpty(id)){
+			SubProject subProject = this.subProjectService.getById(id);
+			if(!StringUtils.isEmpty(subProject.getAttachmentId())){
+				Attachment attachment = this.attachmentService.queryAttachmentById(subProject.getAttachmentId());
+				subProject.setAttachment(attachment);
+			}
+			model.addAttribute("subProject", subProject);
+
+				return "products/edit";
+		}
+		return "products/add";
+	}
+
+	/**
+	 * 保存场景
+	 * @param model
+	 * @param param
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@PostMapping("/saveCj")
+	public String saveCj(Model model, SubProject param, RedirectAttributes redirectAttributes) {
+		SubProject subProject;
+		if(StringUtils.isEmpty(param.getId())){
+			Attachment attachment = param.getAttachment();
+			attachment.setId(UUIDUtils.getPrimaryKey());
+			attachment.setCode(UUIDUtils.getCharAndNumr(8));
+			attachment.setCreateBy(TokenManager.getUserId());
+			attachment.setCreateTime(new Date());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.save(attachment);
+
+			subProject = new SubProject();
+			subProject.setId(UUIDUtils.getPrimaryKey());
+			subProject.setName(param.getName());
+			subProject.setDescribeMsg(param.getDescribeMsg());
+			subProject.setAttachmentId(attachment.getId());
+			subProject.setProjectId(param.getProjectId());
+			subProject.setTitle(param.getTitle());
+			subProject.setKeywords(param.getKeywords());
+			subProject.setDescription(param.getDescription());
+			subProject.setAlt(param.getAlt());
+			subProject.setClickUrl(param.getClickUrl());
+			subProject.setContent(param.getContent());
+
+			if(!StringUtils.isEmpty(param.getSort())){
+				subProject.setSort(param.getSort());
+			}
+			this.subProjectService.add(subProject);
+
+		}else {
+			subProject = this.subProjectService.getById(param.getId());
+			Attachment attachment = this.attachmentService.queryAttachmentById(subProject.getAttachmentId());
+			attachment.setFiletype(param.getAttachment().getFiletype());
+			attachment.setFilepath(param.getAttachment().getFilepath());
+			attachment.setFilesize(param.getAttachment().getFilesize());
+			attachment.setFilename(param.getAttachment().getFilename());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.update(attachment);
+
+			if(!StringUtils.isEmpty(param.getSort())){
+				subProject.setSort(param.getSort());
+			}
+			subProject.setName(param.getName());
+			subProject.setDescribeMsg(param.getDescribeMsg());
+			subProject.setAttachmentId(attachment.getId());
+			subProject.setTitle(param.getTitle());
+			subProject.setKeywords(param.getKeywords());
+			subProject.setDescription(param.getDescription());
+			subProject.setAlt(param.getAlt());
+			subProject.setClickUrl(param.getClickUrl());
+			subProject.setContent(param.getContent());
+
+			this.subProjectService.update(subProject);
+		}
+		redirectAttributes.addAttribute("projectId", param.getProjectId());
+		return "redirect:/products/applicationScenarios";
+	}
+
 }
