@@ -5,10 +5,7 @@ import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SeoImageDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.entity.SeoImage;
-import com.qiuwanchi.seo.service.IAttachmentService;
-import com.qiuwanchi.seo.service.IModuleService;
-import com.qiuwanchi.seo.service.IProjectService;
-import com.qiuwanchi.seo.service.ISeoImageService;
+import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +50,9 @@ public class ProductController {
     @Autowired
     private ISeoImageService seoImageService;
 
+    @Autowired
+    private ISubProjectService subProjectService;
+
     @GetMapping("/products.html")
     public String products(Model model){
         model.addAttribute("baseUrl", serverConfig.getUrl());
@@ -80,9 +80,10 @@ public class ProductController {
     public String productsDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("number") int number){
         model.addAttribute("baseUrl", serverConfig.getUrl());
 
-        // logo
+        // 1.logo
         this.logoCommon.logo(model);
 
+        // 2.当前项目
         ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
         currentProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(currentProjectDto.getFilePath()));
         if(StringUtils.isBlank(currentProjectDto.getContent())){
@@ -92,13 +93,46 @@ public class ProductController {
         }
         model.addAttribute("currentProjectDto", currentProjectDto);
 
+        // 3.左边图片
         SeoImageDto seoImageDto = this.seoImageService.selectById(currentProjectDto.getSeoImageId());
         seoImageDto.setUrl(UrlAssemblyUtils.getImageUrl(seoImageDto.getFilePath()));
         model.addAttribute("seoImageDto", seoImageDto);
 
+        // 4.系统特点
+        List<ProjectDto> systemCharacteristicsProjectDtoList = this.projectService.getProjectListByModuleId(currentProjectDto.getId());
+        this.intProjectSeoValue(systemCharacteristicsProjectDtoList);
+        model.addAttribute("systemCharacteristicsProjectDtoList", systemCharacteristicsProjectDtoList);
+
+        // 5 应用场景
+        List<SubProjectDto> subProjectDtoList = this.subProjectService.getProjectListByProjectId(currentProjectDto.getId());
+
+        // 底部
         this.bottomManagementCommon.bottom(model);
 
         return "goods_detail";
     }
 
+
+
+    private void intProjectSeoValue(List<ProjectDto> projectDtoList){
+        for (ProjectDto projectDto : projectDtoList){
+            if(StringUtils.isNotBlank(projectDto.getFilePath())){
+                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
+            }
+
+            if(StringUtils.isBlank(projectDto.getTitle())){
+                projectDto.setTitle(projectDto.getName());
+            }
+
+            if(StringUtils.isBlank(projectDto.getAlt())){
+                projectDto.setAlt(projectDto.getName());
+            }
+
+            if(StringUtils.isNotBlank(projectDto.getClickUrl())){
+                if(!Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTP)){
+                    projectDto.setClickUrl(Utils.HTTP + projectDto.getClickUrl());
+                }
+            }
+        }
+    }
 }

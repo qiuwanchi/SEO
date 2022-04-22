@@ -45,12 +45,15 @@
     <h2>展厅智能中控系统特点</h2>
     <span>Features of intelligent central control system in exhibition hall</span> </div>
   <ul class="detail2_ul clearfix">
-    <li class="clearfix"> <a href="javascript:;"> <img src="images/img_good1.jpg"> </a> <span><img src="images/arrow.png"></span> </li>
-    <li class="clearfix"> <a href="javascript:;"> <img src="images/img_good2.jpg"> </a> <span><img src="images/arrow.png"></span> </li>
-    <li class="clearfix"> <a href="javascript:;"> <img src="images/img_good1.jpg"> </a> <span><img src="images/arrow.png"></span> </li>
-    <li class="clearfix"> <a href="javascript:;"> <img src="images/img_good2.jpg"> </a> <span><img src="images/arrow.png"></span> </li>
-    <li class="clearfix"> <a href="javascript:;"> <img src="images/img_good2.jpg"> </a> <span><img src="images/arrow.png"></span> </li>
-    <li class="clearfix"> <a href="javascript:;"> <img src="images/img_good1.jpg"> </a> </li>
+
+    <#list systemCharacteristicsProjectDtoList as systemCharacteristics>
+      <li class="clearfix">
+        <a href="javascript:;"> <img src="${systemCharacteristics.url}" <#if systemCharacteristics.alt?? && systemCharacteristics.alt != ""> alt="${systemCharacteristics.alt}" </#if>> </a>
+        <#if systemCharacteristics_index+1 != systemCharacteristicsProjectDtoList?size >
+          <span><img src="images/arrow.png"></span>
+        </#if>
+      </li>
+    </#list>
   </ul>
 </div>
 <div class="layui-row detail1_3 clearfix">
