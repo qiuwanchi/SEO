@@ -153,16 +153,9 @@ public class ServiceCaseController {
         model.addAttribute("module", module);
 
         currentSubProjectDto.setCreateBy(Objects.isNull(currentSubProjectDto.getCreateBy()) ? "admin" : currentSubProjectDto.getCreateBy());
-        if(StringUtils.isBlank(currentSubProjectDto.getContent())){
-            currentSubProjectDto.setContent(StringUtils.EMPTY);
-        }else{
-            currentSubProjectDto.setContent(Utils.htmlDecode(currentSubProjectDto.getContent()));
-        }
+        SeoUtils.intSubProjectSeoValue(currentSubProjectDto);
 
-        if(StringUtils.isNotBlank(currentSubProjectDto.getFilePath())){
-            currentSubProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(currentSubProjectDto.getFilePath()));
-        }else {
-
+        if(StringUtils.isBlank(currentSubProjectDto.getUrl())){
             if(StringUtils.isNotBlank(project.getAttachmentId())){
                 Attachment attachment = this.attachmentService.getById(project.getAttachmentId());
                 currentSubProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(attachment.getFilepath()));

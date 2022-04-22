@@ -12,4 +12,6 @@ public interface IModuleService extends IService<Module> {
     List<ModuleDto> getModuleDtoList(String belong);
 
     List<ModuleDto> getSimpleModuleDtoList(String belong);
+
+    ModuleDto selectByModuleId(String moduleId);
 }

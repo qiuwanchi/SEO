@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>服务案例</title>
+<title>${currentSubProject.title}</title>
+<meta name="keywords" content="${currentSubProject.keywords}">
+<meta name="description" content="${currentSubProject.description}">
 <link rel="stylesheet" href="${baseUrl}/css/style.css">
 </head>
 <body>

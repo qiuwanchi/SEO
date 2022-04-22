@@ -4,20 +4,18 @@ import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SeoImageDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
-import com.qiuwanchi.seo.entity.SeoImage;
 import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 公司产品
@@ -70,7 +68,7 @@ public class ProductController {
     }
 
     /**
-     * 公司唱片详情页
+     * 公司产品详情页
      * @param model
      * @param firstCategory
      * @param number
@@ -85,87 +83,34 @@ public class ProductController {
 
         // 2.当前项目
         ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
-        currentProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(currentProjectDto.getFilePath()));
-        if(StringUtils.isBlank(currentProjectDto.getContent())){
-            currentProjectDto.setContent(StringUtils.EMPTY);
-        }else{
-            currentProjectDto.setContent(Utils.htmlDecode(currentProjectDto.getContent()));
-        }
+        SeoUtils.intProjectSeoValue(currentProjectDto);
         model.addAttribute("currentProjectDto", currentProjectDto);
 
-        // 3.左边图片
+        // 3.banner图片
         SeoImageDto seoImageDto = this.seoImageService.selectById(currentProjectDto.getSeoImageId());
-        seoImageDto.setUrl(UrlAssemblyUtils.getImageUrl(seoImageDto.getFilePath()));
+        if(Objects.isNull(seoImageDto)){
+            seoImageDto = new SeoImageDto();
+            ModuleDto moduleDto = this.moduleService.selectByModuleId(currentProjectDto.getModuleId());
+            seoImageDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
+        }else {
+            seoImageDto.setUrl(UrlAssemblyUtils.getImageUrl(seoImageDto.getFilePath()));
+        }
         model.addAttribute("seoImageDto", seoImageDto);
 
         // 4.系统特点
         List<ProjectDto> systemCharacteristicsProjectDtoList = this.projectService.getProjectListByModuleId(currentProjectDto.getId());
-        this.intProjectSeoValue(systemCharacteristicsProjectDtoList);
+        SeoUtils.intProjectSeoValue(systemCharacteristicsProjectDtoList);
         model.addAttribute("systemCharacteristicsProjectDtoList", systemCharacteristicsProjectDtoList);
 
         // 5 应用场景
         List<SubProjectDto> applicationScenarioSubProjectDtoList = this.subProjectService.getProjectListByProjectId(currentProjectDto.getId());
-        this.intSubProjectSeoValue(applicationScenarioSubProjectDtoList);
+        SeoUtils.intSubProjectSeoValue(applicationScenarioSubProjectDtoList);
         model.addAttribute("applicationScenarioSubProjectDtoList", applicationScenarioSubProjectDtoList);
 
         // 底部
         this.bottomManagementCommon.bottom(model);
 
-
-
         return "goods_detail";
     }
 
-
-    private void intSubProjectSeoValue(List<SubProjectDto> subProjectDtoList){
-        for (SubProjectDto subProjectDto : subProjectDtoList){
-            if(StringUtils.isNotBlank(subProjectDto.getFilePath())){
-                subProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(subProjectDto.getFilePath()));
-            }
-
-            if(StringUtils.isBlank(subProjectDto.getTitle())){
-                subProjectDto.setTitle(subProjectDto.getName());
-            }
-
-            if(StringUtils.isBlank(subProjectDto.getAlt())){
-                subProjectDto.setAlt(subProjectDto.getName());
-            }
-
-            if(StringUtils.isNotBlank(subProjectDto.getClickUrl())){
-                if(!Utils.isStartsWith(subProjectDto.getClickUrl(), Utils.HTTP)){
-                    subProjectDto.setClickUrl(Utils.HTTP + subProjectDto.getClickUrl());
-                }
-            }
-
-            if(StringUtils.isBlank(subProjectDto.getContent())){
-                subProjectDto.setContent(StringUtils.EMPTY);
-            }else{
-                subProjectDto.setContent(Utils.htmlDecode(subProjectDto.getContent()));
-            }
-
-        }
-    }
-
-
-    private void intProjectSeoValue(List<ProjectDto> projectDtoList){
-        for (ProjectDto projectDto : projectDtoList){
-            if(StringUtils.isNotBlank(projectDto.getFilePath())){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-
-            if(StringUtils.isBlank(projectDto.getTitle())){
-                projectDto.setTitle(projectDto.getName());
-            }
-
-            if(StringUtils.isBlank(projectDto.getAlt())){
-                projectDto.setAlt(projectDto.getName());
-            }
-
-            if(StringUtils.isNotBlank(projectDto.getClickUrl())){
-                if(!Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTP)){
-                    projectDto.setClickUrl(Utils.HTTP + projectDto.getClickUrl());
-                }
-            }
-        }
-    }
 }

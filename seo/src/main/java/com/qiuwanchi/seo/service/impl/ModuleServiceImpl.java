@@ -7,9 +7,7 @@ import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.mapper.ModuleMapper;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
-import com.qiuwanchi.seo.utils.UrlAssemblyUtils;
-import com.qiuwanchi.seo.utils.Utils;
-import org.apache.commons.lang3.StringUtils;
+import com.qiuwanchi.seo.utils.SeoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +32,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(belong);
 
         /*初始化Module-seo相关值*/
-        this.intModuleSeoValue(moduleDtoList);
+        SeoUtils.intModuleSeoValue(moduleDtoList);
 
         /*key=moduleId,value=module对象*/
         Map<String, ModuleDto> moduleDtoMap = moduleDtoList.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
@@ -44,7 +42,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
 
         List<ProjectDto> projectDtoList = this.projectService.getProjectListByModuleIds(moduleIdList);
         /*初始化Project-seo相关值*/
-        this.intProjectSeoValue(projectDtoList);
+        SeoUtils.intProjectSeoValue(projectDtoList);
 
         /*key=moduleId,value=List<ProjectDto> 列表*/
         Map<String,List<ProjectDto>> moduleIdProjectDtoListMap = projectDtoList.stream().collect(Collectors.groupingBy(ProjectDto::getModuleId));
@@ -79,49 +77,9 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         return this.moduleMapper.getModuleList(belong);
     }
 
-    private void intProjectSeoValue(List<ProjectDto> projectDtoList){
-        for (ProjectDto projectDto : projectDtoList){
-            if(StringUtils.isNotBlank(projectDto.getFilePath())){
-                projectDto.setUrl(UrlAssemblyUtils.getImageUrl(projectDto.getFilePath()));
-            }
-
-            if(StringUtils.isBlank(projectDto.getTitle())){
-                projectDto.setTitle(projectDto.getName());
-            }
-
-            if(StringUtils.isBlank(projectDto.getAlt())){
-                projectDto.setAlt(projectDto.getName());
-            }
-
-            if(StringUtils.isNotBlank(projectDto.getClickUrl())){
-                if(!Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTP)){
-                    projectDto.setClickUrl(Utils.HTTP + projectDto.getClickUrl());
-                }
-            }
-        }
+    @Override
+    public ModuleDto selectByModuleId(String moduleId) {
+        return this.moduleMapper.selectByModuleId(moduleId);
     }
-
-    private void intModuleSeoValue(List<ModuleDto> moduleDtoList){
-        for (ModuleDto moduleDto : moduleDtoList){
-            if(StringUtils.isNotBlank(moduleDto.getFilePath())){
-                moduleDto.setUrl(UrlAssemblyUtils.getImageUrl(moduleDto.getFilePath()));
-            }
-
-            if(StringUtils.isBlank(moduleDto.getTitle())){
-                moduleDto.setTitle(moduleDto.getName());
-            }
-
-            if(StringUtils.isBlank(moduleDto.getAlt())){
-                moduleDto.setAlt(moduleDto.getName());
-            }
-
-            if(StringUtils.isNotBlank(moduleDto.getClickUrl())){
-                if(!Utils.isStartsWith(moduleDto.getClickUrl(), Utils.HTTP)){
-                    moduleDto.setClickUrl(Utils.HTTP + moduleDto.getClickUrl());
-                }
-            }
-        }
-    }
-
 
 }

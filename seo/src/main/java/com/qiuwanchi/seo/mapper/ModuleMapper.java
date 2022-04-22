@@ -13,4 +13,5 @@ public interface ModuleMapper extends BaseMapper<Module> {
 
     List<ModuleDto> getModuleList(@Param("belong")String belong);
 
+    ModuleDto selectByModuleId(@Param("moduleId")String moduleId);
 }

@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>公司产品</title>
+<title>${currentProjectDto.title}</title>
+<meta name="keywords" content="${currentProjectDto.keywords}">
+<meta name="description" content="${currentProjectDto.description}">
 <link rel="stylesheet" href="${baseUrl}/css/style.css">
 </head>
 <body>
@@ -29,12 +31,12 @@
   </div>
 </div>
 <div id="case">
-<div class="bannerx"> <img  src="${currentProjectDto.url}" <#if currentProjectDto.alt?? && currentProjectDto.alt != ""> alt="${currentProjectDto.alt}" </#if> /> </div>
+<div class="bannerx"> <img src="${seoImageDto.url}" <#if seoImageDto.alt?? && seoImageDto.alt != ""> alt="${seoImageDto.alt}" </#if> /> </div>
 <div class="container main goodsx">
 <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/products.html">公司产品</a>|<a href="${baseUrl}/products/${currentProjectDto.moduleCode}/">${currentProjectDto.moduleName}</a>|<span>${currentProjectDto.name}</span></div>
 <div class="goods_detail clearfix">
 <div class="detail1 clearfix">
-  <div class="layui-col-xs12 layui-col-md5 detail1_l"><img src="${seoImageDto.url}" <#if seoImageDto.alt?? && seoImageDto.alt != ""> alt="${seoImageDto.alt}" </#if> /></div>
+  <div class="layui-col-xs12 layui-col-md5 detail1_l"><img  src="${currentProjectDto.url}" <#if currentProjectDto.alt?? && currentProjectDto.alt != ""> alt="${currentProjectDto.alt}" </#if> /></div>
   <div class="layui-col-xs12 layui-col-md7 detail1_r">
     ${currentProjectDto.content}
 	<div class="getPrice">
