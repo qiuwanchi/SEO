@@ -279,7 +279,7 @@ public class ProductsController {
 			}
 			model.addAttribute("subProject", subProject);
 
-				return "products/edit";
+			return "products/edit";
 		}
 		return "products/add";
 	}
