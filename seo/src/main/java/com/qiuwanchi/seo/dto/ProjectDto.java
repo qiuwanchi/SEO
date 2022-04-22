@@ -13,6 +13,7 @@ public class ProjectDto {
     private String describeMsg;
     private String moduleId;
     private String attachmentId;
+    private String seoImageId;
     private Integer sort;
     private String title;
     private String keywords;

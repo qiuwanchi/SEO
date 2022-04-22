@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiuwanchi.seo.mapper.SeoImageMapper">
+
+    <select id="selectAllById" resultType="com.qiuwanchi.seo.dto.SeoImageDto">
+        SELECT
+        s.id,
+        s.name,
+        s.alt,
+        s.click_url AS clickUrl,
+        s.attachment_id AS attachmentId,
+        s.create_by AS createBy,
+        s.create_time AS createTime,
+        s.update_by AS updateBy,
+        s.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM seo_image s JOIN system_attachment a ON s.attachment_id=a.id
+        WHERE s.id=#{seoImageId}
+    </select>
+
+</mapper>

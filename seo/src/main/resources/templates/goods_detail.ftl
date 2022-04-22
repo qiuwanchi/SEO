@@ -29,17 +29,14 @@
   </div>
 </div>
 <div id="case">
-<div class="bannerx"> <img src="images/goods_banner.jpg"> </div>
+<div class="bannerx"> <img  class="logo" src="${currentProjectDto.url}" <#if currentProjectDto.alt?? && currentProjectDto.alt != ""> alt="${currentProjectDto.alt}" </#if> /> </div>
 <div class="container main goodsx">
 <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/products.html">公司产品</a>|<a href="${baseUrl}/products/${currentProjectDto.moduleCode}/">${currentProjectDto.moduleName}</a>|<span>${currentProjectDto.name}</span></div>
 <div class="goods_detail clearfix">
 <div class="detail1 clearfix">
-  <div class="layui-col-xs12 layui-col-md5 detail1_l"><img src="images/img_good1.jpg"></div>
+  <div class="layui-col-xs12 layui-col-md5 detail1_l"><img src="${seoImageDto.url}" <#if seoImageDto.alt?? && seoImageDto.alt != ""> alt="${seoImageDto.alt}" </#if> /></div></div>
   <div class="layui-col-xs12 layui-col-md7 detail1_r">
-    <h1>展厅智能中控系统Central Control System</h1>
-    <h2>参考报价： <span>25000-60000</span></h2>
-    <p>展厅智能中控系统又叫中央控制系统、智能多媒体中控系统等，由无线控制面板（一般是IPAD）、控制主机以及从主机到各种设备的连线，当用户触碰IPAD上相应设备的按钮操作时，触摸屏会向中控主机传送触发指令，中控主机受到指令，向对应的受控设备发送控制信号，受控设备就会响应该操作。</p>
-    <p>展厅智能中控系统能够更加智能化地控制展厅多媒体，以此来为用户展示更加智慧化的内容，不仅能够丰富用户的体验，还能加深用户对展厅的印象，扩大展厅的宣传范围，让更多人认识到展厅所向用户传递的内容。 </p>
+    ${currentProjectDto.content}
     <div class="getPrice"><a href="javascript:;">获取详细报价</a></div>
   </div>
 </div>

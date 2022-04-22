@@ -30,6 +30,9 @@ public class Project implements Serializable {
     @TableField("attachment_id")
     private String attachmentId;
 
+    @TableField("seo_image_id")
+    private String seoImageId;
+
     @TableField("name")
     private String name;
 
