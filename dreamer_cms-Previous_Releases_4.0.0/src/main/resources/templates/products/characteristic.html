@@ -24,6 +24,10 @@
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
+			<li><a href="/firstPage/module?belong=companyProduct-productModule"><i class="fa"></i> 公司产品</a></li>
+			<li><a href="/products"><i class="fa"></i> 公司产品详情列表</a></li>
+			<li><a href="javascript:;"><i class="fa" th:text="${module.name}"></i></a></li>
+			<li><a href="javascript:;"><i class="fa" th:text="${project.name}"></i></a></li>
 			<li class="active" >特点列表</li>
 		</ul>
         <!--breadcrumbs end -->
@@ -297,7 +301,7 @@
 		if(isEmpty(filepath)){
 			$("body").MessageBox({
 				type: 'error',
-				message: '请选择图片或视频！',
+				message: '请选择图片！',
 				timeout:5000,
 				callbak:null
 			});
@@ -324,36 +328,20 @@
 	
 	function remove(){
 		var currentID = $("#cacheID").val();
-		window.location.href="/firstPage/module/project/delete?id="+currentID;
-		$("#remove-dialog").modal('hide');
-	}
-	
-	function copyDownloadUrl(id){
-	//system.website
-		var content = "/admin/attachment/download?id=" + id;
-		var clipboard = new Clipboard('.copyDownloadUrlBtn',{
-			text: function() {
-				return content;
+		var moduleId = $("#moduleId").val();
+
+		$.ajax({
+			type: 'get',
+			url: "/firstPage/module/project/asynchronousDelete?id=" + currentID,
+			contentType: 'application/json',
+			async: false,
+			success: function(project) {
+				window.location.href="/products/characteristic?projectId=" + moduleId;
 			}
 		});
-		clipboard.on('success', function(e) {
-			$("body").MessageBox({
-				type: 'success',
-				message: '复制成功！',
-				timeout:3000,
-				callbak:null
-			});
-		});
-	
-		clipboard.on('error', function(e) {
-			$("body").MessageBox({
-				type: 'error',
-				message: '复制失败！',
-				timeout:3000,
-				callbak:null
-			});
-		});
+
 	}
+
 </script>
 </body>
 </html>

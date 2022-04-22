@@ -78,6 +78,9 @@ public class ProductsController {
 		model.addAttribute("attachment", attachment);
 		model.addAttribute("project", project);
 
+		Module module = this.moduleService.getById(project.getModuleId());
+		model.addAttribute("module", module);
+
 		return "products/leftPicture";
 	}
 
@@ -148,6 +151,12 @@ public class ProductsController {
 				project.setAttachment(attachment);
 			}
 		}
+
+		Project project = this.projectService.getById(projectId);
+		model.addAttribute("project", project);
+
+		Module module = this.moduleService.getById(project.getModuleId());
+		model.addAttribute("module", module);
 
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("moduleId", projectId);

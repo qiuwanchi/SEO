@@ -36,6 +36,10 @@
 		<!--breadcrumbs start -->
 		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
+			<li><a href="/firstPage/module?belong=companyProduct-productModule"><i class="fa"></i> 公司产品</a></li>
+			<li><a href="/products"><i class="fa"></i> 公司产品详情列表</a></li>
+			<li><a href="javascript:;"><i class="fa" th:text="${module.name}"></i></a></li>
+			<li><a href="javascript:;"><i class="fa" th:text="${project.name}"></i></a></li>
 			<li class="active">左侧图片</li>
 		</ul>
 		<!--breadcrumbs end -->
@@ -111,7 +115,11 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false
+	        resize: false,
+	        accept: {
+				extensions: 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/*'
+	        }
 	    });
     	uploader.on('fileQueued', function(file) {
 
@@ -172,7 +180,7 @@
 		if(isEmpty(filepath)){
 			$("body").MessageBox({
 				type: 'error',
-				message: '请选择图片或视频！',
+				message: '请选择图片！',
 				timeout:5000,
 				callbak:null
 			});

@@ -198,6 +198,20 @@ public class ProjectController {
 		return "redirect:/firstPage/module/project";
 	}
 
+	/**
+	 * 异步删除
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/asynchronousDelete")
+	@ResponseBody
+	public boolean delete(String id) {
+		Project project = this.projectService.getById(id);
+		this.attachmentService.delete(project.getAttachmentId());
+		this.projectService.delete(id);
+		return true;
+	}
+
 	@GetMapping("/getById")
 	@ResponseBody
 	public Project getById(@RequestParam("projectId") String projectId) {

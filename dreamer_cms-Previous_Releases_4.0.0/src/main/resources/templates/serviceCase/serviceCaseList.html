@@ -95,11 +95,11 @@
 
 					<div id="uploader" class="wu-example">
 						<div class="btns">
-							banner: <div id="picker">选择图片或视频...</div> <button type="button" class="btn btn-primary btn-addon btn-sm" onclick="clearPicture();">清除图片或视频</button>
+							banner: <div id="picker">选择图片...</div> <button type="button" class="btn btn-primary btn-addon btn-sm" onclick="clearPicture();">清除图片</button>
 						</div>
 					</div>
 					<div class="wu-example">
-						图片或者视频的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
+						图片的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
 					</div>
 					<div class="wu-example">
 						排序号：<input name="sort" id="sort" />
@@ -174,7 +174,11 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false
+	        resize: false,
+	        accept: {
+				extensions: 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/*'
+	        }
 	    });
     	uploader.on('fileQueued', function(file) {
     		

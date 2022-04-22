@@ -137,7 +137,11 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false
+	        resize: false,
+	        accept: {
+				extensions: 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/*'
+	        }
 	    });
     	uploader.on('fileQueued', function(file) {
     		
@@ -266,7 +270,7 @@
 		if(isEmpty(filepath)){
 			$("body").MessageBox({
 				type: 'error',
-				message: '请选择图片或视频！',
+				message: '请选择图片！',
 				timeout:5000,
 				callbak:null
 			});
