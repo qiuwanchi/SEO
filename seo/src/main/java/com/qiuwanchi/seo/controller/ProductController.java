@@ -109,6 +109,8 @@ public class ProductController {
         // 底部
         this.bottomManagementCommon.bottom(model);
 
+
+
         return "goods_detail";
     }
 
