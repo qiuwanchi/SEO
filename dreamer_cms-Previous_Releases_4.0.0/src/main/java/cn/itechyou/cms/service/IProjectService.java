@@ -1,5 +1,6 @@
 package cn.itechyou.cms.service;
 
+import cn.itechyou.cms.dto.ProjectDto;
 import cn.itechyou.cms.entity.Project;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface IProjectService {
     void delete(String id);
 
     int getCountByCode(String moduleId, String id, String code);
+
+    List<ProjectDto> getByBelong(String belong);
 }

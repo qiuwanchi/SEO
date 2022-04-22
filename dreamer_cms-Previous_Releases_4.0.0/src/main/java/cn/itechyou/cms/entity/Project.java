@@ -25,13 +25,16 @@ public class Project implements Serializable {
     private String name;
 
     @Column(name = "describe_msg")
-    private String describe;
+    private String describeMsg;
 
     @Column(name = "module_id")
     private String moduleId;
 
     @Column(name = "attachment_id")
     private String attachmentId;
+
+    @Column(name = "left_attachment_id")
+    private String leftAttachmentId;
 
     @Column(name = "sort")
     private Integer sort;

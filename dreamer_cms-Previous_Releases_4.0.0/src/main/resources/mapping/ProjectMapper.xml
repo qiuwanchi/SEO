@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itechyou.cms.dao.ProjectMapper">
+
+  <select id="getByBelong" resultType="cn.itechyou.cms.dto.ProjectDto">
+    SELECT
+      p.id,
+      p.number,
+      p.name,
+      p.describe_msg AS describeMsg,
+      p.module_id AS moduleId,
+      p.attachment_id AS attachmentId,
+      p.left_attachment_id AS leftAttachmentId,
+      p.sort,
+      p.title,
+      p.keywords,
+      p.description,
+      p.alt,
+      p.click_url AS clickUrl,
+      p.content,
+      p.code,
+      p.create_by AS createBy,
+      p.create_time AS createTime,
+      p.update_by AS updateBy,
+      p.update_time AS updateTime,
+      m.name AS moduleName
+    FROM project p JOIN module m ON p.module_id=m.id
+    WHERE m.belong=#{belong}
+    order by m.sort,p.sort
+  </select>
+</mapper>

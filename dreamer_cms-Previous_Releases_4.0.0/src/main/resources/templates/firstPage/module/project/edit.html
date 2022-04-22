@@ -73,7 +73,7 @@
 				<span style="color:red">*</span>名称：<input name="name" id="name"  th:value="${project.name}"/>
 			</div>
 			<div class="wu-example">
-				描述：<textarea name="describe" id="describe"  th:value="${project.describe}"></textarea>
+				描述：<textarea name="describeMsg" id="describeMsg"  th:value="${project.describeMsg}"></textarea>
 			</div>
 			<div class="wu-example">
 				title：<input name="title" id="title" th:value="${project.title}"/>
@@ -203,8 +203,8 @@
 					$("#name").val(project.name);
 				}
 
-				if(!isEmpty(project.describe)){
-					$("#describe").val(project.describe);
+				if(!isEmpty(project.describeMsg)){
+					$("#describeMsg").val(project.describeMsg);
 				}
 
 				if(!isEmpty(project.sort)){

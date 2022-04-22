@@ -17,33 +17,26 @@
 </head>
 
 <body>
-<input type="hidden" value="firstPage/module/project/projectList.html">
+<input type="hidden" value="products/productsList.html">
 <div class="row">
-    <div class="col-md-12">
-    	<h1 class="panel-heading"></h1>
-        <!--breadcrumbs start -->
-        <ul class="breadcrumb">
+	<div class="col-md-12">
+		<h1 class="panel-heading"></h1>
+		<!--breadcrumbs start -->
+		<ul class="breadcrumb">
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
-			<li><a th:href="@{/firstPage/module(belong=${module.belong})}" th:text="${constantDefinition.name}"><i class="fa fa-home"></i> </a></li>
-			<li class="active" th:text="${module.name}"></li>
+			<li class="active" > 公司产品列表</li>
 		</ul>
-        <!--breadcrumbs end -->
-    </div>
+		<!--breadcrumbs end -->
+	</div>
 </div>
 <section class="panel">
-	<div class="panel-body">
-         <!-- <span class="pull-right badge badge-info">32</span> -->
-
-         <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:if="${isAdd}" th:onclick="javascript: openUploadDialog()">
-             <i class="fa fa-plus"></i>添加
-         </button>
-    </div>
 
 	<div class="panel-body table-responsive">
 		<table class="table table-hover">
 			<thead>
 			<tr>
 				<th style="width:50px;">序号</th>
+				<th style="width:80px;">类目</th>
 				<th style="width:80px;">名称</th>
 				<th style="width:80px;">排序</th>
 				<th style="width:300px;">操作</th>
@@ -52,14 +45,19 @@
 			<tbody>
 			<tr th:each="project : ${projectList}">
 				<td th:text="${projectStat.index+1}"></td>
+				<td th:text="${project.moduleName}"></td>
 				<td th:text="${project.name}"></td>
 				<td th:text="${project.sort}"></td>
 				<td>
-					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑内容</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览图片</a>
+					<a th:href="@{/products/leftPicture(projectId=${project.id})}" class="btn btn-xs btn-success" >查看左侧图片</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:if="${isDelete}"  th:aid="${project.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">查看特点</a>
+					<span>&nbsp;|&nbsp;</span>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">查看应该场景</a>
+					<span>&nbsp;|&nbsp;</span>
+					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${project.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 				</td>
 			</tr>
 			<tr th:if="${#lists.isEmpty(projectList)}">
@@ -70,65 +68,7 @@
 	</div>
 
 </section>
-<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="upload-dialog" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title" id="aaa">添加</h4>
-            </div>
-			<div class="modal-body">
-				<div class="alert alert-block alert-danger">
-					<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
-				</div>
-				<form class="col s12" id="form1" th:action="@{/firstPage/module/project/save}" method="post">
-					<input name="attachment.filename" id="filename" type="hidden" />
-					<input name="attachment.filepath" id="filepath" type="hidden" />
-					<input name="attachment.filetype" id="filetype" type="hidden" />
-					<input name="attachment.filesize" id="filesize" type="hidden" />
-					<input name="moduleId" id="moduleId" type="hidden" th:value="${module.id}"/>
 
-					<input name="id" id="id" type="hidden"/>
-					<input name="attachmentid" id="attachmentid" type="hidden"/>
-					<div id="uploader" class="wu-example">
-						<div class="btns">
-							<div id="picker"><span style="color:red">*</span>选择图片</div>
-						</div>
-					</div>
-					<div class="wu-example">
-						图片的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
-					</div>
-					<div class="wu-example">
-						<span style="color:red">*</span>排序号：<input name="sort" id="sort"  />
-					</div>
-					<div class="wu-example">
-						<span style="color:red">*</span>名称：<input name="name" id="name"  />
-					</div>
-					<div class="wu-example">
-						描述：<textarea name="describeMsg" id="describeMsg"  style="width: 500px;height: 130px;"></textarea>
-					</div>
-					<div class="wu-example">
-						title：<input name="title" id="title" />
-					</div>
-					<div class="wu-example">
-						keywords(请用英文逗号分开各个关键字)：<input name="keywords" id="keywords" />
-					</div>
-					<div class="wu-example">
-						description：<input name="description" id="description" />
-					</div>
-					<div class="wu-example">
-						alt：<input name="alt" id="alt" />
-					</div>
-
-				</form>
-			</div>
-            <div class="modal-footer">
-            	<button type="button" class="btn btn-primary btn-addon btn-sm" onclick="save();">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
-    
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="remove-dialog" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -171,11 +111,7 @@
 	        pick: '#' + picker,
 	        fileNumLimit: 1,
 	        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-	        resize: false,
-	        accept: {
-				extensions: 'gif,jpg,jpeg,bmp,png',
-				mimeTypes: 'image/*'
-	        }
+	        resize: false
 	    });
     	uploader.on('fileQueued', function(file) {
     		
@@ -227,6 +163,7 @@
 	}
 	
 	function openUploadDialog(){
+			$("#aaa").html("添加子类目");
 		$("#upload-dialog").modal();
 	}
 
@@ -247,39 +184,16 @@
 					$("#attachmentid").val(project.attachment.id);
 				}
 
-				if(!isEmpty(project.name)){
-					$("#name").val(project.name);
-				}
+				$("#name").val(project.name);
+				$("#sort").val(project.sort);
+				$("#title").val(project.title);
+				$("#keywords").val(project.keywords);
+				$("#description").val(project.description);
+				$("#alt").val(project.alt);
+				$("#clickUrl").val(project.clickUrl);
+				$("#code").val(project.code);
 
-				if(!isEmpty(project.describeMsg)){
-					$("#describeMsg").val(project.describeMsg);
-				}
-
-				if(!isEmpty(project.sort)){
-					$("#sort").val(project.sort);
-				}
-
-				if(!isEmpty(project.title)){
-					$("#title").val(project.title);
-				}
-
-				if(!isEmpty(project.keywords)){
-					$("#keywords").val(project.keywords);
-				}
-
-				if(!isEmpty(project.description)){
-					$("#description").val(project.description);
-				}
-
-				if(!isEmpty(project.alt)){
-					$("#alt").val(project.alt);
-				}
-
-				if(!isEmpty(project.clickUrl)){
-					$("#clickUrl").val(project.clickUrl);
-				}
-
-				$("#aaa").html("编辑");
+				$("#aaa").html("编辑子类目");
 			}
 		});
 
@@ -293,18 +207,22 @@
 		return false;
     }
 
-	function save(){
-		var filepath = $("#filepath").val();
-		if(isEmpty(filepath)){
-			$("body").MessageBox({
-				type: 'error',
-				message: '请选择图片或视频！',
+	function clearPicture(){
+		$("#filename").val('');
+		$("#filepath").val('');
+		$("#filesize").val('');
+		$("#filetype").val('');
+		$("#attachmentid").val('');
+
+		$("body").MessageBox({
+				type: 'success',
+				message: '已清除！',
 				timeout:5000,
 				callbak:null
 			});
-			return;
-		}
-
+	}
+	
+	function save(){
 		var name = $("#name").val();
 		if(isEmpty(name)){
 			$("body").MessageBox({
@@ -315,7 +233,40 @@
 			});
 			return;
 		}
-		$("#form1").submit();
+
+		var code = $("#code").val();
+
+		if(!isEmpty(code)){
+			var id = $("#id").val();
+			var moduleId = $("#moduleId").val();
+
+			$.ajax({
+				type: 'get',
+				url: "/firstPage/module/project/checkCode?code=" + code + "&id=" + id + "&moduleId=" + moduleId,
+				contentType: 'application/json',
+				async: false,
+				success: function(flag) {
+
+					if(flag){
+
+						$("body").MessageBox({
+							type: 'error',
+							message: '类目编码有重复！',
+							timeout:5000,
+							callbak:null
+						});
+
+					}else{
+						$("#form1").submit();
+					}
+
+				}
+			});
+
+
+		}else{
+			$("#form1").submit();
+		}
 	}
 	
 	function confrimRemove(id){
@@ -325,7 +276,7 @@
 	
 	function remove(){
 		var currentID = $("#cacheID").val();
-		window.location.href="/firstPage/module/project/delete?id="+currentID;
+		window.location.href="/products/delete?id="+currentID;
 		$("#remove-dialog").modal('hide');
 	}
 	

@@ -134,7 +134,7 @@ public class ProjectController {
 			project = new Project();
 			project.setId(UUIDUtils.getPrimaryKey());
 			project.setName(param.getName());
-			project.setDescribe(param.getDescribe());
+			project.setDescribeMsg(param.getDescribeMsg());
 			project.setAttachmentId(attachment.getId());
 			project.setModuleId(param.getModuleId());
 			project.setTitle(param.getTitle());
@@ -167,7 +167,7 @@ public class ProjectController {
 				project.setSort(param.getSort());
 			}
 			project.setName(param.getName());
-			project.setDescribe(param.getDescribe());
+			project.setDescribeMsg(param.getDescribeMsg());
 			project.setAttachmentId(attachment.getId());
 			project.setTitle(param.getTitle());
 			project.setKeywords(param.getKeywords());

@@ -1,7 +1,7 @@
 package cn.itechyou.cms.service.impl;
 
 import cn.itechyou.cms.dao.ProjectMapper;
-import cn.itechyou.cms.entity.Module;
+import cn.itechyou.cms.dto.ProjectDto;
 import cn.itechyou.cms.entity.Project;
 import cn.itechyou.cms.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +80,10 @@ public class ProjectServiceImpl implements IProjectService {
             return (int)projectList.stream().filter(m -> !m.getId().equals(id)).count();
         }
         return projectList.size();
+    }
+
+    @Override
+    public List<ProjectDto> getByBelong(String belong) {
+        return this.projectMapper.getByBelong(belong);
     }
 }
