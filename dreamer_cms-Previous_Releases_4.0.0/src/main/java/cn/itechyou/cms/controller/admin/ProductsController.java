@@ -1,15 +1,10 @@
 package cn.itechyou.cms.controller.admin;
 
 import cn.itechyou.cms.dto.ProjectDto;
-import cn.itechyou.cms.entity.Attachment;
-import cn.itechyou.cms.entity.ConstantDefinition;
-import cn.itechyou.cms.entity.Module;
-import cn.itechyou.cms.entity.Project;
+import cn.itechyou.cms.entity.*;
 import cn.itechyou.cms.security.token.TokenManager;
-import cn.itechyou.cms.service.AttachmentService;
-import cn.itechyou.cms.service.IConstantDefinitionService;
-import cn.itechyou.cms.service.IModuleService;
-import cn.itechyou.cms.service.IProjectService;
+import cn.itechyou.cms.service.*;
+import cn.itechyou.cms.utils.ServerConfig;
 import cn.itechyou.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +32,12 @@ public class ProductsController {
 
 	@Autowired
 	private IConstantDefinitionService constantDefinitionService;
+
+	@Autowired
+	private SeoImageService seoImageService;
+
+	@Autowired
+	private ServerConfig serverConfig;
 
 	/**
 	 * 列表
@@ -67,169 +68,74 @@ public class ProductsController {
 		Project project = this.projectService.getById(projectId);
 
 		Attachment attachment = new Attachment();
-		if(!StringUtils.isEmpty(project.getLeftAttachmentId())){
-			attachment = this.attachmentService.queryAttachmentById(project.getLeftAttachmentId());
+		SeoImage seoImage = new SeoImage();
+		if(!StringUtils.isEmpty(project.getSeoImageId())){
+			seoImage = this.seoImageService.getById(project.getSeoImageId());
+			attachment = this.attachmentService.queryAttachmentById(seoImage.getAttachmentId());
+			model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
 		}
-
-		model.addAttribute("imageUrl", project);
+		model.addAttribute("seoImage", seoImage);
 		model.addAttribute("attachment", attachment);
 		model.addAttribute("project", project);
 
 		return "products/leftPicture";
 	}
 
-	/**
-	 * 保存模块
-	 * @param model
-	 * @param param
-	 * @param redirectAttributes
-	 * @return
-	 */
-	@PostMapping("/save")
-	public String save(Model model, Module param, RedirectAttributes redirectAttributes) {
-		Module module;
-		if(StringUtils.isEmpty(param.getId())){
-			module = new Module();
-			Attachment attachment = param.getAttachment();
-			// 有上传附件
-			if(Objects.nonNull(attachment) && !StringUtils.isEmpty(attachment.getFilepath())){
-				attachment.setId(UUIDUtils.getPrimaryKey());
-				attachment.setCode(UUIDUtils.getCharAndNumr(8));
-				attachment.setCreateBy(TokenManager.getUserId());
-				attachment.setCreateTime(new Date());
-				attachment.setUpdateBy(TokenManager.getUserId());
-				attachment.setUpdateTime(new Date());
-				this.attachmentService.save(attachment);
-				module.setAttachmentId(attachment.getId());
-			}
-
-			module.setId(UUIDUtils.getPrimaryKey());
-			module.setBelong(param.getBelong());
-			module.setName(param.getName());
-			module.setSort(param.getSort());
-			module.setTitle(param.getTitle());
-			module.setKeywords(param.getKeywords());
-			module.setDescription(param.getDescription());
-			module.setAlt(param.getAlt());
-			module.setClickUrl(param.getClickUrl());
-			module.setCreateBy(TokenManager.getUserId());
-			module.setUpdateBy(TokenManager.getUserId());
-			module.setCode(param.getCode());
-			module.setDescribeMsg(param.getDescribeMsg());
-			this.moduleService.add(module);
-		}else {
-			module = this.moduleService.getById(param.getId());
-			Attachment attachment = param.getAttachment();
-
-			// 先删除附件
-			if(!StringUtils.isEmpty(module.getAttachmentId())){
-				this.attachmentService.delete(module.getAttachmentId());
-			}
-			// 再添加附件
-			if(Objects.nonNull(attachment) && !StringUtils.isEmpty(attachment.getFilepath())){
-				attachment.setId(UUIDUtils.getPrimaryKey());
-				attachment.setCode(UUIDUtils.getCharAndNumr(8));
-				attachment.setCreateBy(TokenManager.getUserId());
-				attachment.setCreateTime(new Date());
-				attachment.setUpdateBy(TokenManager.getUserId());
-				attachment.setUpdateTime(new Date());
-				this.attachmentService.save(attachment);
-				module.setAttachmentId(attachment.getId());
-			}else {
-				module.setAttachmentId(null);
-			}
-
-			module.setTitle(param.getTitle());
-			module.setKeywords(param.getKeywords());
-			module.setDescription(param.getDescription());
-			module.setAlt(param.getAlt());
-			module.setClickUrl(param.getClickUrl());
-			module.setSort(param.getSort());
-			module.setName(param.getName());
-			module.setUpdateBy(TokenManager.getUserId());
-			module.setCode(param.getCode());
-			module.setDescribeMsg(param.getDescribeMsg());
-			this.moduleService.update(module);
-		}
-		redirectAttributes.addAttribute("belong", module.getBelong());
-		return "redirect:/firstPage/module";
-	}
-
-	/**
-	 * 保存模块
-	 * @param model
-	 * @param param
-	 * @param redirectAttributes
-	 * @return
-	 */
 	@PostMapping("/savePicture")
-	public String savePicture(Model model, Module param, RedirectAttributes redirectAttributes) {
-		Module module;
+	public String savePicture(Model model, Project param, RedirectAttributes redirectAttributes) {
 		if(StringUtils.isEmpty(param.getId())){
-			module = new Module();
-			Attachment attachment = param.getAttachment();
-			// 有上传附件
-			if(Objects.nonNull(attachment) && !StringUtils.isEmpty(attachment.getFilepath())){
-				attachment.setId(UUIDUtils.getPrimaryKey());
-				attachment.setCode(UUIDUtils.getCharAndNumr(8));
-				attachment.setCreateBy(TokenManager.getUserId());
-				attachment.setCreateTime(new Date());
-				attachment.setUpdateBy(TokenManager.getUserId());
-				attachment.setUpdateTime(new Date());
-				this.attachmentService.save(attachment);
-				module.setAttachmentId(attachment.getId());
-			}
-
-			module.setId(UUIDUtils.getPrimaryKey());
-			module.setBelong(param.getBelong());
-			module.setName(param.getName());
-			module.setSort(param.getSort());
-			module.setTitle(param.getTitle());
-			module.setKeywords(param.getKeywords());
-			module.setDescription(param.getDescription());
-			module.setAlt(param.getAlt());
-			module.setClickUrl(param.getClickUrl());
-			module.setCreateBy(TokenManager.getUserId());
-			module.setUpdateBy(TokenManager.getUserId());
-			module.setCode(param.getCode());
-			module.setDescribeMsg(param.getDescribeMsg());
-			this.moduleService.add(module);
-		}else {
-			module = this.moduleService.getById(param.getId());
-			Attachment attachment = param.getAttachment();
-
-			// 先删除附件
-			if(!StringUtils.isEmpty(module.getAttachmentId())){
-				this.attachmentService.delete(module.getAttachmentId());
-			}
-			// 再添加附件
-			if(Objects.nonNull(attachment) && !StringUtils.isEmpty(attachment.getFilepath())){
-				attachment.setId(UUIDUtils.getPrimaryKey());
-				attachment.setCode(UUIDUtils.getCharAndNumr(8));
-				attachment.setCreateBy(TokenManager.getUserId());
-				attachment.setCreateTime(new Date());
-				attachment.setUpdateBy(TokenManager.getUserId());
-				attachment.setUpdateTime(new Date());
-				this.attachmentService.save(attachment);
-				module.setAttachmentId(attachment.getId());
-			}else {
-				module.setAttachmentId(null);
-			}
-
-			module.setTitle(param.getTitle());
-			module.setKeywords(param.getKeywords());
-			module.setDescription(param.getDescription());
-			module.setAlt(param.getAlt());
-			module.setClickUrl(param.getClickUrl());
-			module.setSort(param.getSort());
-			module.setName(param.getName());
-			module.setUpdateBy(TokenManager.getUserId());
-			module.setCode(param.getCode());
-			module.setDescribeMsg(param.getDescribeMsg());
-			this.moduleService.update(module);
+			return "404";
 		}
-		redirectAttributes.addAttribute("belong", module.getBelong());
-		return "redirect:/firstPage/module";
+		Project project = this.projectService.getById(param.getId());
+		if(Objects.isNull(project)){
+			return "404";
+		}
+
+		if(StringUtils.isEmpty(param.getSeoImageId())){
+			Attachment attachment = param.getAttachment();
+			attachment.setId(UUIDUtils.getPrimaryKey());
+			attachment.setCode(UUIDUtils.getCharAndNumr(8));
+			attachment.setCreateBy(TokenManager.getUserId());
+			attachment.setCreateTime(new Date());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.save(attachment);
+
+			SeoImage seoImage = new SeoImage();
+			seoImage.setId(UUIDUtils.getPrimaryKey());
+			seoImage.setClickUrl(param.getClickUrl());
+			seoImage.setName(param.getName());
+			seoImage.setAlt(param.getAlt());
+			seoImage.setAttachmentId(attachment.getId());
+			seoImage.setCreateBy(TokenManager.getUserId());
+			seoImage.setCreateTime(new Date());
+			seoImage.setUpdateBy(TokenManager.getUserId());
+			seoImage.setUpdateTime(new Date());
+			this.seoImageService.save(seoImage);
+
+			project.setSeoImageId(seoImage.getId());
+			this.projectService.update(project);
+		}else {
+			SeoImage seoImage = this.seoImageService.getById(param.getSeoImageId());
+			Attachment attachment = this.attachmentService.queryAttachmentById(seoImage.getAttachmentId());
+			attachment.setFilename(param.getAttachment().getFilename());
+			attachment.setFilepath(param.getAttachment().getFilepath());
+			attachment.setFilesize(param.getAttachment().getFilesize());
+			attachment.setFiletype(param.getAttachment().getFiletype());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.update(attachment);
+
+			seoImage.setClickUrl(param.getClickUrl());
+			seoImage.setName(param.getName());
+			seoImage.setAlt(param.getAlt());
+			seoImage.setAttachmentId(attachment.getId());
+			seoImage.setUpdateBy(TokenManager.getUserId());
+			seoImage.setUpdateTime(new Date());
+			this.seoImageService.update(seoImage);
+		}
+		redirectAttributes.addAttribute("projectId", project.getId());
+		return "redirect:/products/leftPicture";
 	}
 
 

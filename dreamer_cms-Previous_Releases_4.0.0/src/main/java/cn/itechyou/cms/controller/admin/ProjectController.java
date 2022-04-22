@@ -94,14 +94,15 @@ public class ProjectController {
 		return true;
 	}
 
-	@PostMapping("/toAdd")
-	public String toAdd(Model model, String moduleId, String id) {
+	@RequestMapping("/toAdd")
+	public String toAdd(Model model, String moduleId, String id, String fromType) {
 		Module module = this.moduleService.getById(moduleId);
 		model.addAttribute("module", module);
 		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
 		model.addAttribute("constantDefinition", constantDefinition);
 		boolean isFirstCategory = this.idFirstCategory(module.getBelong());
 		model.addAttribute("isFirstCategory", isFirstCategory);
+		model.addAttribute("fromType", fromType);
 
 		if(!StringUtils.isEmpty(id)){
 			Project project = this.projectService.getById(id);
@@ -119,7 +120,7 @@ public class ProjectController {
 
 
 	@PostMapping("/save")
-	public String save(Model model, Project param, RedirectAttributes redirectAttributes) {
+	public String save(Model model, Project param, String fromType, RedirectAttributes redirectAttributes) {
 		Project project;
 		if(StringUtils.isEmpty(param.getId())){
 			Attachment attachment = param.getAttachment();
@@ -179,6 +180,11 @@ public class ProjectController {
 
 			this.projectService.update(project);
 		}
+
+		if("detail".equalsIgnoreCase(fromType)){
+			return "redirect:/products";
+		}
+
 		redirectAttributes.addAttribute("moduleId", project.getModuleId());
 		return "redirect:/firstPage/module/project";
 	}

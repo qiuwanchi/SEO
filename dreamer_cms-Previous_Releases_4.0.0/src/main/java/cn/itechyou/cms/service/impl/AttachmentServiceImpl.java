@@ -69,4 +69,15 @@ public class AttachmentServiceImpl implements AttachmentService {
 		attachment.setFileId(fileId);
 		return this.attachmentMapper.selectOne(attachment);
 	}
+
+	@Override
+	public void update(Attachment attachment) {
+		if(!StringUtils.isEmpty(attachment.getFilepath())){
+			String fileId = attachment.getFilepath();
+			fileId = fileId.substring(9);
+			fileId = fileId.substring(0, fileId.indexOf("."));
+			attachment.setFileId(fileId);
+		}
+		this.attachmentMapper.updateByPrimaryKey(attachment);
+	}
 }

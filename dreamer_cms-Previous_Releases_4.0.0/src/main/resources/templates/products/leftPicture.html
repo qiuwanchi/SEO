@@ -40,9 +40,16 @@
 		</ul>
 		<!--breadcrumbs end -->
 	</div>
+
+	<div class="modal-footer">
+		<a href="/products">
+		<button type="button" class="btn btn-primary btn-addon btn-sm">返回</button>
+		</a>
+	</div>
 </div>
 <section class="panel">
 	<img th:if="${imageUrl != null && imageUrl != ''}" th:src="${imageUrl}"/>
+
 	<div class="panel-body table-responsive">
 		<div class="alert alert-block alert-danger">
 			<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！
@@ -55,21 +62,21 @@
 			<input name="attachment.filetype" id="filetype" type="hidden" th:value="${attachment.filetype}"/>
 			<input name="attachment.filesize" id="filesize" type="hidden" th:value="${attachment.filesize}"/>
 
-			<input name="projectId" id="projectId" type="hidden" th:value="${project.id}"/>
-			<input name="leftAttachmentId" id="leftAttachmentId" type="hidden"/>
+			<input name="id" id="id" type="hidden" th:value="${project.id}"/>
+			<input name="seoImageId" id="seoImageId" type="hidden" th:value="${seoImage.id}"/>
 			<div id="uploader" class="wu-example">
 				<div class="btns">
 					<div id="picker">选择图片</div>
 				</div>
 			</div>
 			<div class="wu-example">
-				图片的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" />
+				图片的跳转链接(需要填写全路径,如:www.baidu.com/a,没有就不跳转)：<input name="clickUrl" id="clickUrl" th:value="${seoImage.clickUrl}"/>
 			</div>
 			<div class="wu-example">
-				名称：<input name="name" id="name"  />
+				名称：<input name="name" id="name"  th:value="${seoImage.name}"/>
 			</div>
 			<div class="wu-example">
-				alt：<input name="alt" id="alt" />
+				alt：<input name="alt" id="alt" th:value="${seoImage.alt}"/>
 			</div>
 
 		</form>
@@ -177,28 +184,6 @@
 			$("body").MessageBox({
 				type: 'error',
 				message: '请填写名称！',
-				timeout:5000,
-				callbak:null
-			});
-			return;
-		}
-
-		var sort = $("#sort").val();
-		if(isEmpty(sort)){
-			$("body").MessageBox({
-				type: 'error',
-				message: '排序不能为空！',
-				timeout:5000,
-				callbak:null
-			});
-			return;
-		}
-
-		var posPattern = /^\d+$/;
-		if(!posPattern.test(sort)){
-			$("body").MessageBox({
-				type: 'error',
-				message: '排序必须为数字，并且必须大于0！',
 				timeout:5000,
 				callbak:null
 			});

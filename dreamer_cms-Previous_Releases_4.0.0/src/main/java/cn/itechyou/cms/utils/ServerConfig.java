@@ -18,7 +18,7 @@ public class ServerConfig implements ApplicationListener<WebServerInitializedEve
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return address.getHostAddress() +":"+this.serverPort;
+        return "http://" + address.getHostAddress() +":"+this.serverPort;
     }
 
     @Override

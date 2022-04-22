@@ -10,7 +10,7 @@
       p.describe_msg AS describeMsg,
       p.module_id AS moduleId,
       p.attachment_id AS attachmentId,
-      p.left_attachment_id AS leftAttachmentId,
+      p.seo_image_id AS seoImageId,
       p.sort,
       p.title,
       p.keywords,

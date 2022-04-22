@@ -22,4 +22,6 @@ public interface AttachmentService {
 	Attachment queryAttachmentByCode(String key);
 
     Attachment getByFileId(String fileId);
+
+    void update(Attachment attachment);
 }
