@@ -111,12 +111,12 @@
   </div>
   <!-- 视频案例-->
   <div class="container">
-    <div class="main_video">
+    <div class="main_video video">
       <div class="main-title title_video"><img src="images/title_video.PNG" alt="视频案例"></div>
       <ul class=" clearfix pic_list">
         <#list videoCaseProjectList as videoCaseProject>
 		<li class="layui-col-xs12 layui-col-md4"> <a href="#">
-          <div class="main_img"><img src="${videoCaseProject.url}" <#if videoCaseProject.alt?? && videoCaseProject.alt != ""> alt="${videoCaseProject.alt}" </#if>></div>
+          <div class="main_img"><i class="layui-icon layui-icon-play" ></i><img src="${videoCaseProject.url}" <#if videoCaseProject.alt?? && videoCaseProject.alt != ""> alt="${videoCaseProject.alt}" </#if>></div>
           <div class="video_padding">
             <h1>${videoCaseProject.name}</h1>
 			<p>${videoCaseProject.describeMsg}</p>
@@ -259,5 +259,10 @@ layui.use(['carousel', 'form','element'], function(){
 });
 
 </script>
+
+<style type="text/css">
+	.video li div{position: relative;}
+.video .layui-icon{ font-size: 60px; color: #fff; position: absolute; top: 50%; margin-top: -30px; left: 50%; width: 60px; height: 60px; margin-left: -30px;}
+</style>
 </body>
 </html>
