@@ -138,24 +138,91 @@ public class ProductsController {
 		return "redirect:/products/leftPicture";
 	}
 
+	@GetMapping("/characteristic")
+	public String getById(Model model, @RequestParam("projectId") String projectId) {
+		List<Project> projectList = this.projectService.getByModuleId(projectId);
 
-
-	@GetMapping("/checkCode")
-	@ResponseBody
-	public boolean checkCode(@RequestParam("id") String id, @RequestParam("code") String code) {
-		int count = this.moduleService.getCountByCode(id, code);
-		return count > 0;
-	}
-
-	@GetMapping("/getById")
-	@ResponseBody
-	public Module getById(@RequestParam("moduleId") String moduleId) {
-		Module module = this.moduleService.getById(moduleId);
-		if(!StringUtils.isEmpty(module.getAttachmentId())){
-			Attachment attachment = this.attachmentService.queryAttachmentById(module.getAttachmentId());
-			module.setAttachment(attachment);
+		for (Project project : projectList){
+			if(!StringUtils.isEmpty(project.getAttachmentId())){
+				Attachment attachment = this.attachmentService.queryAttachmentById(project.getAttachmentId());
+				project.setAttachment(attachment);
+			}
 		}
-		return module;
+
+		model.addAttribute("projectList", projectList);
+		model.addAttribute("moduleId", projectId);
+		return "products/characteristic";
 	}
 
+	/**
+	 * 保存特点
+	 * @param model
+	 * @param param
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@PostMapping("/saveCharacteristic")
+	public String saveCharacteristic(Model model, Project param, RedirectAttributes redirectAttributes) {
+		Project project;
+		if(StringUtils.isEmpty(param.getId())){
+			Attachment attachment = param.getAttachment();
+			attachment.setId(UUIDUtils.getPrimaryKey());
+			attachment.setCode(UUIDUtils.getCharAndNumr(8));
+			attachment.setCreateBy(TokenManager.getUserId());
+			attachment.setCreateTime(new Date());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.save(attachment);
+
+			project = new Project();
+			project.setId(UUIDUtils.getPrimaryKey());
+			project.setName(param.getName());
+			project.setDescribeMsg(param.getDescribeMsg());
+			project.setAttachmentId(attachment.getId());
+			project.setModuleId(param.getModuleId());
+			project.setTitle(param.getTitle());
+			project.setKeywords(param.getKeywords());
+			project.setDescription(param.getDescription());
+			project.setAlt(param.getAlt());
+			project.setClickUrl(param.getClickUrl());
+			project.setContent(param.getContent());
+			project.setCode(param.getCode());
+
+			if(!StringUtils.isEmpty(param.getSort())){
+				project.setSort(param.getSort());
+			}
+			this.projectService.add(project);
+
+		}else {
+			project = this.projectService.getById(param.getId());
+
+			Attachment attachment = this.attachmentService.queryAttachmentById(project.getAttachmentId());
+			attachment.setFilename(param.getAttachment().getFilename());
+			attachment.setFilesize(param.getAttachment().getFilesize());
+			attachment.setFilepath(param.getAttachment().getFilepath());
+			attachment.setFiletype(param.getAttachment().getFiletype());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.update(attachment);
+
+			if(!StringUtils.isEmpty(param.getSort())){
+				project.setSort(param.getSort());
+			}
+			project.setName(param.getName());
+			project.setDescribeMsg(param.getDescribeMsg());
+			project.setAttachmentId(attachment.getId());
+			project.setTitle(param.getTitle());
+			project.setKeywords(param.getKeywords());
+			project.setDescription(param.getDescription());
+			project.setAlt(param.getAlt());
+			project.setClickUrl(param.getClickUrl());
+			project.setContent(param.getContent());
+			project.setCode(param.getCode());
+
+			this.projectService.update(project);
+		}
+
+		redirectAttributes.addAttribute("projectId", project.getModuleId());
+		return "redirect:/products/characteristic";
+	}
 }
