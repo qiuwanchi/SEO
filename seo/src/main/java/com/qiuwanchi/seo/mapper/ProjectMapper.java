@@ -25,4 +25,11 @@ public interface ProjectMapper extends BaseMapper<Project> {
     ProjectDto getPreProject(@Param("moduleId")String moduleId, @Param("currentProjectId")String currentProjectId, @Param("sort")int sort);
 
     ProjectDto getNextProject(@Param("moduleId")String moduleId, @Param("currentProjectId")String currentProjectId, @Param("sort")int sort);
+
+    /**
+     * 热门回答
+     * @param moduleCode
+     * @return
+     */
+    List<ProjectDto> getHotAnswer(@Param("moduleCode")String moduleCode);
 }

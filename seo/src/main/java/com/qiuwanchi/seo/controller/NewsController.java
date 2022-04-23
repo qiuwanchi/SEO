@@ -2,14 +2,12 @@ package com.qiuwanchi.seo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qiuwanchi.seo.dto.KeywordsDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SeoVideoDto;
 import com.qiuwanchi.seo.entity.Project;
-import com.qiuwanchi.seo.service.IAttachmentService;
-import com.qiuwanchi.seo.service.IModuleService;
-import com.qiuwanchi.seo.service.IProjectService;
-import com.qiuwanchi.seo.service.ISeoVideoService;
+import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -20,9 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 新闻资讯
@@ -42,6 +38,9 @@ public class NewsController {
 
     @Autowired
     private IProjectService projectService;
+
+    @Autowired
+    private ISubProjectService subProjectService;
 
     @Autowired
     private ServerConfig serverConfig;
@@ -222,8 +221,59 @@ public class NewsController {
         ProjectDto nextProject = this.projectService.getNextProject(currentProjectDto.getModuleId(), currentProjectDto.getId(), currentProjectDto.getSort());
         model.addAttribute("nextProject", nextProject);
 
+        // 热门回答
+        List<ProjectDto> hotAnswerProjectDtoList = this.projectService.getHotAnswer(currentProjectDto.getModuleCode());
+        model.addAttribute("hotAnswerProjectDtoList", hotAnswerProjectDtoList);
+
+        // 热门标签
+        List<String> hotLabelList1 = this.projectService.selectKeywords();
+        List<String> hotLabelList2 = this.subProjectService.selectKeywords();
+        Map<String,Integer> map = new TreeMap<>();
+        this.keywordsCount(map,hotLabelList1);
+        this.keywordsCount(map,hotLabelList2);
+        List<KeywordsDto> keywordsDtoList = new ArrayList<>();
+        for (Map.Entry<String,Integer> entry : map.entrySet()){
+            if(StringUtils.isBlank(entry.getKey())){
+                continue;
+            }
+            KeywordsDto keywordsDto = new KeywordsDto();
+            keywordsDto.setCount(entry.getValue());
+            keywordsDto.setWords(entry.getKey());
+            keywordsDtoList.add(keywordsDto);
+        }
+
+        keywordsDtoList.sort(new Comparator<KeywordsDto>() {
+            @Override
+            public int compare(KeywordsDto o1, KeywordsDto o2) {
+                return o2.getCount() - o1.getCount();
+            }
+        });
+
+        if(keywordsDtoList.size() > 10){
+            keywordsDtoList = keywordsDtoList.subList(0,9);
+        }
+
+        model.addAttribute("keywordsDtoList", keywordsDtoList);
+
         this.bottomManagementCommon.bottom(model);
         return "news_detail";
+    }
+
+    private void keywordsCount(Map<String,Integer> map, List<String> hotLabelList){
+        for (String keywords : hotLabelList){
+            String[] arr = keywords.split(",");
+
+            for(String words : arr){
+                Integer count = map.get(words);
+                if (Objects.isNull(count)){
+                    count = 1;
+                }else {
+                    count = count + 1;
+                }
+
+                map.put(words, count);
+            }
+        }
     }
 
     private void intProjectSeoValue(List<ProjectDto> projectDtoList){

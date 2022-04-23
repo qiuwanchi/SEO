@@ -58,8 +58,12 @@ public class ProjectController {
 		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
 		model.addAttribute("constantDefinition", constantDefinition);
 
-		// 关于我们-公司介绍/公司产品/业务范围/公司新闻
-		if("CompanyIntroduction".equals(module.getBelong()) || "companyProduct-productModule".equals(module.getBelong()) || "BusinessScope".equals(module.getBelong()) || "News".equals(module.getBelong())){
+		// 关于我们-公司介绍/公司产品/业务范围/公司新闻/热门回答
+		if("CompanyIntroduction".equals(module.getBelong()) ||
+				"companyProduct-productModule".equals(module.getBelong()) ||
+				"BusinessScope".equals(module.getBelong()) ||
+				"News".equals(module.getBelong()) ||
+				"hostAnswer".equals(module.getBelong())){
 
 			boolean isFirstCategory = this.idFirstCategory(module.getBelong());
 			model.addAttribute("isFirstCategory", isFirstCategory);

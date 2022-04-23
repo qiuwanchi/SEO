@@ -4,17 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qiuwanchi.seo.dto.SubProjectDto;
+import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.entity.SubProject;
 import com.qiuwanchi.seo.mapper.SubProjectMapper;
 import com.qiuwanchi.seo.service.ISubProjectService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubProject> implements ISubProjectService {
@@ -66,5 +65,14 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
     @Override
     public SubProjectDto getByNumber(int number) {
         return this.subProjectMapper.selectByNumber(number);
+    }
+
+    @Override
+    public List<String> selectKeywords() {
+        QueryWrapper<SubProject> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select(SubProject.KEYWORDS);
+        queryWrapper.isNotNull(Project.KEYWORDS);
+        List<SubProject> subProjectList = this.list(queryWrapper);
+        return subProjectList.stream().map(SubProject::getKeywords).collect(Collectors.toList());
     }
 }

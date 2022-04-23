@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements IProjectService {
@@ -57,5 +57,19 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     @Override
     public ProjectDto selectByNumber(int number) {
         return this.projectMapper.selectByNumber(number);
+    }
+
+    @Override
+    public List<ProjectDto> getHotAnswer(String moduleCode) {
+        return this.projectMapper.getHotAnswer(moduleCode);
+    }
+
+    @Override
+    public List<String> selectKeywords() {
+        QueryWrapper<Project> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select(Project.KEYWORDS);
+        queryWrapper.isNotNull(Project.KEYWORDS);
+        List<Project> projectList = this.list(queryWrapper);
+        return projectList.stream().map(Project::getKeywords).collect(Collectors.toList());
     }
 }

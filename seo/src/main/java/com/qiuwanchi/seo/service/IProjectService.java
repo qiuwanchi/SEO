@@ -23,4 +23,7 @@ public interface IProjectService extends IService<Project> {
 
     ProjectDto selectByNumber(int number);
 
+    List<ProjectDto> getHotAnswer(String moduleCode);
+
+    List<String> selectKeywords();
 }

@@ -30,4 +30,6 @@ public interface ISubProjectService extends IService<SubProject> {
     Page<SubProjectDto> getPageList(Page page, String firstCategory, String secondCategory);
 
     SubProjectDto getByNumber(int number);
+
+    List<String> selectKeywords();
 }
