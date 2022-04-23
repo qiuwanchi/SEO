@@ -80,6 +80,7 @@ public class SubProjectController {
 			if(!StringUtils.isEmpty(subProject.getAttachmentId())){
 				Attachment attachment = this.attachmentService.queryAttachmentById(subProject.getAttachmentId());
 				subProject.setAttachment(attachment);
+				model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
 			}
 
 			model.addAttribute("subProject", subProject);

@@ -45,7 +45,7 @@
 	</div>
 </div>
 <section class="panel">
-
+	<img th:if="${imageUrl != null && imageUrl != ''}" th:src="${imageUrl}"/>
 	<div class="panel-body table-responsive">
 		<div class="alert alert-block alert-danger">
 			<strong>注意!</strong> 上传成功后切记点击确定按钮，否则不会保存！

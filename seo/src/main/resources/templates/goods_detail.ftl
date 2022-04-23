@@ -50,7 +50,7 @@
 </div>
 <div class="detail2 clearfix">
   <div class="detail2_text">
-    <h2>展厅智能中控系统特点</h2>
+    <h2>${currentProjectDto.name}的特点</h2>
     <span>Features of intelligent central control system in exhibition hall</span> </div>
   <ul class="detail2_ul clearfix">
 	<#list systemCharacteristicsProjectDtoList as systemCharacteristics>

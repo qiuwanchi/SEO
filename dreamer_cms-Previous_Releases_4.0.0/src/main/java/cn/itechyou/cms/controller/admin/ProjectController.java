@@ -113,6 +113,7 @@ public class ProjectController {
 			if(!StringUtils.isEmpty(project.getAttachmentId())){
 				Attachment attachment = this.attachmentService.queryAttachmentById(project.getAttachmentId());
 				project.setAttachment(attachment);
+				model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
 			}
 
 			model.addAttribute("project", project);
