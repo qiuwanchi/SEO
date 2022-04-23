@@ -225,55 +225,10 @@ public class NewsController {
         List<ProjectDto> hotAnswerProjectDtoList = this.projectService.getHotAnswer(currentProjectDto.getModuleCode());
         model.addAttribute("hotAnswerProjectDtoList", hotAnswerProjectDtoList);
 
-        // 热门标签
-        List<String> hotLabelList1 = this.projectService.selectKeywords();
-        List<String> hotLabelList2 = this.subProjectService.selectKeywords();
-        Map<String,Integer> map = new TreeMap<>();
-        this.keywordsCount(map,hotLabelList1);
-        this.keywordsCount(map,hotLabelList2);
-        List<KeywordsDto> keywordsDtoList = new ArrayList<>();
-        for (Map.Entry<String,Integer> entry : map.entrySet()){
-            if(StringUtils.isBlank(entry.getKey())){
-                continue;
-            }
-            KeywordsDto keywordsDto = new KeywordsDto();
-            keywordsDto.setCount(entry.getValue());
-            keywordsDto.setWords(entry.getKey());
-            keywordsDtoList.add(keywordsDto);
-        }
-
-        keywordsDtoList.sort(new Comparator<KeywordsDto>() {
-            @Override
-            public int compare(KeywordsDto o1, KeywordsDto o2) {
-                return o2.getCount() - o1.getCount();
-            }
-        });
-
-        if(keywordsDtoList.size() > 10){
-            keywordsDtoList = keywordsDtoList.subList(0,9);
-        }
-
-        model.addAttribute("keywordsDtoList", keywordsDtoList);
+        model.addAttribute("keywordsDtoList", KeywordsUtils.getHotLabel());
 
         this.bottomManagementCommon.bottom(model);
         return "news_detail";
-    }
-
-    private void keywordsCount(Map<String,Integer> map, List<String> hotLabelList){
-        for (String keywords : hotLabelList){
-            String[] arr = keywords.split(",");
-
-            for(String words : arr){
-                Integer count = map.get(words);
-                if (Objects.isNull(count)){
-                    count = 1;
-                }else {
-                    count = count + 1;
-                }
-
-                map.put(words, count);
-            }
-        }
     }
 
     private void intProjectSeoValue(List<ProjectDto> projectDtoList){

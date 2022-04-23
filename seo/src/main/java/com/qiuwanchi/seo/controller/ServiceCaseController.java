@@ -185,6 +185,12 @@ public class ServiceCaseController {
         SubProjectDto nextSubProjectDto = this.subProjectService.getNextSubProject(currentSubProjectDto.getProjectId(), currentSubProjectDto.getId(), currentSubProjectDto.getSort());
         model.addAttribute("nextSubProjectDto", nextSubProjectDto);
 
+        // 热门回答
+        List<ProjectDto> hotAnswerProjectDtoList = this.projectService.getHotAnswer(module.getCode());
+        model.addAttribute("hotAnswerProjectDtoList", hotAnswerProjectDtoList);
+
+        model.addAttribute("keywordsDtoList", KeywordsUtils.getHotLabel());
+
         this.bottomManagementCommon.bottom(model);
 
         return "service_case_detail";

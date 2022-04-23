@@ -107,6 +107,8 @@ public class ProductController {
         SeoUtils.intSubProjectSeoValue(applicationScenarioSubProjectDtoList);
         model.addAttribute("applicationScenarioSubProjectDtoList", applicationScenarioSubProjectDtoList);
 
+        model.addAttribute("keywordsDtoList", KeywordsUtils.getHotLabel());
+
         // 底部
         this.bottomManagementCommon.bottom(model);
 

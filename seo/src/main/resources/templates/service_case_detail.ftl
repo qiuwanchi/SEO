@@ -88,17 +88,18 @@
         <div class="rightList">
           <h3 class="clearfix"><span></span><strong>热门问答</strong></h3>
           <ul>
-            <li><a href="javascrpt:;">●&nbsp;近期全国本土疫情多点频发</a></li>
-            <li><a href="javascrpt:;">●&nbsp;打造乡村振兴的齐鲁样板</a></li>
-            <li><a href="javascrpt:;">●&nbsp;交通运输部召开会议，部署货运物流保通保畅工作</a></li>
-            <li><a href="javascrpt:;">●&nbsp;近期全国本土疫情多点频发</a></li>
-            <li><a href="javascrpt:;">●&nbsp;共同的梦想，共同的未来</a></li>
-            <li><a href="javascrpt:;">●&nbsp;近期全国本土疫情多点频发</a></li>
+              <#list hotAnswerProjectDtoList as hotAnswerProjectDto>
+              <li><a href="${baseUrl}/questionsAnswers/${hotAnswerProjectDto.moduleCode}/${hotAnswerProjectDto.number}.html">●&nbsp;${hotAnswerProjectDto.name}</a></li>
+              </#list>
           </ul>
         </div>
         <div class="rightList">
           <h3 class="clearfix"><span></span><strong>热门标签</strong></h3>
-          <div class="bq"> <span><a href="javascript:;">全国</a></span> <span><a href="javascript:;">本土疫情</a></span> <span><a href="javascript:;">疫情多点频发</a></span> <span><a href="javascript:;">交通运输</a></span> <span><a href="javascript:;">部署货运</a></span> <span><a href="javascript:;">全国</a></span> <span><a href="javascript:;">本土疫情</a></span> <span><a href="javascript:;">频发</a></span> <span><a href="javascript:;">交通运输</a></span> <span><a href="javascript:;">未来</a></span> </div>
+          <div class="bq">
+              <#list keywordsDtoList as keywordsDto>
+              <span><a href="javascript:;">${keywordsDto.words}</a></span>
+          </#list>
+          </div>
         </div>
       </div>
     </div>
