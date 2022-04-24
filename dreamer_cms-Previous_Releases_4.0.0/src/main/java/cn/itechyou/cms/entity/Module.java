@@ -70,4 +70,7 @@ public class Module implements Serializable {
     @Column(name = "code")
     private String  code;
 
+    @Column(name = "home_page_display")
+    private String  homePageDisplay;
+
 }

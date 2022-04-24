@@ -54,6 +54,7 @@
 		<#list productModuleList as productModule>
 		    <li <#if productModule_index ==0> class="layui-this" </#if> >${productModule.name}</li>
 		</#list>
+        <li><a>aaa</a></li>
       </ul>
       <div class="layui-tab-content" style="padding-top: 10px;">
 	  <#list productModuleList as productModule>
@@ -76,11 +77,11 @@
     </div>
   </div>
   
-  <!--多媒体展厅项目案例-->
+  <!--服务案例-->
   <div style="background: #f7f7f7; padding-top: 20px; margin-top: 20px;">
     <div class="layui-row container">
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-        <div class="main-title"><img src="images/title.PNG" alt="多媒体展厅项目案例"></div>
+        <div class="main-title"><img src="images/title.PNG" alt="服务案例"></div>
         <ul class="layui-tab-title">
 		<#list showRoomModuleList as showRoomModule>
 		  <li <#if showRoomModule_index ==0> class="layui-this" </#if>>${showRoomModule.name}</li>
@@ -110,24 +111,7 @@
     </div>
   </div>
   <!-- 视频案例-->
-  <div class="container">
-    <div class="main_video video">
-      <div class="main-title title_video"><img src="images/title_video.PNG" alt="视频案例"></div>
-      <ul class=" clearfix pic_list">
-        <#list videoCaseProjectList as videoCaseProject>
-		<li class="layui-col-xs12 layui-col-md4"> <a href="#">
-          <div class="main_img"><i class="layui-icon layui-icon-play" ></i><img src="${videoCaseProject.url}" <#if videoCaseProject.alt?? && videoCaseProject.alt != ""> alt="${videoCaseProject.alt}" </#if>></div>
-          <div class="video_padding">
-            <h1>${videoCaseProject.name}</h1>
-			<p>${videoCaseProject.describeMsg}</p>
-          </div>
-          </a> </li>
-		</#list>
-       
-      </ul>
-      <div class="more"><a href="#">查看更多 》</a></div>
-    </div>
-  </div>
+
   <!-- 我们的优势-->
   <div class="main_ys">
     <div class="container">

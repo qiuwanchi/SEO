@@ -198,4 +198,13 @@ public class ModuleController {
 		return module;
 	}
 
+	@GetMapping("/homePageDisplay")
+	public String homePageDisplay(@RequestParam("moduleId") String moduleId, String flag, RedirectAttributes redirectAttributes) {
+		Module module = this.moduleService.getById(moduleId);
+		module.setHomePageDisplay(flag);
+		this.moduleService.update(module);
+		redirectAttributes.addAttribute("belong", module.getBelong());
+		return "redirect:/firstPage/module";
+	}
+
 }

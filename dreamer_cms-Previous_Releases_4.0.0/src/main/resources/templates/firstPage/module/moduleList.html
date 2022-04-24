@@ -53,6 +53,10 @@
 				<td th:text="${module.name}"></td>
 				<td th:text="${module.sort}"></td>
 				<td>
+					<a th:if="${module.homePageDisplay != '1'}" th:href="@{/firstPage/module/homePageDisplay(moduleId=${module.id},flag=1)}" class="btn btn-xs btn-success" >首页显示</a>
+					<a th:unless="${module.homePageDisplay != '1'}" th:href="@{/firstPage/module/homePageDisplay(moduleId=${module.id},flag=0)}" class="btn btn-xs btn-success" >取消首页显示</a>
+					<span>&nbsp;|&nbsp;</span>
+
 					<a th:if="${belong == 'ServiceCase'}" th:href="@{/firstPage/module/project(moduleId=${module.id})}" class="btn btn-xs btn-success" >查看子类目列表</a>
 					<a th:unless="${belong == 'ServiceCase'}" th:href="@{/firstPage/module/project(moduleId=${module.id})}" class="btn btn-xs btn-success" >查看项目列表</a>
 

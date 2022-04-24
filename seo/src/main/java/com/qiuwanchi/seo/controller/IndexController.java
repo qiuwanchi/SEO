@@ -76,12 +76,12 @@ public class IndexController {
         List<ModuleDto> showRoomModuleList = this.moduleService.getModuleDtoList("multi-media-showroom");
         model.addAttribute("showRoomModuleList", showRoomModuleList);
 
-        // 5视频案例
-        List<ModuleDto> videoCaseModuleList = this.moduleService.getModuleDtoList("VideoCase");
-        if(!CollectionUtils.isEmpty(videoCaseModuleList)){
-            List<ProjectDto> videoCaseProjectList = videoCaseModuleList.get(0).getProjectDtoList();
-            model.addAttribute("videoCaseProjectList", videoCaseProjectList);
-        }
+//        // 5视频案例
+//        List<ModuleDto> videoCaseModuleList = this.moduleService.getModuleDtoList("VideoCase");
+//        if(!CollectionUtils.isEmpty(videoCaseModuleList)){
+//            List<ProjectDto> videoCaseProjectList = videoCaseModuleList.get(0).getProjectDtoList();
+//            model.addAttribute("videoCaseProjectList", videoCaseProjectList);
+//        }
 
         // 6公司优势
         List<ModuleDto> companyAdvantageModuleList = this.moduleService.getModuleDtoList("CompanyAdvantage");

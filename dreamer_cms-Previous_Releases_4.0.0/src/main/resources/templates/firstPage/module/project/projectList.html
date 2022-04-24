@@ -34,9 +34,11 @@
 	<div class="panel-body">
          <!-- <span class="pull-right badge badge-info">32</span> -->
 
+		<div th:if="${!isMore}">
          <button class="btn btn-primary btn-addon btn-sm" data-toggle="modal" th:if="${isAdd}" th:onclick="javascript: openUploadDialog()">
              <i class="fa fa-plus"></i>添加
          </button>
+		</div>
     </div>
 
 	<div class="panel-body table-responsive">
