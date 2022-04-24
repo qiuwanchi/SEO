@@ -20,6 +20,6 @@ spring:
 
 # 日志配置
 logging:
-  path: D:/dreamer-cms/logs/
+  path: D:/seo-cms/logs/
   level:
     root: info              

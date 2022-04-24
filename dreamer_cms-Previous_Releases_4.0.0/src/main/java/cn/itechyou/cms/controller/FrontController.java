@@ -94,57 +94,7 @@ public class FrontController {
 	private AttachmentService attachmentService;
 	@Autowired
 	private ParseEngine parseEngine;
-	
-	/**
-	 * 首页方法
-	 * @throws CmsException
-	 * @throws IOException 
-	 */
-	@RequestMapping("/index")
-	public void index() throws CmsException, IOException {
-		System system = systemService.getSystem();
-		String staticdir = system.getStaticdir();
-		if(staticdir.startsWith("/")) {
-			staticdir = staticdir.substring(1);
-		}
-		//如果为静态浏览，则重写向到静态文件
-		if(2 == system.getBrowseType()) {
-			String url = fileConfiguration.getResourceDir() + staticdir + "/index.html";
-			File staticFile = new File(url);
-			if(!staticFile.exists()) {
-				throw new TemplateNotFoundException(
-						ExceptionEnum.HTTP_NOT_FOUND.getCode(),
-						ExceptionEnum.HTTP_NOT_FOUND.getMessage(),
-						"当前浏览方式为静态浏览，您所浏览的静态文件不存在，请先静态化网站后再继续。");
-			}
-			response.sendRedirect("/" + staticdir + "/index.html");
-			return;
-		}
-		
-		Theme theme = themeService.getCurrentTheme();
-		String templatePath = theme.getThemePath() + "/index.html";
-		String templateDir = fileConfiguration.getResourceDir() + "templates/";
-		
-		String path = templateDir + templatePath;
-		File template = new File(path);
-		if(!template.exists()) {
-			throw new TemplateNotFoundException(
-					ExceptionEnum.TEMPLATE_NOTFOUND_EXCEPTION.getCode(),
-					ExceptionEnum.TEMPLATE_NOTFOUND_EXCEPTION.getMessage(),
-					"请仔细检查" + template.getAbsolutePath() + "文件，或检查application.yml中的资源目录配置项（web.resource-path）。");
-		}
-		String newHtml = "";
-		try {
-			String html = FileUtils.readFileToString(template, "UTF-8");
-			newHtml = parseEngine.parse(html);
-			outHtml(newHtml);
-		} catch (IOException e) {
-			throw new TemplateReadException(
-					ExceptionEnum.TEMPLATE_READ_EXCEPTION.getCode(),
-					ExceptionEnum.TEMPLATE_READ_EXCEPTION.getMessage(),
-					"请仔细检查模版文件，或检查application.yml中的资源目录配置项（web.resource-path）。");
-		}
-	}
+
 	
 	/**
 	 * 封面方法

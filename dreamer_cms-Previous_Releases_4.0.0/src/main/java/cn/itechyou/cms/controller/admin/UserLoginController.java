@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Controller
-@RequestMapping("/admin/u")
+@RequestMapping
 public class UserLoginController extends BaseController {
 	@Autowired
 	private LicenceService licenceService;
@@ -51,7 +51,7 @@ public class UserLoginController extends BaseController {
 	
 
 	// 产生验证码
-	@RequestMapping("/getVerifyCode")
+	@RequestMapping("/admin/u/getVerifyCode")
 	public void getKaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 48);
         captcha.getArithmeticString();  // 获取运算的公式：3+2=?
@@ -64,7 +64,7 @@ public class UserLoginController extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("toLogin")
+	@RequestMapping("/admin/u/toLogin")
 	public ModelAndView toLogin() {
 		ModelAndView mv = new ModelAndView();
 		User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -77,7 +77,7 @@ public class UserLoginController extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("toIndex")
+	@RequestMapping("/index")
 	public ModelAndView toIndex() {
 		ModelAndView mv = new ModelAndView();
 		String userId = TokenManager.getUserId();
@@ -100,7 +100,7 @@ public class UserLoginController extends BaseController {
 	 * @return
 	 */
 	@Log(module = "登录模块",content = "用户登录操作")
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/u/login", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseResult login(@RequestBody UserVO entity,HttpServletRequest request) {
 		ResponseResult result = null;
@@ -147,7 +147,7 @@ public class UserLoginController extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/u/logout", method = RequestMethod.GET)
 	public String logout() {
 		try {
 			TokenManager.logout();
