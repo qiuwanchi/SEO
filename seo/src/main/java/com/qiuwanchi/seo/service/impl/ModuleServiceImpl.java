@@ -28,8 +28,8 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     private IProjectService projectService;
 
     @Override
-    public List<ModuleDto> getModuleDtoList(String belong) {
-        List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(belong);
+    public List<ModuleDto> getModuleDtoList(String homePageDisplay,String belong) {
+        List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(homePageDisplay, belong);
 
         /*初始化Module-seo相关值*/
         SeoUtils.intModuleSeoValue(moduleDtoList);
@@ -73,8 +73,13 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     }
 
     @Override
+    public List<ModuleDto> getModuleDtoList(String belong) {
+        return this.getModuleDtoList(null, belong);
+    }
+
+    @Override
     public List<ModuleDto> getSimpleModuleDtoList(String belong) {
-        return this.moduleMapper.getModuleList(belong);
+        return this.moduleMapper.getModuleList(null, belong);
     }
 
     @Override

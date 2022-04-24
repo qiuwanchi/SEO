@@ -54,7 +54,16 @@
 		<#list productModuleList as productModule>
 		    <li <#if productModule_index ==0> class="layui-this" </#if> >${productModule.name}</li>
 		</#list>
-        <li><a>aaa</a></li>
+
+        <#list productMoreProjectList as productMoreProject>
+            <li>
+                <#if productMoreProject.clickUrl?? && productMoreProject.clickUrl != "">
+                    <a href="${productMoreProject.clickUrl}" target="_blank">${productMoreProject.name}</a>
+                <#else>
+                    <a href="javascript:;">${productMoreProject.name}</a>
+                </#if>
+            </li>
+        </#list>
       </ul>
       <div class="layui-tab-content" style="padding-top: 10px;">
 	  <#list productModuleList as productModule>
@@ -83,21 +92,21 @@
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <div class="main-title"><img src="images/title.PNG" alt="服务案例"></div>
         <ul class="layui-tab-title">
-		<#list showRoomModuleList as showRoomModule>
-		  <li <#if showRoomModule_index ==0> class="layui-this" </#if>>${showRoomModule.name}</li>
+		<#list serviceCaseModuleList as serviceCaseModule>
+		  <li <#if serviceCaseModule_index ==0> class="layui-this" </#if>>${serviceCaseModule.name}</li>
 		</#list>
         </ul>
         <div class="layui-tab-content" style="margin-top: 20px;">
-		<#list showRoomModuleList as showRoomModule>
-          <div class="layui-tab-item <#if showRoomModule_index ==0>layui-show </#if>">
+		<#list serviceCaseModuleList as serviceCaseModule>
+          <div class="layui-tab-item <#if serviceCaseModule_index ==0>layui-show </#if>">
             <ul class=" clearfix pic_list">
 			
-			<#list showRoomModule.projectDtoList as project>
+			<#list serviceCaseModule.projectDtoList as project>
               <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
                 <div class="main_img"><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
                 <span>0${project_index + 1}</span>
 				<h1>${project.name}</h1>
-				<p>${project.describeMsg}</p>
+				<p><#if project.describeMsg?? && project.describeMsg != "">${project.describeMsg}</#if></p>
                 </a> </li>
 			</#list>
               
@@ -121,14 +130,25 @@
         <#list companyAdvantageProjectList as companyAdvantageProject>
 		<li>
           <div class="ys_tnt">
-            <div class="ys_img"><img src="${companyAdvantageProject.url}" <#if companyAdvantageProject.alt?? && companyAdvantageProject.alt != ""> alt="${companyAdvantageProject.alt}" </#if>></div>
+            <div class="ys_img">
+
+                <#if companyAdvantageProject.clickUrl?? && companyAdvantageProject.clickUrl != "">
+                    <a href="${companyAdvantageProject.clickUrl}" target="_blank">
+                </#if>
+
+                <img src="${companyAdvantageProject.url}" <#if companyAdvantageProject.alt?? && companyAdvantageProject.alt != ""> alt="${companyAdvantageProject.alt}" </#if>>
+
+                <#if companyAdvantageProject.clickUrl?? && companyAdvantageProject.clickUrl != "">
+                    </a>
+                </#if>
+            </div>
             <h3>${companyAdvantageProject.name}</h3>
 			<span>${companyAdvantageProject.describeMsg}</span>
         </li>
 		</#list>
         
       </ul>
-      <div class="more"><a href="#">查看更多 》</a></div>
+      <div class="more"><a href="${baseUrl}/aboutUs.html" target="_blank">查看更多 》</a></div>
     </div>
   </div>
   <!-- 解决方案案例-->

@@ -26,6 +26,10 @@
         a.filepath AS filePath,
         a.file_id AS fileId
         FROM module b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.belong=#{belong}
+        <if test="homePageDisplay != null">
+            and b.home_page_display=#{homePageDisplay}
+        </if>
+
         ORDER BY b.sort
     </select>
 

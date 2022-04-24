@@ -11,7 +11,8 @@ import java.util.List;
 @Mapper
 public interface ModuleMapper extends BaseMapper<Module> {
 
-    List<ModuleDto> getModuleList(@Param("belong")String belong);
+    List<ModuleDto> getModuleList(@Param("homePageDisplay")String homePageDisplay, @Param("belong")String belong);
 
     ModuleDto selectByModuleId(@Param("moduleId")String moduleId);
+
 }

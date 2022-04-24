@@ -43,6 +43,8 @@ public class ModuleDto {
 
     private String code;
 
+    private String homePageDisplay;
+
     private List<ProjectDto> projectDtoList;
 
 }

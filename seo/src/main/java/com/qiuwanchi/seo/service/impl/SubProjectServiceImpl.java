@@ -3,6 +3,7 @@ package com.qiuwanchi.seo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.entity.SubProject;
@@ -74,5 +75,11 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
         queryWrapper.isNotNull(Project.KEYWORDS);
         List<SubProject> subProjectList = this.list(queryWrapper);
         return subProjectList.stream().map(SubProject::getKeywords).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ModuleDto> getSubProjectList(String homePageDisplay, String serviceCase) {
+        //TODO
+        return null;
     }
 }

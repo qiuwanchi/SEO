@@ -64,6 +64,9 @@ public class Module implements Serializable {
     @TableField("code")
     private String code;
 
+    @TableField("home_page_display")
+    private String homePageDisplay;
+
     public static final String ID = "id";
     public static final String NUMBER = "number";
     public static final String ATTACHMENT_ID = "attachment_id";

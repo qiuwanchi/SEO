@@ -2,6 +2,7 @@ package com.qiuwanchi.seo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.entity.SubProject;
 
@@ -32,4 +33,6 @@ public interface ISubProjectService extends IService<SubProject> {
     SubProjectDto getByNumber(int number);
 
     List<String> selectKeywords();
+
+    List<ModuleDto> getSubProjectList(String homePageDisplay, String serviceCase);
 }

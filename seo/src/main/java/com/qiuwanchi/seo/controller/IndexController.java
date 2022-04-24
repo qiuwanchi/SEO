@@ -5,6 +5,7 @@ import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
+import com.qiuwanchi.seo.service.ISubProjectService;
 import com.qiuwanchi.seo.utils.BottomManagementCommon;
 import com.qiuwanchi.seo.utils.FileConfiguration;
 import com.qiuwanchi.seo.utils.LogoCommon;
@@ -41,6 +42,9 @@ public class IndexController {
     private IProjectService projectService;
 
     @Autowired
+    private ISubProjectService subProjectService;
+
+    @Autowired
     private BottomManagementCommon bottomManagementCommon;
 
     @Autowired
@@ -69,12 +73,18 @@ public class IndexController {
         }
 
         // 3公司产品
-        List<ModuleDto> productModuleList = this.moduleService.getModuleDtoList("companyProduct-productModule");
+        List<ModuleDto> productModuleList = this.moduleService.getModuleDtoList("1","companyProduct-productModule");
         model.addAttribute("productModuleList", productModuleList);
 
-        // 4多媒体展厅
-        List<ModuleDto> showRoomModuleList = this.moduleService.getModuleDtoList("multi-media-showroom");
-        model.addAttribute("showRoomModuleList", showRoomModuleList);
+        // 3公司产品更多按钮
+        List<ModuleDto> productMoreModuleList = this.moduleService.getModuleDtoList("FirstPage-CompanyProduct-more");
+        ModuleDto productMoreModule = productMoreModuleList.get(0);
+        List<ProjectDto> productMoreProjectList = productMoreModule.getProjectDtoList();
+        model.addAttribute("productMoreProjectList", productMoreProjectList);
+
+        // 4.服务案例 TODO
+       // List<ModuleDto> serviceCaseModuleList = this.subProjectService.getSubProjectList("1", "ServiceCase");
+        model.addAttribute("serviceCaseModuleList", new ArrayList<>());
 
 //        // 5视频案例
 //        List<ModuleDto> videoCaseModuleList = this.moduleService.getModuleDtoList("VideoCase");
