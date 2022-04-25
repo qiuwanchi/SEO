@@ -13,7 +13,7 @@
     <!-- Theme style -->
     <link href="/resource/css/style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/resource/js/webuploader-0.1.5/webuploader.css">   
-    <link rel="stylesheet" type="text/css" href="/resource/js/jQueryMessage/css/message.skin.css" /> 
+    <link rel="stylesheet" type="text/css" href="/resource/js/jQueryMessage/css/message.skin.css" />
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览图片</a>
-					<span>&nbsp;|&nbsp;</span>
+					<span th:if="${isDelete}">&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:if="${isDelete}"  th:aid="${project.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 				</td>
 			</tr>
