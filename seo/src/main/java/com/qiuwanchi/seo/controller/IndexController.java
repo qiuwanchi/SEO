@@ -73,7 +73,7 @@ public class IndexController {
         }
 
         // 3公司产品
-        List<ModuleDto> productModuleList = this.moduleService.getModuleDtoList("1","companyProduct-productModule");
+        List<ModuleDto> productModuleList = this.moduleService.getIndexModuleDtoList("1","companyProduct-productModule", 8);
         model.addAttribute("productModuleList", productModuleList);
 
         // 3公司产品更多按钮
@@ -115,7 +115,7 @@ public class IndexController {
         }
 
         //9 新闻资讯
-        List<ModuleDto> newsModuleList = this.moduleService.getModuleDtoList("News");
+        List<ModuleDto> newsModuleList = this.moduleService.getIndexModuleDtoList(null,"News", 6);
         if(!CollectionUtils.isEmpty(newsModuleList)){
             for (ModuleDto moduleDto : newsModuleList){
                 if(!CollectionUtils.isEmpty(moduleDto.getProjectDtoList())){

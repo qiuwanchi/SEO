@@ -13,6 +13,15 @@ public interface IModuleService extends IService<Module> {
 
     List<ModuleDto> getModuleDtoList(String belong);
 
+    /**
+     * 获取置顶首页模块，及其下的项目(取size条数)
+     * @param homePageDisplay
+     * @param belong
+     * @param size
+     * @return
+     */
+    List<ModuleDto> getIndexModuleDtoList(String homePageDisplay, String belong, Integer size);
+
     List<ModuleDto> getSimpleModuleDtoList(String belong);
 
     ModuleDto selectByModuleId(String moduleId);

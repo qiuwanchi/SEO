@@ -178,18 +178,16 @@
 		<#list maintenanceServicesProjectList as maintenanceServicesProject>
         <li class="layui-col-sm6 layui-col-md3">
           <div class="wh_tnt"> 
-			
-			<#if maintenanceServicesProject.clickUrl?? && maintenanceServicesProject.clickUrl != "">
-				<a href="${maintenanceServicesProject.clickUrl}" target="_blank">
-			</#if>
-			
-            <div><img src="${maintenanceServicesProject.url}" <#if maintenanceServicesProject.alt?? && maintenanceServicesProject.alt != ""> alt="${maintenanceServicesProject.alt}" </#if>>
-              <h3>${maintenanceServicesProject.name}</h3>
+            <div>
+                <#if maintenanceServicesProject.clickUrl?? && maintenanceServicesProject.clickUrl != "">
+                    <a href="${maintenanceServicesProject.clickUrl}" target="_blank">
+                </#if>
+              <img src="${maintenanceServicesProject.url}" <#if maintenanceServicesProject.alt?? && maintenanceServicesProject.alt != ""> alt="${maintenanceServicesProject.alt}" </#if>>
+                <#if maintenanceServicesProject.clickUrl?? && maintenanceServicesProject.clickUrl != "">
+                    </a>
+                </#if>
+             <h3>${maintenanceServicesProject.name}</h3>
             </div>
-			
-            <#if maintenanceServicesProject.clickUrl?? && maintenanceServicesProject.clickUrl != "">
-				</a>
-			</#if>
 			</div>
         </li>
 		</#list>

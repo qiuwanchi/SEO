@@ -72,4 +72,9 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
         List<Project> projectList = this.list(queryWrapper);
         return projectList.stream().map(Project::getKeywords).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProjectDto> selectProjectListGroupByModuleId(List<String> moduleIdList, Integer size) {
+        return this.projectMapper.selectProjectListGroupByModuleId(moduleIdList, size);
+    }
 }

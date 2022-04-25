@@ -26,4 +26,6 @@ public interface IProjectService extends IService<Project> {
     List<ProjectDto> getHotAnswer(String moduleCode);
 
     List<String> selectKeywords();
+
+    List<ProjectDto> selectProjectListGroupByModuleId(List<String> moduleIdList, Integer size);
 }

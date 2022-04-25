@@ -261,4 +261,41 @@
         LIMIT 6
     </select>
 
+    <select id="selectProjectListGroupByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+
+        <foreach item="item" index="index" collection="moduleIds" open="" separator="" close="">
+            <if test="index !=0" >
+            UNION ALL
+            </if>
+            SELECT * FROM(
+                SELECT
+                    b.id,
+                    b.number,
+                    b.name,
+                    b.describe_msg AS describeMsg,
+                    b.module_id AS moduleId,
+                    b.attachment_id AS attachmentId,
+                    b.seo_image_id AS seoImageId,
+                    b.sort,
+                    b.title,
+                    b.keywords,
+                    b.description,
+                    b.alt,
+                    b.content,
+                    b.code,
+                    b.click_url AS clickUrl,
+                    b.create_by AS createBy,
+                    b.create_time AS createTime,
+                    b.update_by AS updateBy,
+                    b.update_time AS updateTime,
+                    a.filename AS fileName,
+                    a.filesize AS fileSize,
+                    a.filetype AS fileType,
+                    a.filepath AS filePath,
+                    a.file_id AS fileId
+                FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id = #{item} limit  #{pageSize}
+            ) t${index}
+        </foreach>
+    </select>
+
 </mapper>

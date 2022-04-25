@@ -78,6 +78,51 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     }
 
     @Override
+    public List<ModuleDto> getIndexModuleDtoList(String homePageDisplay, String belong, Integer size) {
+        List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(homePageDisplay, belong);
+
+        /*初始化Module-seo相关值*/
+        SeoUtils.intModuleSeoValue(moduleDtoList);
+
+        /*key=moduleId,value=module对象*/
+        Map<String, ModuleDto> moduleDtoMap = moduleDtoList.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
+
+        List<String> moduleIdList = new ArrayList<>();
+        moduleIdList.addAll(moduleDtoMap.keySet());
+
+        List<ProjectDto> projectDtoList = this.projectService.selectProjectListGroupByModuleId(moduleIdList, size);
+        /*初始化Project-seo相关值*/
+        SeoUtils.intProjectSeoValue(projectDtoList);
+
+        /*key=moduleId,value=List<ProjectDto> 列表*/
+        Map<String,List<ProjectDto>> moduleIdProjectDtoListMap = projectDtoList.stream().collect(Collectors.groupingBy(ProjectDto::getModuleId));
+
+        for (Map.Entry<String, ModuleDto> entry : moduleDtoMap.entrySet()){
+            String moduleId = entry.getKey();
+            ModuleDto moduleDto = entry.getValue();
+
+            List<ProjectDto> moduleProjectDtoList =  moduleIdProjectDtoListMap.get(moduleId);
+            if(CollectionUtils.isEmpty(moduleProjectDtoList)){
+                moduleProjectDtoList = new ArrayList<>();
+            }
+            /*根据序号排序*/
+            moduleProjectDtoList.sort(new Comparator<ProjectDto>() {
+                @Override
+                public int compare(ProjectDto o1, ProjectDto o2) {
+                    int a = o1.getSort().compareTo(o2.getSort());
+                    if(a == 0){
+                        a = o1.getUpdateTime().compareTo(o2.getUpdateTime());
+                    }
+                    return a;
+                }
+            });
+            moduleDto.setProjectDtoList(moduleProjectDtoList);
+        }
+
+        return moduleDtoList;
+    }
+
+    @Override
     public List<ModuleDto> getSimpleModuleDtoList(String belong) {
         return this.moduleMapper.getModuleList(null, belong);
     }

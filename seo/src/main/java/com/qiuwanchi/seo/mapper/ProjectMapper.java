@@ -32,4 +32,6 @@ public interface ProjectMapper extends BaseMapper<Project> {
      * @return
      */
     List<ProjectDto> getHotAnswer(@Param("moduleCode")String moduleCode);
+
+    List<ProjectDto> selectProjectListGroupByModuleId(@Param("moduleIds")List<String> moduleIdList, @Param("pageSize")Integer size);
 }
