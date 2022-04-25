@@ -63,7 +63,8 @@ public class ProjectController {
 				"companyProduct-productModule".equals(module.getBelong()) ||
 				"BusinessScope".equals(module.getBelong()) ||
 				"News".equals(module.getBelong()) ||
-				"hostAnswer".equals(module.getBelong())){
+				"hostAnswer".equals(module.getBelong()) ||
+				"SolutionCase".equals(module.getBelong())){
 
 			boolean isFirstCategory = this.idFirstCategory(module.getBelong());
 			model.addAttribute("isFirstCategory", isFirstCategory);
@@ -245,4 +246,12 @@ public class ProjectController {
 		return count > 0;
 	}
 
+	@GetMapping("/homePageDisplay")
+	public String homePageDisplay(@RequestParam("projectId") String projectId, String flag, RedirectAttributes redirectAttributes) {
+		Project project = this.projectService.getById(projectId);
+		project.setHomePageDisplay(flag);
+		this.projectService.update(project);
+		redirectAttributes.addAttribute("moduleId", project.getModuleId());
+		return "redirect:/firstPage/module/project";
+	}
 }
