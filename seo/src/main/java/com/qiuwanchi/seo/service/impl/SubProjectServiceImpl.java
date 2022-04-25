@@ -9,6 +9,7 @@ import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.entity.SubProject;
 import com.qiuwanchi.seo.mapper.SubProjectMapper;
 import com.qiuwanchi.seo.service.ISubProjectService;
+import com.qiuwanchi.seo.utils.SeoUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,13 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
     public List<ModuleDto> getSubProjectList(String homePageDisplay, String serviceCase) {
         //TODO
         return null;
+    }
+
+    @Override
+    public List<SubProjectDto> getSubProjectListByModuleIds(List<String> moduleIds, int pageSize) {
+        List<SubProjectDto> subProjectDtoList = this.subProjectMapper.getSubProjectListByModuleIds(moduleIds, pageSize);
+        /*初始化Module-seo相关值*/
+        SeoUtils.intSubProjectSeoValue(subProjectDtoList);
+        return subProjectDtoList;
     }
 }

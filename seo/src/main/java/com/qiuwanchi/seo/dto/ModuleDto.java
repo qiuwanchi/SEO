@@ -47,4 +47,6 @@ public class ModuleDto {
 
     private List<ProjectDto> projectDtoList;
 
+    private List<SubProjectDto> subProjectDtoList;
+
 }

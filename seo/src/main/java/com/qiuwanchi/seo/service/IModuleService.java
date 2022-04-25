@@ -15,9 +15,9 @@ public interface IModuleService extends IService<Module> {
 
     /**
      * 获取置顶首页模块，及其下的项目(取size条数)
-     * @param homePageDisplay
-     * @param belong
-     * @param size
+     * @param homePageDisplay 是否查询首页置顶的数据
+     * @param belong 属于哪个模块
+     * @param size 各类目下查询数据的条数
      * @return
      */
     List<ModuleDto> getIndexModuleDtoList(String homePageDisplay, String belong, Integer size);

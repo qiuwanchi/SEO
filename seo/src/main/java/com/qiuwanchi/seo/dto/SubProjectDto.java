@@ -41,6 +41,7 @@ public class SubProjectDto {
     private String monthDay;
 
     private String moduleName;
+    private String moduleId;
 
     /**
      * 图片或者视频全路径

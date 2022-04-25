@@ -1,7 +1,9 @@
 package com.qiuwanchi.seo.controller;
 
+import com.google.common.collect.Lists;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
+import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Controller
@@ -56,6 +61,10 @@ public class IndexController {
     public String index2(Model model){
         return index(model);
     }
+    @GetMapping("/")
+    public String index3(Model model){
+        return index(model);
+    }
 
     @GetMapping("/index.html")
     public String index(Model model){
@@ -72,7 +81,7 @@ public class IndexController {
             model.addAttribute("bannerProjectList", CollectionUtils.isEmpty(bannerModule.getProjectDtoList()) ? new ArrayList<>() : bannerModule.getProjectDtoList());
         }
 
-        // 3公司产品
+        // 3公司产品(查询后台设置置顶的类目，每个类目查询8条数据)
         List<ModuleDto> productModuleList = this.moduleService.getIndexModuleDtoList("1","companyProduct-productModule", 8);
         model.addAttribute("productModuleList", productModuleList);
 
@@ -82,9 +91,27 @@ public class IndexController {
         List<ProjectDto> productMoreProjectList = productMoreModule.getProjectDtoList();
         model.addAttribute("productMoreProjectList", productMoreProjectList);
 
-        // 4.服务案例 TODO
-       // List<ModuleDto> serviceCaseModuleList = this.subProjectService.getSubProjectList("1", "ServiceCase");
-        model.addAttribute("serviceCaseModuleList", new ArrayList<>());
+        // 4.服务案例(查询后台设置置顶的类目,)
+        List<ModuleDto> serviceCaseModuleList = this.moduleService.getModuleDtoList("1", "ServiceCase");
+        List<String> moduleIds = serviceCaseModuleList.stream().map(ModuleDto::getId).collect(Collectors.toList());
+        List<SubProjectDto> subProjectDtoList = this.subProjectService.getSubProjectListByModuleIds(moduleIds, 8);
+        Map<String, List<SubProjectDto>> subProjectDtoMap = subProjectDtoList.stream().collect(Collectors.toMap(SubProjectDto::getModuleId, a-> Lists.newArrayList(a),(List<SubProjectDto> newValueList, List<SubProjectDto> oldValueList) ->{
+            oldValueList.addAll(newValueList);
+            return oldValueList;
+        }));
+
+        for(ModuleDto moduleDto : serviceCaseModuleList){
+            List<SubProjectDto> temSubProjectDtoList = subProjectDtoMap.get(moduleDto.getId());
+            if(Objects.isNull(temSubProjectDtoList)){
+                temSubProjectDtoList = Lists.newArrayList();
+            }
+            if(temSubProjectDtoList.size() > 8){
+                moduleDto.setSubProjectDtoList(temSubProjectDtoList.subList(0,7));
+            }
+            moduleDto.setSubProjectDtoList(temSubProjectDtoList);
+        }
+
+        model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
 
 //        // 5视频案例
 //        List<ModuleDto> videoCaseModuleList = this.moduleService.getModuleDtoList("VideoCase");

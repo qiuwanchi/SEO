@@ -101,12 +101,12 @@
           <div class="layui-tab-item <#if serviceCaseModule_index ==0>layui-show </#if>">
             <ul class=" clearfix pic_list">
 			
-			<#list serviceCaseModule.projectDtoList as project>
+			<#list serviceCaseModule.subProjectDtoList as subProjectDto>
               <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
-                <span>0${project_index + 1}</span>
-				<h1>${project.name}</h1>
-				<p><#if project.describeMsg?? && project.describeMsg != "">${project.describeMsg}</#if></p>
+                <div class="main_img"><img src="${subProjectDto.url}" <#if subProjectDto.alt?? && subProjectDto.alt != ""> alt="${subProjectDto.alt}" </#if>></div>
+                <span>0${subProjectDto_index + 1}</span>
+				<h1>${subProjectDto.name}</h1>
+				<p><#if subProjectDto.describeMsg?? && subProjectDto.describeMsg != "">${subProjectDto.describeMsg}</#if></p>
                 </a> </li>
 			</#list>
               
