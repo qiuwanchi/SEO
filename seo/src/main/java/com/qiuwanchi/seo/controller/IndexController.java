@@ -113,6 +113,12 @@ public class IndexController {
 
         model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
 
+        // 5.服务案例更多按钮
+        List<ModuleDto> serviceCaseMoreModuleList = this.moduleService.getModuleDtoList("FirstPage-ServiceCase-more");
+        ModuleDto serviceCaseMoreModule = serviceCaseMoreModuleList.get(0);
+        List<ProjectDto> serviceCaseMoreProjectList = serviceCaseMoreModule.getProjectDtoList();
+        model.addAttribute("serviceCaseMoreProjectList", serviceCaseMoreProjectList);
+
 //        // 5视频案例
 //        List<ModuleDto> videoCaseModuleList = this.moduleService.getModuleDtoList("VideoCase");
 //        if(!CollectionUtils.isEmpty(videoCaseModuleList)){
