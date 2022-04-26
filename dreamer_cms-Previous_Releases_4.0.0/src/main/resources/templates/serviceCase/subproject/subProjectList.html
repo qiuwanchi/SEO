@@ -59,7 +59,7 @@
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/admin/attachment/download(id=${subProject.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a href="javascript:void(0)" th:aid="${subProject.attachment.id}" class="btn btn-xs btn-success copyDownloadUrlBtn" th:onclick="javascript:copyDownloadUrl(this.getAttribute('aid'))">复制下载链接</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${subProject.id}" th:onclick="javascript: viewBanner(this.getAttribute('aid'))">查看banner图</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${subProject.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 				</td>
@@ -326,6 +326,10 @@
 				callbak:null
 			});
 		});
+	}
+
+	function viewBanner(id){
+		window.location.href="/subProject/toViewBanner?subProjectId="+id;
 	}
 </script>
 </body>

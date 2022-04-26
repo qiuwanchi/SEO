@@ -1,14 +1,8 @@
 package cn.itechyou.cms.controller.admin;
 
-import cn.itechyou.cms.entity.Attachment;
-import cn.itechyou.cms.entity.Banner;
-import cn.itechyou.cms.entity.Module;
-import cn.itechyou.cms.entity.Project;
+import cn.itechyou.cms.entity.*;
 import cn.itechyou.cms.security.token.TokenManager;
-import cn.itechyou.cms.service.AttachmentService;
-import cn.itechyou.cms.service.IBannerService;
-import cn.itechyou.cms.service.IModuleService;
-import cn.itechyou.cms.service.IProjectService;
+import cn.itechyou.cms.service.*;
 import cn.itechyou.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +31,9 @@ public class BannerController {
 
 	@Autowired
 	private IProjectService projectService;
+
+	@Autowired
+	private ISubProjectService subProjectService;
 
 	/**
 	 * 列表
@@ -149,6 +146,55 @@ public class BannerController {
 
 		redirectAttributes.addAttribute("moduleId", project.getModuleId());
 		return "redirect:/firstPage/module/project";
+	}
+
+	@PostMapping("/saveSubProjectBanner")
+	public String saveSubProjectBanner(Model model, Banner param, String subProjectId, RedirectAttributes redirectAttributes) {
+		SubProject subProject = this.subProjectService.getById(subProjectId);
+		if(StringUtils.isEmpty(param.getId())){
+			Attachment attachment = param.getAttachment();
+			attachment.setId(UUIDUtils.getPrimaryKey());
+			attachment.setCode(UUIDUtils.getCharAndNumr(8));
+			attachment.setCreateBy(TokenManager.getUserId());
+			attachment.setCreateTime(new Date());
+			attachment.setUpdateBy(TokenManager.getUserId());
+			attachment.setUpdateTime(new Date());
+			this.attachmentService.save(attachment);
+			param.setAttachmentId(attachment.getId());
+
+			Banner banner = new Banner();
+			banner.setName(param.getName());
+			banner.setClickUrl(param.getClickUrl());
+			banner.setAlt(param.getAlt());
+			banner.setAttachmentId(attachment.getId());
+
+			this.bannerService.save(banner);
+
+			subProject.setBannerId(banner.getId());
+			this.subProjectService.update(subProject);
+
+		}else {
+			Banner banner = this.bannerService.getById(param.getId());
+			banner.setName(param.getName());
+			banner.setClickUrl(param.getClickUrl());
+			banner.setAlt(param.getAlt());
+			banner.setUpdateTime(new Date());
+			banner.setUpdateBy(TokenManager.getUserId());
+
+			Attachment attachment = this.attachmentService.queryAttachmentById(banner.getAttachmentId());
+			attachment.setFilesize(param.getAttachment().getFilesize());
+			attachment.setFilepath(param.getAttachment().getFilepath());
+			attachment.setFiletype(param.getAttachment().getFiletype());
+			attachment.setFilename(param.getAttachment().getFilename());
+			attachment.setUpdateTime(new Date());
+			attachment.setUpdateBy(TokenManager.getUserId());
+
+			this.attachmentService.update(attachment);
+			this.bannerService.save(banner);
+		}
+
+		redirectAttributes.addAttribute("projectId", subProject.getProjectId());
+		return "redirect:/subProject";
 	}
 
 	@GetMapping("/detail")

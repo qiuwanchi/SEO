@@ -40,6 +40,9 @@ public class SubProjectController {
 	@Autowired
 	private IConstantDefinitionService constantDefinitionService;
 
+	@Autowired
+	private IBannerService bannerService;
+
 	/**
 	 * 列表
 	 */
@@ -246,5 +249,33 @@ public class SubProjectController {
 		redirectAttributes.addAttribute("belongId", seoVideo.getBelongId());
 
 		return "redirect:/subProject/videoList";
+	}
+
+	@GetMapping("/toViewBanner")
+	public String toViewBanner(Model model, @RequestParam("subProjectId") String subProjectId) {
+		SubProject subProject = this.subProjectService.getById(subProjectId);
+		Project project = this.projectService.getById(subProject.getProjectId());
+		Module module = this.moduleService.getById(project.getModuleId());
+		Attachment bannerAttachment = new Attachment();
+		Banner banner = new Banner();
+		if (!StringUtils.isEmpty(subProject.getBannerId())){
+			banner = this.bannerService.getById(subProject.getBannerId());
+			bannerAttachment = this.attachmentService.queryAttachmentById(banner.getAttachmentId());
+			banner.setAttachment(bannerAttachment);
+			model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + bannerAttachment.getFilepath().substring(9));
+		}
+
+		model.addAttribute("subProject", subProject);
+
+		model.addAttribute("bannerAttachment", bannerAttachment);
+		model.addAttribute("project", project);
+		model.addAttribute("banner", banner);
+		model.addAttribute("belong", module.getBelong());
+		model.addAttribute("module", module);
+
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
+
+		return "serviceCase/subProject/viewBanner";
 	}
 }

@@ -68,4 +68,10 @@ public class SubProject implements Serializable {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "home_page_display")
+    private String  homePageDisplay;
+
+    @Column(name = "banner_id")
+    private String  bannerId;
+
 }
