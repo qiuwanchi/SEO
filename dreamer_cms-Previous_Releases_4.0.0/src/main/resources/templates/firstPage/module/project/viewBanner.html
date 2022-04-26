@@ -26,7 +26,7 @@
 			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
 			<li><a th:href="@{/firstPage/module(belong=${module.belong})}"><i class="fa fa-home" th:text="${constantDefinition.name}"></i> </a></li>
 			<li><a th:href="@{/firstPage/module/project(moduleId=${module.id})}"><i class="fa fa-home" th:text="${module.name}"></i> </a></li>
-			<li class="active" th:text="${project.name} + (banner图)"></li>
+			<li class="active" th:text="${project.name} + '(banner图)'"></li>
 		</ul>
         <!--breadcrumbs end -->
     </div>
