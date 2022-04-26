@@ -77,4 +77,9 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     public List<ProjectDto> selectProjectListGroupByModuleId(List<String> moduleIdList, Integer size) {
         return this.projectMapper.selectProjectListGroupByModuleId(moduleIdList, size);
     }
+
+    @Override
+    public List<ProjectDto> getSolutionCaseList(String homePageDisplay, Integer pageSize) {
+        return this.projectMapper.getSolutionCaseList(homePageDisplay, pageSize);
+    }
 }

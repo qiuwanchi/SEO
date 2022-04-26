@@ -8,10 +8,7 @@ import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
 import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.service.ISubProjectService;
-import com.qiuwanchi.seo.utils.BottomManagementCommon;
-import com.qiuwanchi.seo.utils.FileConfiguration;
-import com.qiuwanchi.seo.utils.LogoCommon;
-import com.qiuwanchi.seo.utils.ServerConfig;
+import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,12 +130,10 @@ public class IndexController {
             model.addAttribute("companyAdvantageProjectList", companyAdvantageProjectList);
         }
 
-        // 7解决方案
-        List<ModuleDto> solutionCaseModuleList = this.moduleService.getModuleDtoList("SolutionCase");
-        if(!CollectionUtils.isEmpty(solutionCaseModuleList)){
-            List<ProjectDto> solutionCaseProjectList = solutionCaseModuleList.get(0).getProjectDtoList();
-            model.addAttribute("solutionCaseProjectList", solutionCaseProjectList);
-        }
+        // 7.解决方案
+        List<ProjectDto> solutionCaseProjectList = this.projectService.getSolutionCaseList("1", 4);
+        SeoUtils.intProjectSeoValue(solutionCaseProjectList);
+        model.addAttribute("solutionCaseProjectList", solutionCaseProjectList);
 
         // 8维护服务
         List<ModuleDto> maintenanceServicesModuleList = this.moduleService.getModuleDtoList("MaintenanceServices");

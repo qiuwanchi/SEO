@@ -28,4 +28,11 @@ public interface IProjectService extends IService<Project> {
     List<String> selectKeywords();
 
     List<ProjectDto> selectProjectListGroupByModuleId(List<String> moduleIdList, Integer size);
+
+    /**
+     * 查询解决方案列表
+     * @param homePageDisplay 是否首页置顶
+     * @return
+     */
+    List<ProjectDto> getSolutionCaseList(String homePageDisplay, Integer pageSize);
 }
