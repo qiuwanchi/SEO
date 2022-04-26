@@ -77,4 +77,7 @@ public class Project implements Serializable {
     @Column(name = "home_page_display")
     private String  homePageDisplay;
 
+    @Column(name = "banner_id")
+    private String  bannerId;
+
 }

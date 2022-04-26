@@ -56,8 +56,6 @@ public class ModuleController {
 		model.addAttribute("banner", banner);
 		model.addAttribute("belong", module.getBelong());
 
-		model.addAttribute("tableName", "module");
-
 		model.addAttribute("isAdd", this.isAdd(module.getBelong()));
 		model.addAttribute("isDelete", this.isDelete(module.getBelong()));
 

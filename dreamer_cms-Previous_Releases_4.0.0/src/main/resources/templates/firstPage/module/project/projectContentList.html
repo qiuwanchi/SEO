@@ -57,10 +57,9 @@
 					<a th:if="${project.homePageDisplay != '1'}" th:href="@{/firstPage/module/project/homePageDisplay(projectId=${project.id},flag=1)}" class="btn btn-xs btn-success" >首页显示</a>
 					<a th:unless="${project.homePageDisplay != '1'}" th:href="@{/firstPage/module/project/homePageDisplay(projectId=${project.id},flag=0)}" class="btn btn-xs btn-success" >取消首页显示</a>
 					<span>&nbsp;|&nbsp;</span>
-
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: toEdit(this.getAttribute('aid'))">编辑项目</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a th:href="@{/admin/attachment/download(id=${project.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载图片预览</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: viewBanner(this.getAttribute('aid'))">查看banner图</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/subProject/videoList(belongId=${project.id},fromType=project)}" class="btn btn-xs btn-success">查看视频</a>
 					<span>&nbsp;|&nbsp;</span>
@@ -137,32 +136,9 @@
 		window.location.href="/firstPage/module/project/delete?id="+currentID;
 		$("#remove-dialog").modal('hide');
 	}
-	
-	function copyDownloadUrl(id){
-	//system.website
-		var content = "/admin/attachment/download?id=" + id;
-		var clipboard = new Clipboard('.copyDownloadUrlBtn',{
-			text: function() {
-				return content;
-			}
-		});
-		clipboard.on('success', function(e) {
-			$("body").MessageBox({
-				type: 'success',
-				message: '复制成功！',
-				timeout:3000,
-				callbak:null
-			});
-		});
-	
-		clipboard.on('error', function(e) {
-			$("body").MessageBox({
-				type: 'error',
-				message: '复制失败！',
-				timeout:3000,
-				callbak:null
-			});
-		});
+
+	function viewBanner(id){
+		window.location.href="/firstPage/module/project/toViewBanner?projectId="+id;
 	}
 </script>
 </body>

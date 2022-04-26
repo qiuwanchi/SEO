@@ -39,6 +39,9 @@ public class ProjectController {
 	@Autowired
 	private IConstantDefinitionService constantDefinitionService;
 
+	@Autowired
+	private IBannerService bannerService;
+
 	/**
 	 * 列表
 	 */
@@ -253,5 +256,30 @@ public class ProjectController {
 		this.projectService.update(project);
 		redirectAttributes.addAttribute("moduleId", project.getModuleId());
 		return "redirect:/firstPage/module/project";
+	}
+
+	@GetMapping("/toViewBanner")
+	public String toViewBanner(Model model, @RequestParam("projectId") String projectId) {
+		Project project = this.projectService.getById(projectId);
+		Module module = this.moduleService.getById(project.getModuleId());
+		Attachment bannerAttachment = new Attachment();
+		Banner banner = new Banner();
+		if (!StringUtils.isEmpty(project.getBannerId())){
+			banner = this.bannerService.getById(project.getBannerId());
+			bannerAttachment = this.attachmentService.queryAttachmentById(banner.getAttachmentId());
+			banner.setAttachment(bannerAttachment);
+			model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + bannerAttachment.getFilepath().substring(9));
+		}
+
+		model.addAttribute("bannerAttachment", bannerAttachment);
+		model.addAttribute("project", project);
+		model.addAttribute("banner", banner);
+		model.addAttribute("belong", module.getBelong());
+		model.addAttribute("module", module);
+
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
+
+		return "firstPage/module/project/viewBanner";
 	}
 }
