@@ -1,14 +1,9 @@
 package cn.itechyou.cms.controller.admin;
 
-import cn.itechyou.cms.entity.Attachment;
-import cn.itechyou.cms.entity.ConstantDefinition;
-import cn.itechyou.cms.entity.Module;
-import cn.itechyou.cms.entity.Project;
+import cn.itechyou.cms.entity.*;
 import cn.itechyou.cms.security.token.TokenManager;
-import cn.itechyou.cms.service.AttachmentService;
-import cn.itechyou.cms.service.IConstantDefinitionService;
-import cn.itechyou.cms.service.IModuleService;
-import cn.itechyou.cms.service.IProjectService;
+import cn.itechyou.cms.service.*;
+import cn.itechyou.cms.utils.ServerConfig;
 import cn.itechyou.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +33,39 @@ public class ModuleController {
 
 	@Autowired
 	private IConstantDefinitionService constantDefinitionService;
+
+	@Autowired
+	private IBannerService bannerService;
+
+	@Autowired
+	private ServerConfig serverConfig;
+
+	@RequestMapping("/toViewBanner")
+	public String toViewBanner(Model model, String moduleId) {
+		Module module = this.moduleService.getById(moduleId);
+		Attachment bannerAttachment = new Attachment();
+		Banner banner = new Banner();
+		if (!StringUtils.isEmpty(module.getBannerId())){
+			banner = this.bannerService.getById(module.getBannerId());
+			bannerAttachment = this.attachmentService.queryAttachmentById(banner.getAttachmentId());
+			banner.setAttachment(bannerAttachment);
+			model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + bannerAttachment.getFilepath().substring(9));
+		}
+		model.addAttribute("bannerAttachment", bannerAttachment);
+		model.addAttribute("module", module);
+		model.addAttribute("banner", banner);
+		model.addAttribute("belong", module.getBelong());
+
+		model.addAttribute("tableName", "module");
+
+		model.addAttribute("isAdd", this.isAdd(module.getBelong()));
+		model.addAttribute("isDelete", this.isDelete(module.getBelong()));
+
+		ConstantDefinition constantDefinition = this.constantDefinitionService.getByCode(module.getBelong());
+		model.addAttribute("constantDefinition", constantDefinition);
+
+		return "firstPage/module/viewBanner";
+	}
 
 	/**
 	 * 列表

@@ -2,9 +2,12 @@ package cn.itechyou.cms.controller.admin;
 
 import cn.itechyou.cms.entity.Attachment;
 import cn.itechyou.cms.entity.Banner;
+import cn.itechyou.cms.entity.Module;
 import cn.itechyou.cms.security.token.TokenManager;
 import cn.itechyou.cms.service.AttachmentService;
-import cn.itechyou.cms.service.BannerService;
+import cn.itechyou.cms.service.IBannerService;
+import cn.itechyou.cms.service.IModuleService;
+import cn.itechyou.cms.service.IProjectService;
 import cn.itechyou.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +26,16 @@ import java.util.List;
 public class BannerController {
 
 	@Autowired
-	private BannerService bannerService;
+	private IBannerService bannerService;
+
+	@Autowired
+	private IModuleService moduleService;
 
 	@Autowired
 	private AttachmentService attachmentService;
+
+	@Autowired
+	private IProjectService projectService;
 
 	/**
 	 * 列表
@@ -35,7 +44,7 @@ public class BannerController {
 	public String list(Model model, String belong) {
 		List<Banner> bannerList = this.bannerService.list(belong);
 		for (Banner banner : bannerList){
-			Attachment attachment = attachmentService.queryAttachmentById(banner.getSystemAttachmentId());
+			Attachment attachment = attachmentService.queryAttachmentById(banner.getAttachmentId());
 			banner.setAttachment(attachment);
 		}
 		model.addAttribute("bannerList", bannerList);
@@ -43,10 +52,11 @@ public class BannerController {
 		return "firstPage/banner/list";
 	}
 
-	@PostMapping("/save")
-	public String save(Model model, Banner param, RedirectAttributes redirectAttributes) {
-		Attachment attachment = param.getAttachment();
+	@PostMapping("/saveModuleBanner")
+	public String saveModuleBanner(Model model, Banner param, String moduleId, RedirectAttributes redirectAttributes) {
+		Module module = this.moduleService.getById(moduleId);
 		if(StringUtils.isEmpty(param.getId())){
+			Attachment attachment = param.getAttachment();
 			attachment.setId(UUIDUtils.getPrimaryKey());
 			attachment.setCode(UUIDUtils.getCharAndNumr(8));
 			attachment.setCreateBy(TokenManager.getUserId());
@@ -54,33 +64,47 @@ public class BannerController {
 			attachment.setUpdateBy(TokenManager.getUserId());
 			attachment.setUpdateTime(new Date());
 			this.attachmentService.save(attachment);
-			param.setSystemAttachmentId(attachment.getId());
-			this.bannerService.save(param);
+			param.setAttachmentId(attachment.getId());
+
+			Banner banner = new Banner();
+			banner.setName(param.getName());
+			banner.setClickUrl(param.getClickUrl());
+			banner.setAlt(param.getAlt());
+			banner.setAttachmentId(attachment.getId());
+
+			this.bannerService.save(banner);
+
+			module.setBannerId(banner.getId());
+			this.moduleService.update(module);
 
 		}else {
 			Banner banner = this.bannerService.getById(param.getId());
 			banner.setName(param.getName());
-			attachment.setId(UUIDUtils.getPrimaryKey());
-			attachment.setCode(UUIDUtils.getCharAndNumr(8));
-			attachment.setCreateBy(TokenManager.getUserId());
-			attachment.setCreateTime(new Date());
-			attachment.setUpdateBy(TokenManager.getUserId());
+			banner.setClickUrl(param.getClickUrl());
+			banner.setAlt(param.getAlt());
+			banner.setUpdateTime(new Date());
+			banner.setUpdateBy(TokenManager.getUserId());
+
+			Attachment attachment = this.attachmentService.queryAttachmentById(banner.getAttachmentId());
+			attachment.setFilesize(param.getAttachment().getFilesize());
+			attachment.setFilepath(param.getAttachment().getFilepath());
+			attachment.setFiletype(param.getAttachment().getFiletype());
+			attachment.setFilename(param.getAttachment().getFilename());
 			attachment.setUpdateTime(new Date());
-			this.attachmentService.save(attachment);
+			attachment.setUpdateBy(TokenManager.getUserId());
 
-			this.attachmentService.delete(banner.getSystemAttachmentId());
-			banner.setSystemAttachmentId(attachment.getId());
-
+			this.attachmentService.update(attachment);
 			this.bannerService.save(banner);
 		}
-		redirectAttributes.addAttribute("belong", param.getBelong());
-		return "redirect:/firstPage/banner";
+
+		redirectAttributes.addAttribute("belong", module.getBelong());
+		return "redirect:/firstPage/module";
 	}
 
 	@GetMapping("/detail")
 	public String detail(Model model, String id) {
 		Banner banner = this.bannerService.getById(id);
-		Attachment attachment = attachmentService.queryAttachmentById(banner.getSystemAttachmentId());
+		Attachment attachment = attachmentService.queryAttachmentById(banner.getAttachmentId());
 		banner.setAttachment(attachment);
 		model.addAttribute("banner", banner);
 		return "firstPage/banner/edit";
@@ -89,9 +113,8 @@ public class BannerController {
 	@GetMapping("/delete")
 	public String delete(Model model, String id, RedirectAttributes redirectAttributes) {
 		Banner banner = this.bannerService.getById(id);
-		this.attachmentService.delete(banner.getSystemAttachmentId());
+		this.attachmentService.delete(banner.getAttachmentId());
 		this.bannerService.deleteById(banner.getId());
-		redirectAttributes.addAttribute("belong", banner.getBelong());
 		return "redirect:/firstPage/banner";
 	}
 

@@ -4,7 +4,7 @@ import cn.itechyou.cms.entity.Banner;
 
 import java.util.List;
 
-public interface BannerService {
+public interface IBannerService {
 
     List<Banner> list(String belong);
 

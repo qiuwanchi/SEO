@@ -23,14 +23,17 @@ public class Banner implements Serializable {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "system_attachment_id")
-    private String systemAttachmentId;
+    @Column(name = "attachment_id")
+    private String attachmentId;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "belong")
-    private String belong;
+    @Column(name = "click_url")
+    private String clickUrl;
+
+    @Column(name = "alt")
+    private String alt;
 
     @Column(name = "create_by")
     private String createBy;
