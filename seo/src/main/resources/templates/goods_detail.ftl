@@ -31,7 +31,7 @@
   </div>
 </div>
 <div id="case">
-<div class="bannerx"> <img src="${seoImageDto.url}" <#if seoImageDto.alt?? && seoImageDto.alt != ""> alt="${seoImageDto.alt}" </#if> /> </div>
+<div class="bannerx"> <img src=" <#if banner.url?? && banner.url != "">${banner.url}</#if>" <#if banner.alt?? && banner.alt != ""> alt="${banner.alt}" </#if> /> </div>
 <div class="container main goodsx">
 <div class="position">当前位置：<a href="${baseUrl}/index.html">首页</a>|<a href="${baseUrl}/products.html">公司产品</a>|<a href="${baseUrl}/products/${currentProjectDto.moduleCode}/">${currentProjectDto.moduleName}</a>|<span>${currentProjectDto.name}</span></div>
 <div class="goods_detail clearfix">

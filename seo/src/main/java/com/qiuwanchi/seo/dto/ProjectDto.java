@@ -58,6 +58,8 @@ public class ProjectDto {
 
     private String moduleCode;
 
+    private String bannerId;
+
     private List<SubProjectDto> subProjectDtoList;
 
 }

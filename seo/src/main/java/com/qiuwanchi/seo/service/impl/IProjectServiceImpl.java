@@ -92,4 +92,14 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     public List<ProjectDto> getSolutionCaseList(String homePageDisplay, Integer pageSize) {
         return this.projectMapper.getSolutionCaseList(homePageDisplay, pageSize);
     }
+
+    @Override
+    public List<ProjectDto> getRecommendNewsFqaProjectList(String firstCategory, List<String> keywordsList) {
+        return this.projectMapper.getRecommendNewsFqaProjectList(firstCategory, keywordsList);
+    }
+
+    @Override
+    public List<ProjectDto> getRecentUpdatesNewsProjectList() {
+        return this.projectMapper.getRecentUpdatesNewsProjectList();
+    }
 }

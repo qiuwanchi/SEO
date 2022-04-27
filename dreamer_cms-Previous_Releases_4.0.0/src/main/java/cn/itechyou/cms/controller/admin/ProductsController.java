@@ -69,26 +69,26 @@ public class ProductsController {
 		return "redirect:/products";
 	}
 
-	@GetMapping("/leftPicture")
-	public String viewPicture(Model model, String projectId) {
-		Project project = this.projectService.getById(projectId);
-
-		Attachment attachment = new Attachment();
-		SeoImage seoImage = new SeoImage();
-		if(!StringUtils.isEmpty(project.getSeoImageId())){
-			seoImage = this.seoImageService.getById(project.getSeoImageId());
-			attachment = this.attachmentService.queryAttachmentById(seoImage.getAttachmentId());
-			model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
-		}
-		model.addAttribute("seoImage", seoImage);
-		model.addAttribute("attachment", attachment);
-		model.addAttribute("project", project);
-
-		Module module = this.moduleService.getById(project.getModuleId());
-		model.addAttribute("module", module);
-
-		return "products/leftPicture";
-	}
+//	@GetMapping("/leftPicture")
+//	public String viewPicture(Model model, String projectId) {
+//		Project project = this.projectService.getById(projectId);
+//
+//		Attachment attachment = new Attachment();
+//		SeoImage seoImage = new SeoImage();
+//		if(!StringUtils.isEmpty(project.getSeoImageId())){
+//			seoImage = this.seoImageService.getById(project.getSeoImageId());
+//			attachment = this.attachmentService.queryAttachmentById(seoImage.getAttachmentId());
+//			model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
+//		}
+//		model.addAttribute("seoImage", seoImage);
+//		model.addAttribute("attachment", attachment);
+//		model.addAttribute("project", project);
+//
+//		Module module = this.moduleService.getById(project.getModuleId());
+//		model.addAttribute("module", module);
+//
+//		return "products/leftPicture";
+//	}
 
 	@PostMapping("/savePicture")
 	public String savePicture(Model model, Project param, RedirectAttributes redirectAttributes) {

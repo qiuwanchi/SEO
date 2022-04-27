@@ -46,4 +46,14 @@ public interface IProjectService extends IService<Project> {
      * @return
      */
     List<ProjectDto> getSolutionCaseList(String homePageDisplay, Integer pageSize);
+
+    /**
+     * 推荐关键字相关的常见问答数据列表
+     * @param firstCategory
+     * @param keywordsList
+     * @return
+     */
+    List<ProjectDto> getRecommendNewsFqaProjectList(String firstCategory, List<String> keywordsList);
+
+    List<ProjectDto> getRecentUpdatesNewsProjectList();
 }

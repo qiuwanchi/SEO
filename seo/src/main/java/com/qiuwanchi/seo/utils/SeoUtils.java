@@ -1,5 +1,6 @@
 package com.qiuwanchi.seo.utils;
 
+import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
@@ -67,6 +68,23 @@ public class SeoUtils {
         }else{
             projectDto.setContent(Utils.htmlDecode(projectDto.getContent()));
         }
+    }
+
+    public static void intBannerSeoValue(BannerDto bannerDto){
+        if(StringUtils.isNotBlank(bannerDto.getFilePath())){
+            bannerDto.setUrl(UrlAssemblyUtils.getImageUrl(bannerDto.getFilePath()));
+        }
+
+        if(StringUtils.isBlank(bannerDto.getAlt())){
+            bannerDto.setAlt(bannerDto.getName());
+        }
+
+        if(StringUtils.isNotBlank(bannerDto.getClickUrl())){
+            if(!Utils.isStartsWith(bannerDto.getClickUrl(), Utils.HTTP)){
+                bannerDto.setClickUrl(Utils.HTTP + bannerDto.getClickUrl());
+            }
+        }
+
     }
 
     public static void intProjectSeoValue(List<ProjectDto> projectDtoList){

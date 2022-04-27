@@ -359,4 +359,39 @@
             ) t${index}
         </foreach>
     </select>
+
+
+
+    <select id="getRecommendServiceCaseSubProjectList" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT
+            s.id,
+            s.number,
+            s.name,
+            s.describe_msg AS describeMsg,
+            s.attachment_id AS attachmentId,
+            s.sort,
+            s.title,
+            s.keywords,
+            s.description,
+            s.alt,
+            s.click_url AS clickUrl,
+            s.create_by AS createBy,
+            s.create_time AS createTime,
+            s.update_by AS updateBy,
+            s.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId,
+            m.code AS firstCategory,
+            p.code AS secondCategory
+        FROM seo_video v JOIN sub_project s ON v.belong_id=s.id
+            JOIN project p ON s.project_id=p.id
+            JOIN module m ON p.module_id=m.id
+            LEFT JOIN system_attachment a ON s.attachment_id=a.id
+        WHERE m.belong='ServiceCase'
+        AND m.code=#{firstCategory}
+        ORDER BY RAND() LIMIT 8
+    </select>
 </mapper>

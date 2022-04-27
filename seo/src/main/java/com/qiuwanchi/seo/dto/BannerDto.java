@@ -2,18 +2,32 @@ package com.qiuwanchi.seo.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * @author ex_qiuwc1
+ */
 @Data
-public class BannerDto {
+public class BannerDto implements Serializable {
 
     private String id;
 
+    private String attachmentId;
+
     private String name;
 
-    private String belong;
+    private String  alt;
 
-    private String url;
+    private String clickUrl;
 
-    private String attachmentId;
+    private String createBy;
+
+    private Date createTime;
+
+    private String updateBy;
+
+    private Date updateTime;
 
     private String fileName;
 
@@ -24,5 +38,7 @@ public class BannerDto {
     private String filePath;
 
     private String fileId;
+
+    private String url;
 
 }

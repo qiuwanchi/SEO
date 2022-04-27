@@ -21,7 +21,7 @@ public class Project implements Serializable {
     @TableId("id")
     private String id;
 
-    @TableId("number")
+    @TableField("number")
     private Integer number;
 
     @TableField("module_id")

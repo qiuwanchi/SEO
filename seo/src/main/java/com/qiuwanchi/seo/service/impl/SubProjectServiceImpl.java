@@ -91,4 +91,9 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
         SeoUtils.intSubProjectSeoValue(subProjectDtoList);
         return subProjectDtoList;
     }
+
+    @Override
+    public List<SubProjectDto> getRecommendServiceCaseSubProjectList(String firstCategory) {
+        return this.subProjectMapper.getRecommendServiceCaseSubProjectList(firstCategory);
+    }
 }

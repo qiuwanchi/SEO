@@ -51,7 +51,7 @@
 				<td>
 					<a th:href="@{/firstPage/module/project/toAdd(moduleId=${project.moduleId},id=${project.id},fromType=detail)}" class="btn btn-xs btn-success" >编辑内容</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a th:href="@{/products/leftPicture(projectId=${project.id})}" class="btn btn-xs btn-success" >查看Banner图片</a>
+					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: viewBanner(this.getAttribute('aid'))">查看banner图</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a th:href="@{/products/characteristic(projectId=${project.id})}" class="btn btn-xs btn-success">查看特点</a>
 					<span>&nbsp;|&nbsp;</span>
@@ -305,6 +305,10 @@
 				callbak:null
 			});
 		});
+	}
+
+	function viewBanner(id){
+		window.location.href="/firstPage/module/project/toViewBanner?projectId="+id;
 	}
 </script>
 </body>

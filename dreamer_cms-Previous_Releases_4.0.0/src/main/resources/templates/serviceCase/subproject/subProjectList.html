@@ -61,6 +61,8 @@
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${subProject.id}" th:onclick="javascript: viewBanner(this.getAttribute('aid'))">查看banner图</a>
 					<span>&nbsp;|&nbsp;</span>
+					<a th:href="@{/subProject/videoList(belongId=${subProject.id},fromType=subProject)}" class="btn btn-xs btn-success">查看视频</a>
+					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" data-toggle="modal" class="btn btn-xs btn-danger" th:aid="${subProject.id}" th:onclick="javascript:confrimRemove(this.getAttribute('aid'))">删除</a>
 				</td>
 			</tr>

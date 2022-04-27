@@ -28,7 +28,7 @@
             a.filetype AS fileType,
             a.filepath AS filePath,
             a.file_id AS fileId
-        FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id=#{moduleId}
+        FROM project b LEFT JOIN module m ON b.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id=#{moduleId}
         ORDER BY b.sort
     </select>
 
@@ -48,6 +48,7 @@
             b.alt,
             b.content,
             b.code,
+            m.code AS moduleCode,
             b.click_url AS clickUrl,
             b.create_by AS createBy,
             b.create_time AS createTime,
@@ -58,7 +59,7 @@
             a.filetype AS fileType,
             a.filepath AS filePath,
             a.file_id AS fileId
-        FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id in
+        FROM project b LEFT JOIN module m ON b.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id in
         <foreach item="item" index="index" collection="moduleIds" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -80,6 +81,7 @@
         b.alt,
         b.content,
         b.code,
+        m.code AS moduleCode,
         b.click_url AS clickUrl,
         b.create_by AS createBy,
         b.create_time AS createTime,
@@ -389,6 +391,72 @@
         </if>
         ORDER BY b.sort
         LIMIT #{pageSize}
+    </select>
+
+
+    <select id="getRecommendNewsFqaProjectList" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+        SELECT
+        b.id,
+        b.number,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.module_id AS moduleId,
+        b.attachment_id AS attachmentId,
+        b.seo_image_id AS seoImageId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.content,
+        b.code,
+        m.code AS moduleCode,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime
+        FROM project b JOIN module m ON b.module_id=m.id AND m.belong='News'
+        WHERE  m.code=#{firstCategory} AND
+        (
+
+        1=0
+        <foreach item="item" index="index" collection="keywordsList" open="" separator=" " close="">
+            OR b.keywords LIKE "%${item}%"
+        </foreach>
+
+        )
+        ORDER BY b.create_time desc
+        LIMIT 6
+    </select>
+
+
+    <select id="getRecentUpdatesNewsProjectList" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+        SELECT
+        b.id,
+        b.number,
+        b.name,
+        b.describe_msg AS describeMsg,
+        b.module_id AS moduleId,
+        b.attachment_id AS attachmentId,
+        b.seo_image_id AS seoImageId,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.content,
+        b.code,
+        m.code AS moduleCode,
+        b.click_url AS clickUrl,
+        b.create_by AS createBy,
+        b.create_time AS createTime,
+        b.update_by AS updateBy,
+        b.update_time AS updateTime
+        FROM project b JOIN module m ON b.module_id=m.id
+        WHERE m.belong='News'
+        ORDER BY b.update_time desc
+        LIMIT 6
     </select>
 
 </mapper>

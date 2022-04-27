@@ -45,6 +45,8 @@ public class ModuleDto {
 
     private String homePageDisplay;
 
+    private String bannerId;
+
     private List<ProjectDto> projectDtoList;
 
     private List<SubProjectDto> subProjectDtoList;

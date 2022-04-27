@@ -238,7 +238,7 @@ public class IndexController {
      * @return
      */
     private List<ModuleDto> getIndexNewsModuleDtoList(){
-        List<ModuleDto> newsModuleList = this.moduleService.getIndexTopModuleDtoList(null,"News", 6);
+        List<ModuleDto> newsModuleList = this.moduleService.getIndexNewsTopModuleDtoList(null,"News", 6);
         if(!CollectionUtils.isEmpty(newsModuleList)){
             for (ModuleDto moduleDto : newsModuleList){
                 if(!CollectionUtils.isEmpty(moduleDto.getProjectDtoList())){

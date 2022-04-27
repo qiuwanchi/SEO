@@ -51,4 +51,12 @@ public interface ProjectMapper extends BaseMapper<Project> {
     List<ProjectDto> getSolutionCaseList(@Param("homePageDisplay")String homePageDisplay, @Param("pageSize")Integer pageSize);
 
     List<ProjectDto> selectNewsTopProjectListGroupByModuleId(@Param("homePageDisplay")String homePageDisplay, @Param("moduleIds")List<String> moduleIdList, @Param("pageSize")Integer size);
+
+    List<ProjectDto> getRecommendNewsFqaProjectList(@Param("firstCategory")String firstCategory, @Param("keywordsList")List<String> keywordsList);
+
+    /**
+     * 最近更新
+     * @return
+     */
+    List<ProjectDto> getRecentUpdatesNewsProjectList();
 }
