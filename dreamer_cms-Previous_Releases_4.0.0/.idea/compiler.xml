@@ -8,9 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cms" />
-        <module name="dreamer_cms-Previous_Releases_4.0.0" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dreamer_cms-Previous_Releases_4.0.0" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

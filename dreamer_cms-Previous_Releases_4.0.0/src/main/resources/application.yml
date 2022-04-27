@@ -22,7 +22,14 @@ spring:
       file-size-threshold: 0
       max-file-size: 500MB
       max-request-size: 500MB
-      
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+        minimum-idle: 10
+        idle-timeout: 600000
+        max-lifetime: 7200000
+        connction-test-query: SELECT 1
+
 ## 该配置节点为独立的节点，有很多同学容易将这个配置放在spring的节点下，导致配置无法被识别
 mybatis: 
   configuration:

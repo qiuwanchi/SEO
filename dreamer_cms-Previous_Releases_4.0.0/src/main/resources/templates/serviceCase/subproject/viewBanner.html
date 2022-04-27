@@ -23,7 +23,7 @@
     	<h1 class="panel-heading"></h1>
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-			<li><a href="/admin/dashboard/toIndex"><i class="fa fa-home"></i> 首页</a></li>
+			<li><a href="javascript:;"><i class="fa fa-home"></i> 首页</a></li>
 			<li><a th:href="@{/firstPage/module(belong=${module.belong})}"><i class="fa fa-home" th:text="${constantDefinition.name}"></i> </a></li>
 			<li><a th:href="@{/firstPage/module/project(moduleId=${module.id})}"><i class="fa fa-home" th:text="${module.name}"></i> </a></li>
 			<li><a th:href="@{/subProject(projectId=${project.id})}"><i class="fa fa-home" th:text="${project.name}"></i> </a></li>
