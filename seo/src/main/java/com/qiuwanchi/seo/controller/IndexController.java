@@ -1,6 +1,7 @@
 package com.qiuwanchi.seo.controller;
 
 import com.google.common.collect.Lists;
+import com.qiuwanchi.seo.constant.HomePageDisplay;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
@@ -79,15 +80,15 @@ public class IndexController {
         model.addAttribute("productModuleDtoList", this.getIndexHostProductModuleDtoList());
 
         // 3.公司产品更多按钮
-        model.addAttribute("productMoreProjectDtoList", this.getIndexHostProductMoreProjectDtoList());
+        model.addAttribute("productMoreProjectDto", this.getIndexHostProductMoreProjectDto());
 
-        // 4.服务案例(查询后台设置置顶的类目)
+        // 4.服务案例(查询后台设置置顶的类目,两级类目都要置顶, 每个一级类目查询8条数据)
         model.addAttribute("serviceCaseModuleDtoList", this.getIndexServiceCaseModuleDtoList());
 
         // 5.服务案例更多按钮
-        model.addAttribute("serviceCaseMoreProjectDtoList", this.getIndexServiceCaseMoreProjectDtoList());
+        model.addAttribute("serviceCaseMoreProjectDto", this.getIndexServiceCaseMoreProjectDto());
 
-        // 6公司优势
+        // 6.首页公司优势
         model.addAttribute("companyAdvantageProjectDtoList", this.getIndexCompanyAdvantageProjectDtoList());
 
         // 7.解决方案
@@ -132,21 +133,16 @@ public class IndexController {
      * 3.公司热门产品更多按钮
      * @return
      */
-    private List<ProjectDto> getIndexHostProductMoreProjectDtoList(){
+    private ProjectDto getIndexHostProductMoreProjectDto(){
         // 最多只会有一条
         List<ModuleDto> productMoreModuleList = this.moduleService.getModuleDtoList("FirstPage-CompanyProduct-more");
-        List<ProjectDto> productMoreProjectList = null;
-        if(CollectionUtils.isEmpty(productMoreModuleList)){
-            productMoreProjectList = Lists.newArrayList();
-        } else {
+        if(!CollectionUtils.isEmpty(productMoreModuleList)){
             ModuleDto productMoreModule = productMoreModuleList.get(0);
-            if(Objects.isNull(productMoreModule.getProjectDtoList())){
-                productMoreProjectList = Lists.newArrayList();
-            } else {
-                productMoreProjectList = productMoreModule.getProjectDtoList();
+            if(!CollectionUtils.isEmpty(productMoreModule.getProjectDtoList())){
+                return productMoreModule.getProjectDtoList().get(0);
             }
         }
-        return productMoreProjectList;
+        return new ProjectDto();
     }
 
     /**
@@ -154,9 +150,15 @@ public class IndexController {
      * @return
      */
     private List<ModuleDto> getIndexServiceCaseModuleDtoList(){
-        List<ModuleDto> serviceCaseModuleList = this.moduleService.getModuleDtoList("1", "ServiceCase");
+        // 置顶一级类目与置顶二级类目
+        List<ModuleDto> serviceCaseModuleList = this.moduleService.getIndexTopModuleDtoList(HomePageDisplay.DISPLAY.getCode(), "ServiceCase", null);
+
         List<String> moduleIds = serviceCaseModuleList.stream().map(ModuleDto::getId).collect(Collectors.toList());
-        List<SubProjectDto> subProjectDtoList = this.subProjectService.getSubProjectListByModuleIds(moduleIds, 8);
+
+        // 一级类目下置顶的案例列表
+        List<SubProjectDto> subProjectDtoList = this.subProjectService.getSubProjectListByModuleIds(HomePageDisplay.DISPLAY.getCode(), moduleIds, 8);
+
+        // 按一级类目分类案例
         Map<String, List<SubProjectDto>> subProjectDtoMap = subProjectDtoList.stream().collect(Collectors.toMap(SubProjectDto::getModuleId, a-> Lists.newArrayList(a),(List<SubProjectDto> newValueList, List<SubProjectDto> oldValueList) ->{
             oldValueList.addAll(newValueList);
             return oldValueList;
@@ -176,38 +178,65 @@ public class IndexController {
         return serviceCaseModuleList;
     }
 
-    private List<ProjectDto> getIndexServiceCaseMoreProjectDtoList(){
+    /**
+     * 服务案例更多按钮
+     * @return
+     */
+    private ProjectDto getIndexServiceCaseMoreProjectDto(){
         List<ModuleDto> serviceCaseMoreModuleList = this.moduleService.getModuleDtoList("FirstPage-ServiceCase-more");
-        ModuleDto serviceCaseMoreModule = serviceCaseMoreModuleList.get(0);
-        List<ProjectDto> serviceCaseMoreProjectList = serviceCaseMoreModule.getProjectDtoList();
-
-        return serviceCaseMoreProjectList;
+        if(!CollectionUtils.isEmpty(serviceCaseMoreModuleList)){
+            ModuleDto serviceCaseMoreModule = serviceCaseMoreModuleList.get(0);
+            if(!CollectionUtils.isEmpty(serviceCaseMoreModule.getProjectDtoList())){
+                return serviceCaseMoreModule.getProjectDtoList().get(0);
+            }
+        }
+        return new ProjectDto();
     }
 
+    /**
+     * 首页公司优势
+     * @return
+     */
     private List<ProjectDto> getIndexCompanyAdvantageProjectDtoList(){
         List<ModuleDto> companyAdvantageModuleList = this.moduleService.getModuleDtoList("CompanyAdvantage");
         List<ProjectDto> companyAdvantageProjectList = null;
         if(!CollectionUtils.isEmpty(companyAdvantageModuleList)){
             companyAdvantageProjectList = companyAdvantageModuleList.get(0).getProjectDtoList();
+        } else {
+            companyAdvantageProjectList = Lists.newArrayList();
         }
         return companyAdvantageProjectList;
     }
 
+    /**
+     * 首页解决方案列表
+     * @return
+     */
     private List<ProjectDto> getIndexSolutionCaseProjectDtoList(){
-        List<ProjectDto> solutionCaseProjectList = this.projectService.getSolutionCaseList("1", 4);
+        List<ProjectDto> solutionCaseProjectList = this.projectService.getSolutionCaseList(HomePageDisplay.DISPLAY.getCode(), 4);
         SeoUtils.intProjectSeoValue(solutionCaseProjectList);
         return solutionCaseProjectList;
     }
 
+    /**
+     * 首页维护服务
+     * @return
+     */
     private List<ProjectDto> getIndexMaintenanceServicesProjectDtoList(){
         List<ModuleDto> maintenanceServicesModuleList = this.moduleService.getModuleDtoList("MaintenanceServices");
         List<ProjectDto> maintenanceServicesProjectList = null;
         if(!CollectionUtils.isEmpty(maintenanceServicesModuleList)){
             maintenanceServicesProjectList = maintenanceServicesModuleList.get(0).getProjectDtoList();
+        } else {
+            maintenanceServicesProjectList = Lists.newArrayList();
         }
         return maintenanceServicesProjectList;
     }
 
+    /**
+     * 首页新闻资讯
+     * @return
+     */
     private List<ModuleDto> getIndexNewsModuleDtoList(){
         List<ModuleDto> newsModuleList = this.moduleService.getIndexTopModuleDtoList(null,"News", 6);
         if(!CollectionUtils.isEmpty(newsModuleList)){
@@ -219,6 +248,7 @@ public class IndexController {
                         projectDto.setYears(arrStr[0]);
                         projectDto.setDay(arrStr[1]);
                     }
+
                 }
 
             }

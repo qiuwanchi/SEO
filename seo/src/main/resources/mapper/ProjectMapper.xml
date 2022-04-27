@@ -265,42 +265,89 @@
 
         <foreach item="item" index="index" collection="moduleIds" open="" separator="" close="">
             <if test="index !=0" >
-            UNION ALL
+                UNION ALL
             </if>
             SELECT * FROM(
-                SELECT
-                    b.id,
-                    b.number,
-                    b.name,
-                    b.describe_msg AS describeMsg,
-                    b.module_id AS moduleId,
-                    b.attachment_id AS attachmentId,
-                    b.seo_image_id AS seoImageId,
-                    b.sort,
-                    b.title,
-                    b.keywords,
-                    b.description,
-                    b.alt,
-                    b.content,
-                    b.code,
-                    b.click_url AS clickUrl,
-                    b.create_by AS createBy,
-                    b.create_time AS createTime,
-                    b.update_by AS updateBy,
-                    b.update_time AS updateTime,
-                    a.filename AS fileName,
-                    a.filesize AS fileSize,
-                    a.filetype AS fileType,
-                    a.filepath AS filePath,
-                    a.file_id AS fileId
-                FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id = #{item}
-                <if test="homePageDisplay !=null" >
-                    AND b.home_page_display=#{homePageDisplay}
-                </if>
+            SELECT
+            b.id,
+            b.number,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.module_id AS moduleId,
+            b.attachment_id AS attachmentId,
+            b.seo_image_id AS seoImageId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.content,
+            b.code,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+            FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id = #{item}
+            <if test="homePageDisplay !=null" >
+                AND b.home_page_display=#{homePageDisplay}
+            </if>
+            ORDER BY b.sort
 
-                <if test="pageSize !=null" >
-                    limit  #{pageSize}
-                </if>
+            <if test="pageSize !=null" >
+                limit  #{pageSize}
+            </if>
+
+            ) t${index}
+        </foreach>
+    </select>
+
+    <select id="selectNewsTopProjectListGroupByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+
+        <foreach item="item" index="index" collection="moduleIds" open="" separator="" close="">
+            <if test="index !=0" >
+                UNION ALL
+            </if>
+            SELECT * FROM(
+            SELECT
+            b.id,
+            b.number,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.module_id AS moduleId,
+            b.attachment_id AS attachmentId,
+            b.seo_image_id AS seoImageId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.content,
+            b.code,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+            FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id = #{item}
+            <if test="homePageDisplay !=null" >
+                AND b.home_page_display=#{homePageDisplay}
+            </if>
+            ORDER BY b.update_time DESC
+
+            <if test="pageSize !=null" >
+                limit  #{pageSize}
+            </if>
 
             ) t${index}
         </foreach>
@@ -309,33 +356,33 @@
 
     <select id="getSolutionCaseList" resultType="com.qiuwanchi.seo.dto.ProjectDto">
         SELECT
-        b.id,
-        b.number,
-        b.name,
-        b.describe_msg AS describeMsg,
-        b.module_id AS moduleId,
-        b.attachment_id AS attachmentId,
-        b.seo_image_id AS seoImageId,
-        b.sort,
-        b.title,
-        b.keywords,
-        b.description,
-        b.alt,
-        b.content,
-        b.code,
-        m.code AS moduleCode,
-        b.click_url AS clickUrl,
-        b.create_by AS createBy,
-        b.create_time AS createTime,
-        b.update_by AS updateBy,
-        b.update_time AS updateTime,
-        a.filename AS fileName,
-        a.filesize AS fileSize,
-        a.filetype AS fileType,
-        a.filepath AS filePath,
-        a.file_id AS fileId
-        FROM project b JOIN module m ON b.module_id=m.id AND m.belong='SolutionCase'
-        LEFT JOIN system_attachment a ON b.attachment_id=a.id
+            b.id,
+            b.number,
+            b.name,
+            b.describe_msg AS describeMsg,
+            b.module_id AS moduleId,
+            b.attachment_id AS attachmentId,
+            b.seo_image_id AS seoImageId,
+            b.sort,
+            b.title,
+            b.keywords,
+            b.description,
+            b.alt,
+            b.content,
+            b.code,
+            m.code AS moduleCode,
+            b.click_url AS clickUrl,
+            b.create_by AS createBy,
+            b.create_time AS createTime,
+            b.update_by AS updateBy,
+            b.update_time AS updateTime,
+            a.filename AS fileName,
+            a.filesize AS fileSize,
+            a.filetype AS fileType,
+            a.filepath AS filePath,
+            a.file_id AS fileId
+            FROM project b JOIN module m ON b.module_id=m.id AND m.belong='SolutionCase'
+            LEFT JOIN system_attachment a ON b.attachment_id=a.id
         WHERE  1=1
         <if test="homePageDisplay !=null" >
             AND b.home_page_display=#{homePageDisplay}

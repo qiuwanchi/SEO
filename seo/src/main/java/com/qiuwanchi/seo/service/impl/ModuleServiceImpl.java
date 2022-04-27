@@ -123,6 +123,40 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     }
 
     @Override
+    public List<ModuleDto> getIndexNewsTopModuleDtoList(String homePageDisplay, String belong, Integer size) {
+        // 置顶的模块
+        List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(homePageDisplay, belong);
+
+        /*key=moduleId,value=module对象*/
+        Map<String, ModuleDto> moduleDtoMap = moduleDtoList.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
+
+        List<String> moduleIdList = new ArrayList<>();
+        moduleIdList.addAll(moduleDtoMap.keySet());
+
+        // 置顶模块的置顶项目
+        List<ProjectDto> projectDtoList = this.projectService.selectNewsTopProjectListGroupByModuleId(homePageDisplay, moduleIdList, size);
+        /*初始化Project-seo相关值*/
+        SeoUtils.intProjectSeoValue(projectDtoList);
+
+        /*key=moduleId,value=List<ProjectDto> 列表*/
+        Map<String,List<ProjectDto>> moduleIdProjectDtoListMap = projectDtoList.stream().collect(Collectors.groupingBy(ProjectDto::getModuleId));
+
+        for (Map.Entry<String, ModuleDto> entry : moduleDtoMap.entrySet()){
+            String moduleId = entry.getKey();
+            ModuleDto moduleDto = entry.getValue();
+
+            List<ProjectDto> moduleProjectDtoList =  moduleIdProjectDtoListMap.get(moduleId);
+            if(CollectionUtils.isEmpty(moduleProjectDtoList)){
+                moduleProjectDtoList = Lists.newArrayList();
+            }
+
+            moduleDto.setProjectDtoList(moduleProjectDtoList);
+        }
+
+        return moduleDtoList;
+    }
+
+    @Override
     public List<ModuleDto> getSimpleModuleDtoList(String belong) {
         return this.moduleMapper.getModuleList(null, belong);
     }

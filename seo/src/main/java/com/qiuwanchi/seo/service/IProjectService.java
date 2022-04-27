@@ -38,6 +38,8 @@ public interface IProjectService extends IService<Project> {
      */
     List<ProjectDto> selectTopProjectListGroupByModuleId(String homePageDisplay, List<String> moduleIdList, Integer size);
 
+    List<ProjectDto> selectNewsTopProjectListGroupByModuleId(String homePageDisplay, List<String> moduleIdList, Integer size);
+
     /**
      * 查询解决方案列表
      * @param homePageDisplay 是否首页置顶

@@ -32,5 +32,5 @@ public interface SubProjectMapper extends BaseMapper<SubProject> {
 
     SubProjectDto getPreSubProject(@Param("projectId")String projectId, @Param("currentSubProjectId")String currentSubProjectId, @Param("sort")int sort);
 
-    List<SubProjectDto> getSubProjectListByModuleIds(@Param("moduleIds")List<String> moduleIds, @Param("pageSize")int pageSize);
+    List<SubProjectDto> getSubProjectListByModuleIds(@Param("homePageDisplay")String homePageDisplay, @Param("moduleIds")List<String> moduleIds, @Param("pageSize")int pageSize);
 }

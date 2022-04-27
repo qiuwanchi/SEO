@@ -22,6 +22,8 @@ public interface IModuleService extends IService<Module> {
      */
     List<ModuleDto> getIndexTopModuleDtoList(String homePageDisplay, String belong, Integer size);
 
+    List<ModuleDto> getIndexNewsTopModuleDtoList(String homePageDisplay, String belong, Integer size);
+
     /**
      * 获取简单的模块列表(只包含基本信息)
      * @param belong

@@ -84,6 +84,11 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     }
 
     @Override
+    public List<ProjectDto> selectNewsTopProjectListGroupByModuleId(String homePageDisplay, List<String> moduleIdList, Integer size) {
+        return this.projectMapper.selectNewsTopProjectListGroupByModuleId(homePageDisplay, moduleIdList, size);
+    }
+
+    @Override
     public List<ProjectDto> getSolutionCaseList(String homePageDisplay, Integer pageSize) {
         return this.projectMapper.getSolutionCaseList(homePageDisplay, pageSize);
     }

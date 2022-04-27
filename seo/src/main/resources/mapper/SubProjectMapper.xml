@@ -345,7 +345,17 @@
                 m.id AS moduleId
                 FROM sub_project b JOIN project p ON b.project_id=p.id JOIN module m ON p.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id
                 WHERE m.id=#{item}
-                ORDER BY b.sort limit #{pageSize}
+                <if test="homePageDisplay !=null" >
+                    AND b.home_page_display=#{homePageDisplay}
+                    AND p.home_page_display=#{homePageDisplay}
+                </if>
+
+                ORDER BY b.sort
+
+                <if test="pageSize !=null" >
+                    limit #{pageSize}
+                </if>
+
             ) t${index}
         </foreach>
     </select>

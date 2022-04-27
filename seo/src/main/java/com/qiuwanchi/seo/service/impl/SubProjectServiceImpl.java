@@ -85,8 +85,8 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
     }
 
     @Override
-    public List<SubProjectDto> getSubProjectListByModuleIds(List<String> moduleIds, int pageSize) {
-        List<SubProjectDto> subProjectDtoList = this.subProjectMapper.getSubProjectListByModuleIds(moduleIds, pageSize);
+    public List<SubProjectDto> getSubProjectListByModuleIds(String homePageDisplay, List<String> moduleIds, int pageSize) {
+        List<SubProjectDto> subProjectDtoList = this.subProjectMapper.getSubProjectListByModuleIds(homePageDisplay, moduleIds, pageSize);
         /*初始化Module-seo相关值*/
         SeoUtils.intSubProjectSeoValue(subProjectDtoList);
         return subProjectDtoList;
