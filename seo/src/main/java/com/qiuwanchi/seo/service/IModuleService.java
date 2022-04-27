@@ -14,14 +14,19 @@ public interface IModuleService extends IService<Module> {
     List<ModuleDto> getModuleDtoList(String belong);
 
     /**
-     * 获取置顶首页模块，及其下的项目(取size条数)
-     * @param homePageDisplay 是否查询首页置顶的数据
-     * @param belong 属于哪个模块
-     * @param size 各类目下查询数据的条数
+     * 获取首页置顶的相关数据(模块与项目)
+     * @param homePageDisplay
+     * @param belong
+     * @param size
      * @return
      */
-    List<ModuleDto> getIndexModuleDtoList(String homePageDisplay, String belong, Integer size);
+    List<ModuleDto> getIndexTopModuleDtoList(String homePageDisplay, String belong, Integer size);
 
+    /**
+     * 获取简单的模块列表(只包含基本信息)
+     * @param belong
+     * @return
+     */
     List<ModuleDto> getSimpleModuleDtoList(String belong);
 
     ModuleDto selectByModuleId(String moduleId);

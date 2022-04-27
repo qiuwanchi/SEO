@@ -75,7 +75,12 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
 
     @Override
     public List<ProjectDto> selectProjectListGroupByModuleId(List<String> moduleIdList, Integer size) {
-        return this.projectMapper.selectProjectListGroupByModuleId(moduleIdList, size);
+        return this.selectTopProjectListGroupByModuleId(null, moduleIdList, size);
+    }
+
+    @Override
+    public List<ProjectDto> selectTopProjectListGroupByModuleId(String homePageDisplay, List<String> moduleIdList, Integer size) {
+        return this.projectMapper.selectTopProjectListGroupByModuleId(homePageDisplay, moduleIdList, size);
     }
 
     @Override

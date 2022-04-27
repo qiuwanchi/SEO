@@ -261,7 +261,7 @@
         LIMIT 6
     </select>
 
-    <select id="selectProjectListGroupByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+    <select id="selectTopProjectListGroupByModuleId" resultType="com.qiuwanchi.seo.dto.ProjectDto">
 
         <foreach item="item" index="index" collection="moduleIds" open="" separator="" close="">
             <if test="index !=0" >
@@ -293,7 +293,15 @@
                     a.filetype AS fileType,
                     a.filepath AS filePath,
                     a.file_id AS fileId
-                FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id = #{item} limit  #{pageSize}
+                FROM project b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.module_id = #{item}
+                <if test="homePageDisplay !=null" >
+                    AND b.home_page_display=#{homePageDisplay}
+                </if>
+
+                <if test="pageSize !=null" >
+                    limit  #{pageSize}
+                </if>
+
             ) t${index}
         </foreach>
     </select>

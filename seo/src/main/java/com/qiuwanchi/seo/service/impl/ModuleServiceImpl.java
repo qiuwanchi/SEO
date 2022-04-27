@@ -1,6 +1,7 @@
 package com.qiuwanchi.seo.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.entity.Module;
@@ -78,11 +79,9 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     }
 
     @Override
-    public List<ModuleDto> getIndexModuleDtoList(String homePageDisplay, String belong, Integer size) {
+    public List<ModuleDto> getIndexTopModuleDtoList(String homePageDisplay, String belong, Integer size) {
+        // 置顶的模块
         List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(homePageDisplay, belong);
-
-        /*初始化Module-seo相关值*/
-        SeoUtils.intModuleSeoValue(moduleDtoList);
 
         /*key=moduleId,value=module对象*/
         Map<String, ModuleDto> moduleDtoMap = moduleDtoList.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
@@ -90,7 +89,8 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         List<String> moduleIdList = new ArrayList<>();
         moduleIdList.addAll(moduleDtoMap.keySet());
 
-        List<ProjectDto> projectDtoList = this.projectService.selectProjectListGroupByModuleId(moduleIdList, size);
+        // 置顶模块的置顶项目
+        List<ProjectDto> projectDtoList = this.projectService.selectTopProjectListGroupByModuleId(homePageDisplay, moduleIdList, size);
         /*初始化Project-seo相关值*/
         SeoUtils.intProjectSeoValue(projectDtoList);
 
@@ -103,7 +103,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
 
             List<ProjectDto> moduleProjectDtoList =  moduleIdProjectDtoListMap.get(moduleId);
             if(CollectionUtils.isEmpty(moduleProjectDtoList)){
-                moduleProjectDtoList = new ArrayList<>();
+                moduleProjectDtoList = Lists.newArrayList();
             }
             /*根据序号排序*/
             moduleProjectDtoList.sort(new Comparator<ProjectDto>() {

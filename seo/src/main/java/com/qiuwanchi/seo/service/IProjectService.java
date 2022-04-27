@@ -30,6 +30,15 @@ public interface IProjectService extends IService<Project> {
     List<ProjectDto> selectProjectListGroupByModuleId(List<String> moduleIdList, Integer size);
 
     /**
+     * 查询置顶的项目
+     * @param homePageDisplay 是否置顶
+     * @param moduleIdList
+     * @param size
+     * @return
+     */
+    List<ProjectDto> selectTopProjectListGroupByModuleId(String homePageDisplay, List<String> moduleIdList, Integer size);
+
+    /**
      * 查询解决方案列表
      * @param homePageDisplay 是否首页置顶
      * @return

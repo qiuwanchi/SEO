@@ -33,7 +33,14 @@ public interface ProjectMapper extends BaseMapper<Project> {
      */
     List<ProjectDto> getHotAnswer(@Param("moduleCode")String moduleCode);
 
-    List<ProjectDto> selectProjectListGroupByModuleId(@Param("moduleIds")List<String> moduleIdList, @Param("pageSize")Integer size);
+    /**
+     * 查询是否置顶的projectDto列表
+     * @param homePageDisplay 是否置顶
+     * @param moduleIdList
+     * @param size
+     * @return
+     */
+    List<ProjectDto> selectTopProjectListGroupByModuleId(@Param("homePageDisplay")String homePageDisplay, @Param("moduleIds")List<String> moduleIdList, @Param("pageSize")Integer size);
 
     /**
      * 解决方案

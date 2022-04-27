@@ -11,6 +11,12 @@ import java.util.List;
 @Mapper
 public interface ModuleMapper extends BaseMapper<Module> {
 
+    /**
+     * 查询是否置顶的模块列表
+     * @param homePageDisplay 是否置顶
+     * @param belong 哪个模块
+     * @return
+     */
     List<ModuleDto> getModuleList(@Param("homePageDisplay")String homePageDisplay, @Param("belong")String belong);
 
     ModuleDto selectByModuleId(@Param("moduleId")String moduleId);
