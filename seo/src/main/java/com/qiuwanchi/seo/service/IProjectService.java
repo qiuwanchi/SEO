@@ -56,4 +56,5 @@ public interface IProjectService extends IService<Project> {
     List<ProjectDto> getRecommendNewsFqaProjectList(String firstCategory, List<String> keywordsList);
 
     List<ProjectDto> getRecentUpdatesNewsProjectList();
+
 }

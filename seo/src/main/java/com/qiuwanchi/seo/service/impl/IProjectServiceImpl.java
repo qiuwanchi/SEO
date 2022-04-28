@@ -102,4 +102,5 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
     public List<ProjectDto> getRecentUpdatesNewsProjectList() {
         return this.projectMapper.getRecentUpdatesNewsProjectList();
     }
+
 }

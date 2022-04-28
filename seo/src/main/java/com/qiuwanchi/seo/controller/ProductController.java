@@ -161,6 +161,7 @@ public class ProductController {
 
         // 视频案例
         List<SubProjectDto> recommendServiceCaseVideoList = this.subProjectService.getRecommendServiceCaseSubProjectList(currentProjectDto.getModuleCode());
+        SeoUtils.intSubProjectSeoValue(recommendServiceCaseVideoList);
         model.addAttribute("recommendServiceCaseVideoList", recommendServiceCaseVideoList);
 
         // 关键字
@@ -180,6 +181,11 @@ public class ProductController {
         // 最近更新
         List<ProjectDto> recentUpdatesNewsProjectList = this.projectService.getRecentUpdatesNewsProjectList();
         model.addAttribute("recentUpdatesNewsProjectList", recentUpdatesNewsProjectList);
+
+        // 推荐产品
+        List<ProjectDto> recommendProductsProjectDtoList = this.projectService.recommend("companyProduct-productModule", currentProjectDto.getId(), keywordsList);
+        SeoUtils.intProjectSeoValue(recommendProductsProjectDtoList);
+        model.addAttribute("recommendProductsProjectDtoList", recommendProductsProjectDtoList);
 
         // 底部
         this.bottomManagementCommon.bottom(model);

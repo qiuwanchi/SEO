@@ -120,8 +120,13 @@
         b.create_by AS createBy,
         b.create_time AS createTime,
         b.update_by AS updateBy,
-        b.update_time AS updateTime
-        FROM project b JOIN module m ON b.module_id=m.id AND m.belong=#{category}
+        b.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId
+        FROM project b JOIN module m ON b.module_id=m.id AND m.belong=#{category} LEFT JOIN system_attachment a ON b.attachment_id=a.id
         WHERE  b.id !=#{projectId} AND
         (
         1=0
@@ -130,7 +135,7 @@
         </foreach>
 
         )
-        ORDER BY b.create_time desc
+        ORDER BY RAND()
         LIMIT 6
     </select>
 

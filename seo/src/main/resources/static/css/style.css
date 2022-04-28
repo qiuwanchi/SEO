@@ -52,16 +52,24 @@ a p {
 	border-bottom: 1px solid #e5e5e5;
 }
 
+.nav .container {
+	position: relative;
+}
+
 .navimg {
-	float: left;
 	width: 200px;
+	position: absolute;
+}
+
+.navimg img {
+	width: 100%;
 }
 
 .navul {
-	width: 65%;
-	float: left;
 	text-align: center;
 	padding-top: 18px;
+	padding-left: 200px;
+	padding-right: 160px;
 }
 
 .nav ul {
@@ -98,10 +106,10 @@ a p {
 }
 
 .nav .kftel {
-	float: right;
-	margin-left: 10px;
+	position: absolute;
+	right: 0;
 	width: 180px;
-	padding-top: 12px;
+	top: 12px;
 }
 
 .nav .kftel h2 {
@@ -2021,18 +2029,11 @@ a p {
 	padding: 0;
 }
 
-@media (max-width: 1400px) {
-	.navul {
-		width: 62%;
-	}
-}
+@media (max-width: 1400px) {}
 
 @media (max-width: 1300px) {
-	.navul {
-		width: 60%;
-	}
 	.nav ul li {
-		padding: 15px 10px;
+		padding: 15px 5px;
 	}
 }
 
@@ -2134,6 +2135,8 @@ a p {
 	}
 	.navul {
 		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
 	}
 	.nav {
 		position: inherit;
@@ -2143,6 +2146,9 @@ a p {
 	#news,
 	#contact,
 	#about {
-		margin-top: -80px;
+		margin-top: 10px;
+	}
+	.banner {
+		margin-top: 0;
 	}
 }
