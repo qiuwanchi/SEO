@@ -126,6 +126,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     public List<ModuleDto> getIndexNewsTopModuleDtoList(String homePageDisplay, String belong, Integer size) {
         // 置顶的模块
         List<ModuleDto> moduleDtoList = this.moduleMapper.getModuleList(homePageDisplay, belong);
+        SeoUtils.intModuleSeoValue(moduleDtoList);
 
         /*key=moduleId,value=module对象*/
         Map<String, ModuleDto> moduleDtoMap = moduleDtoList.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
