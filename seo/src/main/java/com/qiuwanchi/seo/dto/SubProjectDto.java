@@ -57,4 +57,6 @@ public class SubProjectDto {
     private String firstCategory;
     private String secondCategory;
 
+    private String bannerId;
+
 }

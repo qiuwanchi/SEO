@@ -1,17 +1,15 @@
 package com.qiuwanchi.seo.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qiuwanchi.seo.dto.ImageDto;
+import com.qiuwanchi.seo.constant.CategoryCode;
+import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.entity.Attachment;
 import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.entity.Project;
-import com.qiuwanchi.seo.service.IAttachmentService;
-import com.qiuwanchi.seo.service.IModuleService;
-import com.qiuwanchi.seo.service.IProjectService;
-import com.qiuwanchi.seo.service.ISubProjectService;
+import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +47,9 @@ public class ServiceCaseController {
 
     @Autowired
     private BottomManagementCommon bottomManagementCommon;
+
+    @Autowired
+    private IBannerService bannerService;
 
     @Autowired
     private LogoCommon logoCommon;
@@ -115,6 +116,13 @@ public class ServiceCaseController {
         return returnStr;
     }
 
+    /**
+     * 二级类目
+     * @param model
+     * @param firstCategory
+     * @param secondCategory
+     * @return
+     */
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}")
     public String serviceCaseSecondCategoryPage0(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory){
         Page page = new Page();
@@ -124,6 +132,14 @@ public class ServiceCaseController {
         return returnStr;
     }
 
+    /**
+     * 二级类目分页
+     * @param model
+     * @param firstCategory
+     * @param secondCategory
+     * @param current
+     * @return
+     */
     @GetMapping("/serviceCase/{firstCategory}/{secondCategory}/page_{current}.html")
     public String serviceCaseSecondCategoryPage(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("secondCategory") String secondCategory,@PathVariable("current") long current){
         Page page = new Page();
@@ -136,7 +152,7 @@ public class ServiceCaseController {
 
 
     /**
-     * 服务类目-项目详情
+     * 服务案例-详情
      * @param model
      * @param number
      * @return
@@ -146,36 +162,36 @@ public class ServiceCaseController {
         model.addAttribute("baseUrl", serverConfig.getUrl());
         // logo
         this.logoCommon.logo(model);
+
+        // 当前详情对象
         SubProjectDto currentSubProjectDto = this.subProjectService.getByNumber(number);
+        currentSubProjectDto.setCreateBy(Objects.isNull(currentSubProjectDto.getCreateBy()) ? "admin" : currentSubProjectDto.getCreateBy());
+        SeoUtils.intSubProjectSeoValue(currentSubProjectDto);
+        currentSubProjectDto.setKeywords(Utils.replaceAll(currentSubProjectDto.getKeywords()));
+        model.addAttribute("currentSubProject", currentSubProjectDto);
+
+        // 二级类目
         Project project = this.projectService.getById(currentSubProjectDto.getProjectId());
         model.addAttribute("project", project);
+
+        // 一级类目
         Module module = this.moduleService.getById(project.getModuleId());
         model.addAttribute("module", module);
 
-        currentSubProjectDto.setCreateBy(Objects.isNull(currentSubProjectDto.getCreateBy()) ? "admin" : currentSubProjectDto.getCreateBy());
-        SeoUtils.intSubProjectSeoValue(currentSubProjectDto);
+        // 详情的banner图
+        model.addAttribute("banner", this.getDetailBannerDto(module, project, currentSubProjectDto));
 
-        if(StringUtils.isBlank(currentSubProjectDto.getUrl())){
-            if(StringUtils.isNotBlank(project.getAttachmentId())){
-                Attachment attachment = this.attachmentService.getById(project.getAttachmentId());
-                currentSubProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(attachment.getFilepath()));
-            }
-        }
-
-        model.addAttribute("currentSubProject", currentSubProjectDto);
-
-        List<String> keywordsList = new ArrayList<>();
-
-        if(StringUtils.isNotBlank(currentSubProjectDto.getKeywords())){
-            currentSubProjectDto.setKeywords(Utils.replaceAll(currentSubProjectDto.getKeywords()));
-            keywordsList = Utils.toList(currentSubProjectDto.getKeywords());
-        }
         // 关键字
+        List<String> keywordsList = Utils.toList(currentSubProjectDto.getKeywords());
         model.addAttribute("keywordsList", keywordsList);
 
-        // 相关推荐
+        // 相关推荐(在服务案例所有中随机取6条)
         List<SubProjectDto> recommendSubProjectDtoList = this.subProjectService.recommend(currentSubProjectDto.getId(), keywordsList);
         model.addAttribute("recommendSubProjectDtoList", recommendSubProjectDtoList);
+
+        // 常见问题(热门回答)
+        List<ProjectDto> recommendNewsFqaProjectList = this.projectService.getRecommendNewsFqaProjectList(CategoryCode.FAQ.getCode(), keywordsList);
+        model.addAttribute("recommendNewsFqaProjectList", recommendNewsFqaProjectList);
 
         // 上一篇
         SubProjectDto preSubProjectDto = this.subProjectService.getPreSubProject(currentSubProjectDto.getProjectId(), currentSubProjectDto.getId(), currentSubProjectDto.getSort());
@@ -185,15 +201,29 @@ public class ServiceCaseController {
         SubProjectDto nextSubProjectDto = this.subProjectService.getNextSubProject(currentSubProjectDto.getProjectId(), currentSubProjectDto.getId(), currentSubProjectDto.getSort());
         model.addAttribute("nextSubProjectDto", nextSubProjectDto);
 
-        // 热门回答
-        List<ProjectDto> hotAnswerProjectDtoList = this.projectService.getHotAnswer(module.getCode());
-        model.addAttribute("hotAnswerProjectDtoList", hotAnswerProjectDtoList);
-
+        // 热门标签
         model.addAttribute("keywordsDtoList", KeywordsUtils.getHotLabel());
 
+        // 底部
         this.bottomManagementCommon.bottom(model);
-
         return "service_case_detail";
+    }
+
+    /**
+     * 获取详情的banner图
+     * @param module
+     * @param project
+     * @param currentSubProjectDto
+     * @return
+     */
+    private BannerDto getDetailBannerDto(Module module, Project project, SubProjectDto currentSubProjectDto) {
+        if(StringUtils.isNotBlank(currentSubProjectDto.getBannerId())){
+            return this.bannerService.selectById(currentSubProjectDto.getBannerId());
+        } else if(StringUtils.isNotBlank(project.getBannerId())){
+            return this.bannerService.selectById(project.getBannerId());
+        } else {
+            return this.bannerService.selectById(module.getBannerId());
+        }
     }
 
     private String serviceCase(Model model, Page page, String firstCategory, String secondCategory) {
@@ -204,16 +234,11 @@ public class ServiceCaseController {
 
         // 服务案例
         List<ModuleDto> serviceCaseModuleList = this.moduleService.getModuleDtoList("ServiceCase");
-        for (ModuleDto moduleDto : serviceCaseModuleList) {
-            for (ProjectDto projectDto : moduleDto.getProjectDtoList()) {
-                projectDto.setModuleCode(moduleDto.getCode());
-            }
-        }
         model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
 
-        //banner
-        ImageDto bannerImageDto = this.getServiceCaseBanner(firstCategory, secondCategory, serviceCaseModuleList);
-        model.addAttribute("bannerImageDto", bannerImageDto);
+        // banner
+        BannerDto bannerDto = this.getServiceCaseBanner(firstCategory, secondCategory, serviceCaseModuleList);
+        model.addAttribute("bannerDto", bannerDto);
 
         Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, firstCategory, secondCategory);
         List<SubProjectDto> subProjectDtoList = subProjectDtoPage.getRecords();
@@ -254,43 +279,43 @@ public class ServiceCaseController {
         return null;
     }
 
-    private ImageDto getServiceCaseBanner(String firstCategory, String secondCategory, List<ModuleDto> serviceCaseModuleList){
-        ImageDto imageDto = new ImageDto();
+    private BannerDto getServiceCaseBanner(String firstCategory, String secondCategory, List<ModuleDto> serviceCaseModuleList){
 
-        ModuleDto firstModule = serviceCaseModuleList.get(0);
-        imageDto.setUrl(firstModule.getUrl());
-        imageDto.setAlt(firstModule.getAlt());
-
-        if (StringUtils.isNotBlank(firstCategory)) {
-            ModuleDto firstCategoryModuleDto = null;
-            for (ModuleDto moduleDto : serviceCaseModuleList) {
-                if (firstCategory.equals(moduleDto.getCode())) {
-                    firstCategoryModuleDto = moduleDto;
-                    break;
-                }
+        // 一级类目编码为空，取第一个类目
+        if (StringUtils.isBlank(firstCategory)) {
+            ModuleDto firstModule = serviceCaseModuleList.get(0);
+            return this.getBannerDto(firstModule.getBannerId());
+        } else if (StringUtils.isNotBlank(firstCategory) && StringUtils.isBlank(secondCategory)) {
+            ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
+            if(Objects.nonNull(firstCategoryModuleDto)){
+                return this.getBannerDto(firstCategoryModuleDto.getBannerId());
             }
+        } else if (StringUtils.isNotBlank(firstCategory) && StringUtils.isNotBlank(secondCategory)) {
+            ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
 
             if(Objects.nonNull(firstCategoryModuleDto)){
-                imageDto.setUrl(firstCategoryModuleDto.getUrl());
-                imageDto.setAlt(firstCategoryModuleDto.getAlt());
-
-                if (StringUtils.isNotBlank(secondCategory)) {
-                    ProjectDto secondCategoryProjectDto = null;
-                    for (ProjectDto projectDto : firstCategoryModuleDto.getProjectDtoList()){
-                        if (secondCategory.equals(projectDto.getCode())) {
-                            secondCategoryProjectDto = projectDto;
-                            break;
-                        }
-                    }
-
-                    if(Objects.nonNull(secondCategoryProjectDto)){
-                        imageDto.setUrl(secondCategoryProjectDto.getUrl());
-                        imageDto.setAlt(secondCategoryProjectDto.getAlt());
+                ProjectDto secondCategoryProjectDto = null;
+                for (ProjectDto projectDto : firstCategoryModuleDto.getProjectDtoList()){
+                    if (secondCategory.equals(projectDto.getCode())) {
+                        secondCategoryProjectDto = projectDto;
+                        break;
                     }
                 }
+                if(Objects.nonNull(secondCategoryProjectDto)){
+                    return this.getBannerDto(secondCategoryProjectDto.getBannerId());
+                }
             }
+
         }
-        return imageDto;
+        return new BannerDto();
+    }
+
+    private BannerDto getBannerDto(String bannerId){
+        BannerDto moduleBannerDto = this.bannerService.selectById(bannerId);
+        if(Objects.nonNull(moduleBannerDto)){
+            return moduleBannerDto;
+        }
+        return new BannerDto();
     }
 
 

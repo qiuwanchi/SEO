@@ -1,5 +1,8 @@
 package com.qiuwanchi.seo.utils;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,19 +45,23 @@ public class Utils {
         return content;
     }
 
-
     public static List<String> toList(String keywords){
-        List<String> keywordsList = new ArrayList<>();
+        if(StringUtils.isBlank(keywords)){
+            return Lists.newArrayList();
+        }
+        List<String> keywordsList = Lists.newArrayList();
         keywords = keywords.replaceAll("，", ",");
         String[] keywordsArr = keywords.split(",");
         for (String k : keywordsArr){
             keywordsList.add(k);
         }
-
         return keywordsList;
     }
 
     public static String replaceAll(String keywords){
+        if(StringUtils.isBlank(keywords)){
+            return keywords;
+        }
         return keywords.replaceAll("，", ",");
     }
 

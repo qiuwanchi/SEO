@@ -75,6 +75,9 @@ public class Project implements Serializable {
     @TableField("code")
     private String code;
 
+    @TableField("banner_id")
+    private String bannerId;
+
     public static final String ID = "id";
     public static final String NUMBER = "number";
     public static final String MODULE_ID = "module_id";

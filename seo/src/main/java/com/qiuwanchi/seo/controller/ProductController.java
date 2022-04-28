@@ -3,7 +3,6 @@ package com.qiuwanchi.seo.controller;
 import com.google.common.collect.Lists;
 import com.qiuwanchi.seo.constant.CategoryCode;
 import com.qiuwanchi.seo.dto.*;
-import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
@@ -82,7 +81,7 @@ public class ProductController {
         model.addAttribute("projectDtoList", this.projectDtoList(moduleDto));
 
         // 类目的banner图
-        model.addAttribute("banner", this.getBanner(moduleDto));
+        model.addAttribute("banner", this.getFirstCategoryBanner(moduleDto));
 
         this.bottomManagementCommon.bottom(model);
         return "goods";
@@ -121,36 +120,71 @@ public class ProductController {
         model.addAttribute("projectDtoList", this.projectDtoList(moduleDto));
 
         // 类目的banner图
-        model.addAttribute("banner", this.getBanner(moduleDto));
+        model.addAttribute("banner", this.getFirstCategoryBanner(moduleDto));
         this.bottomManagementCommon.bottom(model);
         return "goods";
     }
 
     /**
-     * 获取Module的banner图
-     * @param moduleDto
+     * 公司产品详情页
+     * @param model
+     * @param firstCategory
+     * @param number
      * @return
      */
-    private BannerDto getBanner(ModuleDto moduleDto){
-        BannerDto bannerDto = this.bannerService.selectById(moduleDto.getBannerId());
-        if(Objects.isNull(bannerDto)){
-            return new BannerDto();
-        }
-        return bannerDto;
-    }
+    @GetMapping("/products/{firstCategory}/{number}.html")
+    public String productsDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("number") int number){
+        model.addAttribute("baseUrl", serverConfig.getUrl());
 
-    /**
-     * 获取Project的banner图
-     * @param projectDto
-     * @return
-     */
-    private BannerDto getBanner(ProjectDto projectDto){
-        BannerDto bannerDto = this.bannerService.selectById(projectDto.getBannerId());
-        if(Objects.isNull(bannerDto)){
-            ModuleDto moduleDto = this.moduleService.selectByModuleId(projectDto.getModuleId());
-            return this.getBanner(moduleDto);
+        // 1.logo
+        this.logoCommon.logo(model);
+
+        // 2.当前项目
+        ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
+        SeoUtils.intProjectSeoValue(currentProjectDto);
+        model.addAttribute("currentProjectDto", currentProjectDto);
+
+        // 3.banner图片
+        BannerDto bannerDto = this.getProjectBanner(currentProjectDto);
+        SeoUtils.intBannerSeoValue(bannerDto);
+        model.addAttribute("banner", bannerDto);
+
+        // 4.系统特点
+        List<ProjectDto> systemCharacteristicsProjectDtoList = this.projectService.getProjectListByModuleId(currentProjectDto.getId());
+        SeoUtils.intProjectSeoValue(systemCharacteristicsProjectDtoList);
+        model.addAttribute("systemCharacteristicsProjectDtoList", systemCharacteristicsProjectDtoList);
+
+        // 5 应用场景
+        List<SubProjectDto> applicationScenarioSubProjectDtoList = this.subProjectService.getProjectListByProjectId(currentProjectDto.getId());
+        SeoUtils.intSubProjectSeoValue(applicationScenarioSubProjectDtoList);
+        model.addAttribute("applicationScenarioSubProjectDtoList", applicationScenarioSubProjectDtoList);
+
+        // 视频案例
+        List<SubProjectDto> recommendServiceCaseVideoList = this.subProjectService.getRecommendServiceCaseSubProjectList(currentProjectDto.getModuleCode());
+        model.addAttribute("recommendServiceCaseVideoList", recommendServiceCaseVideoList);
+
+        // 关键字
+        List<String> keywordsList = new ArrayList<>();
+        if(StringUtils.isNotBlank(currentProjectDto.getKeywords())){
+            currentProjectDto.setKeywords(Utils.replaceAll(currentProjectDto.getKeywords()));
+            keywordsList = Utils.toList(currentProjectDto.getKeywords());
         }
-        return bannerDto;
+        // 常见问题
+        List<ProjectDto> recommendNewsFqaProjectList = this.projectService.getRecommendNewsFqaProjectList(CategoryCode.FAQ.getCode(), keywordsList);
+        model.addAttribute("recommendNewsFqaProjectList", recommendNewsFqaProjectList);
+
+        // 科普知识
+        List<ProjectDto> recommendNewsPopularScienceKnowledgeProjectList = this.projectService.getRecommendNewsFqaProjectList(CategoryCode.popular_science_knowledge.getCode(), keywordsList);
+        model.addAttribute("recommendNewsPopularScienceKnowledgeProjectList", recommendNewsPopularScienceKnowledgeProjectList);
+
+        // 最近更新
+        List<ProjectDto> recentUpdatesNewsProjectList = this.projectService.getRecentUpdatesNewsProjectList();
+        model.addAttribute("recentUpdatesNewsProjectList", recentUpdatesNewsProjectList);
+
+        // 底部
+        this.bottomManagementCommon.bottom(model);
+
+        return "goods_detail";
     }
 
     /**
@@ -182,64 +216,31 @@ public class ProductController {
     }
 
     /**
-     * 公司产品详情页
-     * @param model
-     * @param firstCategory
-     * @param number
+     * 获取Module的banner图
+     * @param moduleDto
      * @return
      */
-    @GetMapping("/products/{firstCategory}/{number}.html")
-    public String productsDetail(Model model, @PathVariable("firstCategory") String firstCategory, @PathVariable("number") int number){
-        model.addAttribute("baseUrl", serverConfig.getUrl());
-
-        // 1.logo
-        this.logoCommon.logo(model);
-
-        // 2.当前项目
-        ProjectDto currentProjectDto = this.projectService.selectByNumber(number);
-        SeoUtils.intProjectSeoValue(currentProjectDto);
-        model.addAttribute("currentProjectDto", currentProjectDto);
-
-        // 3.banner图片
-        BannerDto bannerDto = this.getBanner(currentProjectDto);
-        SeoUtils.intBannerSeoValue(bannerDto);
-        model.addAttribute("banner", bannerDto);
-
-        // 4.系统特点
-        List<ProjectDto> systemCharacteristicsProjectDtoList = this.projectService.getProjectListByModuleId(currentProjectDto.getId());
-        SeoUtils.intProjectSeoValue(systemCharacteristicsProjectDtoList);
-        model.addAttribute("systemCharacteristicsProjectDtoList", systemCharacteristicsProjectDtoList);
-
-        // 5 应用场景
-        List<SubProjectDto> applicationScenarioSubProjectDtoList = this.subProjectService.getProjectListByProjectId(currentProjectDto.getId());
-        SeoUtils.intSubProjectSeoValue(applicationScenarioSubProjectDtoList);
-        model.addAttribute("applicationScenarioSubProjectDtoList", applicationScenarioSubProjectDtoList);
-
-        // 视频案例
-        List<SubProjectDto> recommendServiceCaseVideoList = this.subProjectService.getRecommendServiceCaseSubProjectList(currentProjectDto.getModuleCode());
-        model.addAttribute("recommendServiceCaseVideoList", recommendServiceCaseVideoList);
-
-        // 常见问题
-        List<String> keywordsList = new ArrayList<>();
-        if(StringUtils.isNotBlank(currentProjectDto.getKeywords())){
-            currentProjectDto.setKeywords(Utils.replaceAll(currentProjectDto.getKeywords()));
-            keywordsList = Utils.toList(currentProjectDto.getKeywords());
+    private BannerDto getFirstCategoryBanner(ModuleDto moduleDto){
+        BannerDto bannerDto = this.bannerService.selectById(moduleDto.getBannerId());
+        if(Objects.isNull(bannerDto)){
+            return new BannerDto();
         }
-        List<ProjectDto> recommendNewsFqaProjectList = this.projectService.getRecommendNewsFqaProjectList(CategoryCode.FAQ.getCode(), keywordsList);
-        model.addAttribute("recommendNewsFqaProjectList", recommendNewsFqaProjectList);
+        return bannerDto;
+    }
 
-        // 科普知识
-        List<ProjectDto> recommendNewsPopularScienceKnowledgeProjectList = this.projectService.getRecommendNewsFqaProjectList(CategoryCode.popular_science_knowledge.getCode(), keywordsList);
-        model.addAttribute("recommendNewsPopularScienceKnowledgeProjectList", recommendNewsPopularScienceKnowledgeProjectList);
-
-        // 最近更新
-        List<ProjectDto> recentUpdatesNewsProjectList = this.projectService.getRecentUpdatesNewsProjectList();
-        model.addAttribute("recentUpdatesNewsProjectList", recentUpdatesNewsProjectList);
-
-        // 底部
-        this.bottomManagementCommon.bottom(model);
-
-        return "goods_detail";
+    /**
+     * 获取Project的banner图
+     * @param projectDto
+     * @return
+     */
+    private BannerDto getProjectBanner(ProjectDto projectDto){
+        // project没有就取类目的banner图
+        BannerDto bannerDto = this.bannerService.selectById(projectDto.getBannerId());
+        if(Objects.isNull(bannerDto)){
+            ModuleDto moduleDto = this.moduleService.selectByModuleId(projectDto.getModuleId());
+            return this.getFirstCategoryBanner(moduleDto);
+        }
+        return bannerDto;
     }
 
 }

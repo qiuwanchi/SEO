@@ -117,7 +117,7 @@
         </foreach>
 
         )
-        ORDER BY b.create_time desc
+        ORDER BY RAND()
         LIMIT 6
     </select>
 

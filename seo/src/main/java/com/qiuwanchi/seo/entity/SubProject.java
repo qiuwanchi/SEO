@@ -66,6 +66,9 @@ public class SubProject implements Serializable {
     @TableField("content")
     private String content;
 
+    @TableField("banner_id")
+    private String bannerId;
+
     public static final String ID = "id";
     public static final String NUMBER = "number";
     public static final String PROJECT_ID = "project_id";
@@ -82,27 +85,5 @@ public class SubProject implements Serializable {
     public static final String ALT = "alt";
     public static final String CLICK_URL = "click_url";
     public static final String CONTENT = "content";
-
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add("module_id");
-        list.add("system_attachment_id");
-        list.add("name");
-        list.add("sort");
-        list.add("create_by");
-        list.add("create_time");
-        list.add("update_by");
-        list.add("update_time");
-        list.add("title");
-        list.add("keywords");
-        list.add("description");
-        list.add("alt");
-        list.add("click_url");
-
-        for (String a : list){
-            System.out.println("public static final String " + a.toUpperCase() + " = " + "\"" + a + "\";");
-        }
-
-    }
 
 }
