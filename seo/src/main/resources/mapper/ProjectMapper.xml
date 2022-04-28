@@ -23,6 +23,7 @@
             b.create_time AS createTime,
             b.update_by AS updateBy,
             b.update_time AS updateTime,
+            m.code AS moduleCode,
             a.filename AS fileName,
             a.filesize AS fileSize,
             a.filetype AS fileType,

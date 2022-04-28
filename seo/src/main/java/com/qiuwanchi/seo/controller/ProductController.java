@@ -195,6 +195,7 @@ public class ProductController {
     private List<ProjectDto> projectDtoList(ModuleDto moduleDto){
         List<ProjectDto> projectDtoList = null;
         projectDtoList = this.projectService.getProjectListByModuleId(moduleDto.getId());
+        SeoUtils.intProjectSeoValue(projectDtoList);
         if(!CollectionUtils.isEmpty(projectDtoList)){
             projectDtoList.sort(new Comparator<ProjectDto>() {
                 @Override
@@ -225,6 +226,8 @@ public class ProductController {
         if(Objects.isNull(bannerDto)){
             return new BannerDto();
         }
+
+        SeoUtils.intBannerSeoValue(bannerDto);
         return bannerDto;
     }
 
