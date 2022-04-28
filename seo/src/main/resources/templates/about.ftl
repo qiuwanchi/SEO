@@ -55,9 +55,14 @@
 						<#list oneStopServiceProjectDtoList as oneStopServiceProject>
 							<li class="layui-col-sm4 layui-col-md2">
 								<div class="wh_tnt">
-									<a href="javascript:;">
-										<div><img src="images/wh_pic.jpg">
-											<h3>需求沟通</h3>
+
+								<#if oneStopServiceProject.clickUrl?? && oneStopServiceProject.clickUrl != "">
+                                    <a href="${oneStopServiceProject.clickUrl}" target="_blank">
+                                <#else>
+                                    <a href="javascript:;">
+                                </#if>
+										<div><img src="${oneStopServiceProject.url}" <#if oneStopServiceProject.alt?? && oneStopServiceProject.alt != ""> alt="${oneStopServiceProject.alt}" </#if> />
+											<h3>${oneStopServiceProject.name}</h3>
 										</div>
 									</a>
 								</div>
@@ -95,9 +100,18 @@
 								<#list companyAdvantageProjectDtoList as companyAdvantageProject>
 								<li>
 									<div class="ys_tnt">
+                                        <#if companyAdvantageProject.clickUrl?? && companyAdvantageProject.clickUrl != "">
+                                            <a href="${companyAdvantageProject.clickUrl}" target="_blank">
+                                        </#if>
 										<div class="ys_img"><img src="${companyAdvantageProject.url}" <#if companyAdvantageProject.alt?? && companyAdvantageProject.alt != ""> alt="${companyAdvantageProject.alt}" </#if>></div>
 										<h3>${companyAdvantageProject.name}</h3>
-										<span>${companyAdvantageProject.describeMsg}</span> </div>
+										<span>${companyAdvantageProject.describeMsg}</span>
+
+										<#if companyAdvantageProject.clickUrl?? && companyAdvantageProject.clickUrl != "">
+                                            <a href="${companyAdvantageProject.clickUrl}" target="_blank">
+                                        </#if>
+
+									</div>
 								</li>
 								</#list>
 
