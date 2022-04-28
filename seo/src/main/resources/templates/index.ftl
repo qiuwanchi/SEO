@@ -101,200 +101,44 @@
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <div class="main-title  title_hot"><img src="${baseUrl}/images/title.PNG" alt="服务案例"></div>
         <ul class="layui-tab-title">
+
+        <#list serviceCaseModuleDtoList as serviceCaseModuleDto>
           <li class="layui-this">
-          	 <div class="index_nav"><a href="javascript:;">企业馆</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
+          	 <div class="index_nav"><a href="javascript:;" >${serviceCaseModuleDto.name}</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
              <div class="case_nav_list">
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
+
+             <#list serviceCaseModuleDto.projectDtoList as projectDto>
+
+              <a href="${baseUrl}/serviceCase/${serviceCaseModuleDto.code}/${projectDto.code}/" target="_blank" >${projectDto.name}</a>
+              </#list>
+
             </div>
           </li>
-          <li><div class="index_nav"><a href="javascript:;">廉政馆</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
-             <div class="case_nav_list">
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-            </div></li>
-          <li><div class="index_nav"><a href="javascript:;">科技馆</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
-             <div class="case_nav_list">
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-            </div></li>
-          <li><div class="index_nav"><a href="javascript:;">科普馆</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
-             <div class="case_nav_list">
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-            </div></li>
-          <li><div class="index_nav"><a href="javascript:;">主题馆等</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
-             <div class="case_nav_list">
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-              <a href="javascript:;">服务案例1</a>
-              <a href="javascript:;">服务案例2</a>
-              <a href="javascript:;">服务案例3</a>
-            </div></li>
+        </#list>
+
         </ul>
         <div class="layui-tab-content" style="margin-top: 20px;">
-          <div class="layui-tab-item layui-show">
+
+          <#list serviceCaseModuleDtoList as serviceCaseModuleDto>
+          <div class="layui-tab-item <#if serviceCaseModuleDto_index ==0> layui-show </#if>">
             <ul class=" clearfix pic_list">
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic1.jpg"></div>
-                <span>01</span>
-                <h1>展厅项目1</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic2.jpg"></div>
-                <span>02</span>
-                <h1>展厅项目2</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic3.jpg"></div>
-                <span>03</span>
-                <h1>展厅项目3</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic4.jpg"></div>
-                <span>04</span>
-                <h1>展厅项目4</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
+
+              <#list serviceCaseModuleDto.subProjectDtoList as subProjectDto>
+
+              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/serviceCase/${serviceCaseModuleDto.code}/${subProjectDto.secondCategory}/${subProjectDto.number}.html" target="_blank">
+                <div class="main_img"><img src="${subProjectDto.url}" <#if subProjectDto.alt?? && subProjectDto.alt != ""> alt="${subProjectDto.alt}" </#if>></div>
+                <span>0${subProjectDto_index + 1}</span>
+                <h1>${subProjectDto.name}</h1>
+                <p>${subProjectDto.describeMsg}</p>
+                </a>
+              </li>
+              </#list>
+
             </ul>
-            <div class="more"><a href="#">查看更多 》</a></div>
+            <div class="more"><a href="${baseUrl}/serviceCase/${serviceCaseModuleDto.code}/" target="_blank" >查看更多 》</a></div>
           </div>
-          <div class="layui-tab-item">
-            <ul class=" clearfix pic_list">
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic1.jpg"></div>
-                <span>01</span>
-                <h1>展厅项目1</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic1.jpg"></div>
-                <span>02</span>
-                <h1>展厅项目2</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic3.jpg"></div>
-                <span>03</span>
-                <h1>展厅项目3</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic3.jpg"></div>
-                <span>04</span>
-                <h1>展厅项目4</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-            </ul>
-            <div class="more"><a href="#">查看更多 》</a></div>
-          </div>
-          <div class="layui-tab-item">
-            <ul class=" clearfix pic_list">
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic2.jpg"></div>
-                <span>01</span>
-                <h1>展厅项目1</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic2.jpg"></div>
-                <span>02</span>
-                <h1>展厅项目2</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic4.jpg"></div>
-                <span>03</span>
-                <h1>展厅项目3</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic4.jpg"></div>
-                <span>04</span>
-                <h1>展厅项目4</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-            </ul>
-            <div class="more"><a href="#">查看更多 》</a></div>
-          </div>
-          <div class="layui-tab-item">
-            <ul class=" clearfix pic_list">
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic1.jpg"></div>
-                <span>01</span>
-                <h1>展厅项目1</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic2.jpg"></div>
-                <span>02</span>
-                <h1>展厅项目2</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic3.jpg"></div>
-                <span>03</span>
-                <h1>展厅项目3</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic4.jpg"></div>
-                <span>04</span>
-                <h1>展厅项目4</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-            </ul>
-            <div class="more"><a href="#">查看更多 》</a></div>
-          </div>
-          <div class="layui-tab-item">
-            <ul class=" clearfix pic_list">
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic1.jpg"></div>
-                <span>01</span>
-                <h1>展厅项目1</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic2.jpg"></div>
-                <span>02</span>
-                <h1>展厅项目2</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic3.jpg"></div>
-                <span>03</span>
-                <h1>展厅项目3</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
-                <div class="main_img"><img src="images/pic4.jpg"></div>
-                <span>04</span>
-                <h1>展厅项目4</h1>
-                <p>这个是案例的一个标题发丝都会发生的核辐射的了开发商垫付士大夫看见你说的发生...</p>
-                </a> </li>
-            </ul>
-            <div class="more"><a href="#">查看更多 》</a></div>
-          </div>
+          </#list>
+
         </div>
       </div>
     </div>

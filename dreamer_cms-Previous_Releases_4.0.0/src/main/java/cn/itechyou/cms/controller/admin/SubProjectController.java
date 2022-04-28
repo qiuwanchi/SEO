@@ -278,4 +278,13 @@ public class SubProjectController {
 
 		return "serviceCase/subProject/viewBanner";
 	}
+
+	@GetMapping("/homePageDisplay")
+	public String homePageDisplay(@RequestParam("subProjectId") String subProjectId, String flag, RedirectAttributes redirectAttributes) {
+		SubProject subProject = this.subProjectService.getById(subProjectId);
+		subProject.setHomePageDisplay(flag);
+		this.subProjectService.update(subProject);
+		redirectAttributes.addAttribute("projectId", subProject.getProjectId());
+		return "redirect:/subProject";
+	}
 }

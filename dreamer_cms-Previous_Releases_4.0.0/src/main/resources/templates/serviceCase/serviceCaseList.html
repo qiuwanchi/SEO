@@ -54,6 +54,11 @@
 				<td th:text="${project.name}"></td>
 				<td th:text="${project.sort}"></td>
 				<td>
+
+					<a th:if="${project.homePageDisplay != '1'}" th:href="@{/firstPage/module/project/homePageDisplay(projectId=${project.id},flag=1)}" class="btn btn-xs btn-success" >首页显示</a>
+					<a th:unless="${project.homePageDisplay != '1'}" th:href="@{/firstPage/module/project/homePageDisplay(projectId=${project.id},flag=0)}" class="btn btn-xs btn-success" >取消首页显示</a>
+					<span>&nbsp;|&nbsp;</span>
+					
 					<a th:href="@{/subProject(projectId=${project.id})}" class="btn btn-xs btn-success" >查看项目列表</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${project.id}" th:onclick="javascript: openUploadDialogForUpdate(this.getAttribute('aid'))">编辑子类目</a>
