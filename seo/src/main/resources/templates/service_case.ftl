@@ -62,7 +62,7 @@
 					<div class="nav_float_list clearfix">
 					 <#list serviceCaseModuleList as serviceCaseModule>
 						<div class="nav_float">
-							<div class="case_nav <#if serviceCaseModule_index == categoryIndex> active </#if>">
+							<div class="case_nav <#if serviceCaseModule_index == firstCategoryIndex> active </#if>">
 								<a href="${baseUrl}/serviceCase/${serviceCaseModule.code}/">${serviceCaseModule.name}</a><i class="layui-icon layui-icon-down layui-font-12"></i> </div>
 							<ul class="case_nav_list">
 

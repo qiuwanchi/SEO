@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -236,20 +237,37 @@ public class ServiceCaseController {
         List<ModuleDto> serviceCaseModuleList = this.moduleService.getModuleDtoList("ServiceCase");
         model.addAttribute("serviceCaseModuleList", serviceCaseModuleList);
 
-        // banner
+        // 类目的banner
         BannerDto bannerDto = this.getServiceCaseBanner(firstCategory, secondCategory, serviceCaseModuleList);
         SeoUtils.intBannerSeoValue(bannerDto);
         model.addAttribute("bannerDto", bannerDto);
 
+        // 服务案例列表数据
         Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, firstCategory, secondCategory);
         List<SubProjectDto> subProjectDtoList = subProjectDtoPage.getRecords();
-        for (SubProjectDto subProjectDto : subProjectDtoList) {
-            subProjectDto.setUrl(UrlAssemblyUtils.getImageUrl(subProjectDto.getFilePath()));
-        }
+        SeoUtils.intSubProjectSeoValue(subProjectDtoList);
 
         model.addAttribute("subProjectList", subProjectDtoList);
         model.addAttribute("page", page);
 
+        int firstCategoryIndex = this.getFirstCategoryIndex(firstCategory, serviceCaseModuleList);
+        model.addAttribute("firstCategoryIndex", firstCategoryIndex);
+
+        ModuleDto firstCategoryModuleDto = serviceCaseModuleList.get(firstCategoryIndex);
+        model.addAttribute("firstCategoryModuleDto", firstCategoryModuleDto);
+        model.addAttribute("secondCategoryProjectDto", this.getSecondCategoryProjectDto(secondCategory, firstCategoryModuleDto.getProjectDtoList()));
+
+        this.bottomManagementCommon.bottom(model);
+        return "service_case";
+    }
+
+    /**
+     * 获取所选择的类目对象
+     * @param firstCategory
+     * @param serviceCaseModuleList
+     * @return
+     */
+    private int getFirstCategoryIndex(String firstCategory, List<ModuleDto> serviceCaseModuleList){
         int index = 0;
         if(StringUtils.isNotBlank(firstCategory)){
             for (ModuleDto moduleDto : serviceCaseModuleList){
@@ -259,30 +277,7 @@ public class ServiceCaseController {
                 index++;
             }
         }
-
-        model.addAttribute("categoryIndex", index);
-
-        model.addAttribute("firstCategory", firstCategory == null ? "" : firstCategory);
-        model.addAttribute("secondCategory", secondCategory == null ? "" : secondCategory);
-
-        ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
-        model.addAttribute("firstCategoryModuleDto", firstCategoryModuleDto);
-
-        if(StringUtils.isNotBlank(secondCategory)){
-            List<ProjectDto> projectDtoList = firstCategoryModuleDto.getProjectDtoList();
-
-            ProjectDto secondCategoryProjectDto = null;
-            for (ProjectDto projectDto : projectDtoList){
-                if(secondCategory.equals(projectDto.getCode())){
-                    secondCategoryProjectDto = projectDto;
-                    break;
-                }
-            }
-            model.addAttribute("secondCategoryProjectDto", secondCategoryProjectDto);
-        }
-
-        this.bottomManagementCommon.bottom(model);
-        return "service_case";
+        return index;
     }
 
     private void generatePageHtml(Model model, Page page, String firstCategory, String secondCategory){
@@ -305,6 +300,31 @@ public class ServiceCaseController {
         return null;
     }
 
+    private ProjectDto getSecondCategoryProjectDto(String secondCategory, List<ProjectDto> projectDtoList){
+        if (StringUtils.isBlank(secondCategory)){
+            return null;
+        }
+
+        if(CollectionUtils.isEmpty(projectDtoList)){
+            return null;
+        }
+
+        for (ProjectDto projectDto : projectDtoList){
+            if (secondCategory.equals(projectDto.getCode())) {
+                return projectDto;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * 获取类目的banner
+     * @param firstCategory
+     * @param secondCategory
+     * @param serviceCaseModuleList
+     * @return
+     */
     private BannerDto getServiceCaseBanner(String firstCategory, String secondCategory, List<ModuleDto> serviceCaseModuleList){
         BannerDto bannerDto = null;
         // 一级类目编码为空，取第一个类目
