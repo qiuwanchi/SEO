@@ -35,4 +35,8 @@ public interface SubProjectMapper extends BaseMapper<SubProject> {
     List<SubProjectDto> getSubProjectListByModuleIds(@Param("homePageDisplay")String homePageDisplay, @Param("moduleIds")List<String> moduleIds, @Param("pageSize")int pageSize);
 
     List<SubProjectDto> getRecommendServiceCaseSubProjectList(@Param("firstCategory")String firstCategory);
+
+    List<String> selectServiceCaseKeywordsList();
+
+    Page<SubProjectDto> search(Page page, @Param("keyword")String keyword);
 }

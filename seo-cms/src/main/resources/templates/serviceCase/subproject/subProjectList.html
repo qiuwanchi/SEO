@@ -60,7 +60,7 @@
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${subProject.id}" th:onclick="javascript: toEdit(this.getAttribute('aid'))">编辑</a>
 					<span>&nbsp;|&nbsp;</span>
-					<a th:href="@{/admin/attachment/download(id=${subProject.attachment.id})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
+					<a th:href="@{/admin/attachment/download(id=${subProject.attachmentId})}" target="_blank" class="btn btn-xs btn-success">下载预览</a>
 					<span>&nbsp;|&nbsp;</span>
 					<a href="javascript:void(0)" class="btn btn-xs btn-success" th:aid="${subProject.id}" th:onclick="javascript: viewBanner(this.getAttribute('aid'))">查看banner图</a>
 					<span>&nbsp;|&nbsp;</span>

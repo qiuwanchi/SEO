@@ -61,4 +61,6 @@ public interface ProjectMapper extends BaseMapper<Project> {
     List<ProjectDto> getRecentUpdatesNewsProjectList();
 
     Page<ProjectDto> newsSearch(Page page, String keyword);
+
+    List<String> selectSolutionKeywords();
 }

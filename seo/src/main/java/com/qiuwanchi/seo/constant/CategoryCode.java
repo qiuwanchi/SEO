@@ -14,10 +14,8 @@ public enum CategoryCode {
     }
 
     @Getter
-    @Setter
     private String code;
 
     @Getter
-    @Setter
     private String message;
 }

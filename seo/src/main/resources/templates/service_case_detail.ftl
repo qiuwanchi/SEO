@@ -66,7 +66,7 @@
 						</div>
 						<div class="hot_tag clearfix"> <span>标签：</span>
                             <#list keywordsList as keywords>
-                                <strong><a href="javascript:;">${keywords}</a></strong>
+                                <strong><a href="${baseUrl}/solutionServiceCase/search?keyword=${keywords}" target="_blank">${keywords}</a></strong>
                             </#list>
 						</div>
 						<div class="share clearfix"> <span>分享到：</span>

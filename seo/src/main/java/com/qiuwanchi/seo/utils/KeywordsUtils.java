@@ -29,15 +29,18 @@ public class KeywordsUtils {
         subProjectService = subProjectService2;
     }
 
-    public static List<KeywordsDto> getHotLabel(){
-        // 热门标签
-        List<String> hotLabelList1 = projectService.selectKeywords();
-        List<String> hotLabelList2 = subProjectService.selectKeywords();
-        Map<String,Integer> map = new TreeMap<>();
-        keywordsCount(map,hotLabelList1);
-        keywordsCount(map,hotLabelList2);
+    public static List<KeywordsDto> getServiceCaseHotLabel(){
+        List<String> solutionKeywordsList = projectService.selectSolutionKeywords();
+        List<String> serviceCaseKeywordsList = subProjectService.selectServiceCaseKeywordsList();
+        TreeMap<String,Integer> treeMap = new TreeMap<>();
+        keywordsCount(treeMap, solutionKeywordsList);
+        keywordsCount(treeMap, serviceCaseKeywordsList);
+        return getTop10KeywordsDto(treeMap);
+    }
+
+    private static List<KeywordsDto> getTop10KeywordsDto(TreeMap<String,Integer> treeMap){
         List<KeywordsDto> keywordsDtoList = new ArrayList<>();
-        for (Map.Entry<String,Integer> entry : map.entrySet()){
+        for (Map.Entry<String,Integer> entry : treeMap.entrySet()){
             if(StringUtils.isBlank(entry.getKey())){
                 continue;
             }
@@ -59,6 +62,16 @@ public class KeywordsUtils {
         }
 
         return keywordsDtoList;
+    }
+
+    public static List<KeywordsDto> getHotLabel(){
+        // 热门标签
+        List<String> hotLabelList1 = projectService.selectKeywords();
+        List<String> hotLabelList2 = subProjectService.selectKeywords();
+        TreeMap<String,Integer> treeMap = new TreeMap<>();
+        keywordsCount(treeMap,hotLabelList1);
+        keywordsCount(treeMap,hotLabelList2);
+        return getTop10KeywordsDto(treeMap);
     }
 
     private static void keywordsCount(Map<String,Integer> map, List<String> hotLabelList){

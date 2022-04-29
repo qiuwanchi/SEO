@@ -513,4 +513,11 @@
         ORDER BY b.update_time desc
     </select>
 
+    <select id="getSolutionCaseList" resultType="java.lang.String">
+        SELECT
+        b.keywords
+        FROM project b JOIN module m ON b.module_id=m.id AND m.belong='SolutionCase'
+        WHERE  b.keywords IS NOT NULL AND b.keywords !=''
+    </select>
+
 </mapper>

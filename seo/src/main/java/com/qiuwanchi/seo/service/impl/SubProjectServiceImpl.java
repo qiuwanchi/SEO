@@ -96,4 +96,14 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
     public List<SubProjectDto> getRecommendServiceCaseSubProjectList(String firstCategory) {
         return this.subProjectMapper.getRecommendServiceCaseSubProjectList(firstCategory);
     }
+
+    @Override
+    public List<String> selectServiceCaseKeywordsList() {
+        return this.subProjectMapper.selectServiceCaseKeywordsList();
+    }
+
+    @Override
+    public Page<SubProjectDto> search(Page page, String keyword) {
+        return this.subProjectMapper.search(page, keyword);
+    }
 }

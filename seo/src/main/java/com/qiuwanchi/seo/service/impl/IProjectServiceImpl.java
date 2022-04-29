@@ -108,4 +108,9 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
         return this.projectMapper.newsSearch(page, keyword);
     }
 
+    @Override
+    public List<String> selectSolutionKeywords() {
+        return this.projectMapper.selectSolutionKeywords();
+    }
+
 }

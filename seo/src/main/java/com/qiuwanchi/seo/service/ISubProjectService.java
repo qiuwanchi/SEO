@@ -39,4 +39,8 @@ public interface ISubProjectService extends IService<SubProject> {
     List<SubProjectDto> getSubProjectListByModuleIds(String homePageDisplay, List<String> moduleIds, int pageSize);
 
     List<SubProjectDto> getRecommendServiceCaseSubProjectList(String firstCategory);
+
+    List<String> selectServiceCaseKeywordsList();
+
+    Page<SubProjectDto> search(Page page, String keyword);
 }
