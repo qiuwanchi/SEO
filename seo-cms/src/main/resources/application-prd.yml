@@ -1,5 +1,5 @@
 web:
-  resource-path: /opt/resources/cms.itechyou.cn/
+  resource-path: /opt/resources/cms.qiuwanchi.cn/
 
 spring: 
   datasource: 
@@ -21,6 +21,6 @@ spring:
 
 # 日志配置
 logging:
-  path: /opt/resources/cms.itechyou.cn/logs/
+  path: /opt/resources/cms.qiuwanchi.cn/logs/
   level:
     root: info           
