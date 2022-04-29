@@ -1,6 +1,6 @@
 package cn.itechyou.cms.controller.admin;
 
-import cn.itechyou.cms.DreamerCMSApplication;
+import cn.itechyou.cms.SeoCmsApplication;
 import cn.itechyou.cms.service.AttachmentService;
 import cn.itechyou.cms.service.IBannerService;
 import com.alibaba.fastjson.JSONObject;
@@ -50,7 +50,7 @@ public class UeditorController {
 		}
 
 		if("uploadimage".equals(action)){
-			UploadController uploadController = DreamerCMSApplication.ac.getBean(UploadController.class);
+			UploadController uploadController = SeoCmsApplication.ac.getBean(UploadController.class);
 			MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("upfile");
 
 			return uploadController.ueditorUpload(file);

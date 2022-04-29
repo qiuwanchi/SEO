@@ -14,12 +14,12 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableScheduling //开启定时任务
 @EnableTransactionManagement //开启注解事务管理
 @MapperScan("cn.itechyou.cms.dao")
-public class DreamerCMSApplication {
+public class SeoCmsApplication {
 
 	public static ConfigurableApplicationContext ac;
 
 	public static void main(String[] args) {
-		ac = SpringApplication.run(DreamerCMSApplication.class, args);
+		ac = SpringApplication.run(SeoCmsApplication.class, args);
 	}
 	
 }
