@@ -20,8 +20,8 @@
                           <li><a href="${baseUrl}/index.html">首页</a></li>
                           <li><a href="${baseUrl}/aboutUs.html">关于我们</a></li>
                           <li><a href="${baseUrl}/products.html">公司产品</a></li>
-                          <li class="active"><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
-                          <li><a href="${baseUrl}/solution.html">解决方案</a></li>
+                          <li><a href="${baseUrl}/serviceCase.html">服务案例</a></li>
+                          <li class="active"><a href="${baseUrl}/solution.html">解决方案</a></li>
                           <li><a href="${baseUrl}/news.html">新闻资讯</a></li>
                           <li><a href="${baseUrl}/contactUs.html">联系我们</a></li>
 					</ul>
@@ -101,7 +101,7 @@
 							<h3 class="clearfix"><span></span><strong>相关推荐</strong></h3>
 							<ul>
 								 <#list recommendSubProjectDtoList as  recommendSubProjectDto>
-                                    <li><a href="${baseUrl}/serviceCase/${recommendSubProjectDto.firstCategory}/${recommendSubProjectDto.secondCategory}/${recommendSubProjectDto.number}.html" target="_blank">●&nbsp;${recommendSubProjectDto.name}</a></li>
+                                    <li><a href="${baseUrl}/solution/${recommendSubProjectDto.number}.html" target="_blank">●&nbsp;${recommendSubProjectDto.name}</a></li>
                                  </#list>
 							</ul>
 						</div>

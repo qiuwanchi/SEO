@@ -2,10 +2,7 @@ package com.qiuwanchi.seo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qiuwanchi.seo.dto.KeywordsDto;
-import com.qiuwanchi.seo.dto.ModuleDto;
-import com.qiuwanchi.seo.dto.ProjectDto;
-import com.qiuwanchi.seo.dto.SeoVideoDto;
+import com.qiuwanchi.seo.dto.*;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
@@ -53,6 +50,9 @@ public class NewsController {
 
     @Autowired
     private ISeoVideoService seoVideoService;
+
+    @Autowired
+    private IBannerService bannerService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
@@ -125,6 +125,10 @@ public class NewsController {
         // 所点击的类目对象
         model.addAttribute("newsModule", newsModule);
 
+        // banner图
+        BannerDto bannerDto = this.getBanner(newsModule.getBannerId());
+        model.addAttribute("bannerDto", bannerDto);
+
         // 分页查询的此类目下的项目
         Page<ProjectDto> projectDtoPage = this.projectService.getProjectPageListByModuleId(page, newsModule.getId(), Project.UPDATE_TIME, "desc");
 
@@ -143,6 +147,18 @@ public class NewsController {
         model.addAttribute("newsProjectList", newsProjectList);
         this.bottomManagementCommon.bottom(model);
         return "news";
+    }
+
+    private BannerDto getBanner(String bannerId){
+        BannerDto bannerDto = null;
+        if(StringUtils.isNotBlank(bannerId)){
+            bannerDto = this.bannerService.selectById(bannerId);
+        }
+        if(Objects.isNull(bannerDto)){
+            bannerDto = new BannerDto();
+        }
+        SeoUtils.intBannerSeoValue(bannerDto);
+        return bannerDto;
     }
 
     /**

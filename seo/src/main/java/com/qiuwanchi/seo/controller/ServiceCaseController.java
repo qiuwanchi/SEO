@@ -220,13 +220,20 @@ public class ServiceCaseController {
      * @return
      */
     private BannerDto getDetailBannerDto(Module module, Project project, SubProjectDto currentSubProjectDto) {
+        BannerDto bannerDto;
         if(StringUtils.isNotBlank(currentSubProjectDto.getBannerId())){
-            return this.bannerService.selectById(currentSubProjectDto.getBannerId());
+            bannerDto = this.bannerService.selectById(currentSubProjectDto.getBannerId());
         } else if(StringUtils.isNotBlank(project.getBannerId())){
-            return this.bannerService.selectById(project.getBannerId());
+            bannerDto = this.bannerService.selectById(project.getBannerId());
         } else {
-            return this.bannerService.selectById(module.getBannerId());
+            bannerDto = this.bannerService.selectById(module.getBannerId());
         }
+
+        if(Objects.isNull(bannerDto)){
+            bannerDto = new BannerDto();
+        }
+
+        return bannerDto;
     }
 
     private String serviceCase(Model model, Page page, String firstCategory, String secondCategory) {
