@@ -58,7 +58,7 @@ public class SeoUtils {
         }
 
         if(StringUtils.isNotBlank(projectDto.getClickUrl())){
-            if(!Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTP)){
+            if(!(Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTP) || Utils.isStartsWith(projectDto.getClickUrl(), Utils.HTTPS))){
                 projectDto.setClickUrl(Utils.HTTP + projectDto.getClickUrl());
             }
         }

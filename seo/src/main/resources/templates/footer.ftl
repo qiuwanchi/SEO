@@ -42,7 +42,18 @@
   </div>
   <div class="footer_link">
   	<p class="container">友情链接</p>
-  	<div class="container"><a href="javascript:;">腾讯视频</a><a href="javascript:;">新浪微博</a><a href="javascript:;">网易新闻</a><a href="javascript:;">中国财经新闻网</a><a href="javascript:;">腾讯视频</a><a href="javascript:;">新浪微博</a><a href="javascript:;">网易新闻</a><a href="javascript:;">中国财经新闻网</a><a href="javascript:;">腾讯视频</a><a href="javascript:;">新浪微博</a><a href="javascript:;">网易新闻</a><a href="javascript:;">中国财经新闻网</a><a href="javascript:;">腾讯视频</a><a href="javascript:;">新浪微博</a><a href="javascript:;">网易新闻</a><a href="javascript:;">中国财经新闻网</a><a href="javascript:;">腾讯视频</a><a href="javascript:;">新浪微博</a><a href="javascript:;">网易新闻</a><a href="javascript:;">中国财经新闻网</a></div>
+  	<div class="container">
+  	<#list friendlyLinksProjectDtoList as friendlyLinksProjectDto>
+
+  	<#if friendlyLinksProjectDto.clickUrl?? && friendlyLinksProjectDto.clickUrl != "">
+  	    <a href="${friendlyLinksProjectDto.clickUrl}" target="_blank">${friendlyLinksProjectDto.name}</a>
+    <#else>
+        <a href="javascript:;">${friendlyLinksProjectDto.name}</a>
+  	</#if>
+
+  	</#list>
+
+  	</div>
   </div>
   <div class="footer_bot">©Copyright 2022-2022 版权所有 苏州好奇数字科技有限公司</div>
 </div>
