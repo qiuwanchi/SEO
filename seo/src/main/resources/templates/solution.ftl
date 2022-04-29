@@ -54,7 +54,7 @@
 					<ul class="case_list clearfix">
                         <#list solutionCaseProjectDtoList as solutionCaseProjectDto>
                             <li class="layui-col-xs6 layui-col-sm4 layui-col-md3">
-                                <a href="case_detail.html">
+                                <a href="${baseUrl}/solution/${solutionCaseProjectDto.number}.html" target="_blank">
                                     <div><img src="${solutionCaseProjectDto.url}" alt="${solutionCaseProjectDto.alt}"></div>
                                     <h2>${solutionCaseProjectDto.name}</h2>
                                 </a>
