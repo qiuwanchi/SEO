@@ -180,7 +180,9 @@ public class ServiceCaseController {
         model.addAttribute("module", module);
 
         // 详情的banner图
-        model.addAttribute("banner", this.getDetailBannerDto(module, project, currentSubProjectDto));
+        BannerDto bannerDto = this.getDetailBannerDto(module, project, currentSubProjectDto);
+        SeoUtils.intBannerSeoValue(bannerDto);
+        model.addAttribute("banner", bannerDto);
 
         // 关键字
         List<String> keywordsList = Utils.toList(currentSubProjectDto.getKeywords());
@@ -316,7 +318,6 @@ public class ServiceCaseController {
         }
         return null;
     }
-
 
     /**
      * 获取类目的banner
