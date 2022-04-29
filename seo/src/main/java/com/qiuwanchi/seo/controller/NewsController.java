@@ -54,6 +54,10 @@ public class NewsController {
     @Autowired
     private IBannerService bannerService;
 
+    @Autowired
+    private VideoCommon videoCommon;
+
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM,dd");
 
     // 默认每页条数
@@ -208,14 +212,8 @@ public class NewsController {
         this.intProjectSeoValue(list);
         model.addAttribute("newsProject", currentProjectDto);
 
-        List<SeoVideoDto> seoVideoDtoList = this.seoVideoService.getVideoListByBelongId(currentProjectDto.getId());
-        List<String> seoVideoUrlArray = new ArrayList<>();
-        for (SeoVideoDto seoVideoDto : seoVideoDtoList){
-            seoVideoDto.setUrl(UrlAssemblyUtils.getVideoUrl(seoVideoDto.getFilePath()));
-            seoVideoUrlArray.add(seoVideoDto.getUrl());
-        }
-        model.addAttribute("seoVideoDtoList", seoVideoDtoList);
-        model.addAttribute("seoVideoUrlArray", JSON.toJSONString(seoVideoUrlArray));
+        // 视频
+        this.videoCommon.video(model, currentProjectDto.getId());
 
         List<String> keywordsList = new ArrayList<>();
         if(StringUtils.isNotBlank(currentProjectDto.getKeywords())){

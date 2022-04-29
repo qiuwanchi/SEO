@@ -125,9 +125,14 @@
                                 <#list honoraryQualificationProjectDtoList as honoraryQualificationProject>
 
 								<li>
-									<a href="javasript:;" <#if honoraryQualificationProject.clickUrl?? && honoraryQualificationProject.clickUrl != ""> href="${honoraryQualificationProject.clickUrl}"  target="_blank" </#if>>
+									<#if honoraryQualificationProject.clickUrl?? && honoraryQualificationProject.clickUrl != "">
+										<a href="${honoraryQualificationProject.clickUrl}"  target="_blank">
+									<#else>
+										<a href="javascript:;" >
+									</#if>
 									<img src="${honoraryQualificationProject.url}" <#if honoraryQualificationProject.alt?? && honoraryQualificationProject.alt != ""> alt="${honoraryQualificationProject.alt}" </#if> />
-										<h3>${honoraryQualificationProject.name}</h3></a>
+										<h3>${honoraryQualificationProject.name}</h3>
+									</a>
                                 </#list>
 							</ul>
 						</div>

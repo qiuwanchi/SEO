@@ -83,7 +83,7 @@
 
 						<li class="layui-col-xs6 layui-col-sm4 layui-col-md3">
 							<a href="${baseUrl}/serviceCase/${subProject.firstCategory}/${subProject.secondCategory}/${subProject.number}.html" target="_blank">
-								<div><img src="${subProject.url}" <#if subProject.alt?? && subProject.alt != ""> alt="${subProject.alt}" </#if> /></div>
+								<div><img src="<#if subProject.url?? && subProject.url != "">${subProject.url}</#if>" <#if subProject.alt?? && subProject.alt != ""> alt="${subProject.alt}" </#if> /></div>
 								<h2>${subProject.name}</h2>
 							</a>
 						</li>

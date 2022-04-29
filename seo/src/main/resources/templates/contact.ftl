@@ -71,18 +71,16 @@
 						</li>
 					</ul>
 					<div class="layui-col-xs12 layui-col-md7 map_img clearfix">
-					   <div style=" width:650px; height:400px;float: right;" id="dituContent"></div>
+					   <div style=" width:900px; height:400px;float: right;" id="dituContent"></div>
 					</div>
 				</div>
 				<div class="contact_main clearfix">
 					<div class="layui-col-xs12 layui-col-md7 contactx_l">
 						<p>告诉我们您的想法，以便我们为您提供更优质的服务！</p>
-						<form class="layui-form" action="">
 							<input type="text" name="name" id="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
 							<input type="text" name="telephone" id="telephone" placeholder="请输入电话" autocomplete="off" class="layui-input">
 							<textarea name="message" id="message" placeholder="请输入留言" class="layui-textarea"></textarea>
-							<button class="layui-btn contact-btn" lay-submit lay-filter="formDemo" id="leavingMessage">提交留言</button>
-						</form>
+							<button class="layui-btn contact-btn"  id="leavingMessage">提交留言</button>
 					</div>
 					<div class="layui-col-xs12 layui-col-md5 footer_r contactx_r">
 						<h2>扫码关注我们</h2>

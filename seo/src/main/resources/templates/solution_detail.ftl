@@ -55,7 +55,9 @@
 						<div style="padding: 30px;">
 							<h1>${currentProjectDto.name}</h1>
 							<div class="news_data"><span>发布日期：${currentProjectDto.createTime?string("yyyy-MM-dd")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作者：${currentProjectDto.createBy}</span></div>
-
+							<#list seoVideoDtoList as seoVideoDto>
+							<div id="dplayer${seoVideoDto_index}"> </div>
+							</#list>
 							<#if currentProjectDto.content??>
                                 ${currentProjectDto.content}
                             <#else>
@@ -109,7 +111,7 @@
 							<h3 class="clearfix"><span></span><strong>热门问答</strong></h3>
 							<ul>
 								<#list recommendNewsFqaProjectList as recommendNewsFqaProject>
-                                    <li><a href="${baseUrl}/news/${recommendNewsFqaProject.moduleCode}/${recommendNewsFqaProject.number}.html">●&nbsp;${recommendNewsFqaProject.name}</a></li>
+                                    <li><a href="${baseUrl}/news/${recommendNewsFqaProject.moduleCode}/${recommendNewsFqaProject.number}.html" target="_blank">●&nbsp;${recommendNewsFqaProject.name}</a></li>
                                 </#list>
 							</ul>
 						</div>
@@ -126,6 +128,20 @@
 			</div>
 		</div>
 		<#include "footer.ftl"/>
+	<script type="text/javascript" src="${baseUrl}/js/DPlayer.min.js"></script>
+	<script type="text/javascript">
+			var seoVideoUrlArray = ${seoVideoUrlArray};
+			//播放器控制
+			for(var i = 0;i < seoVideoUrlArray.length; i++){
+				new DPlayer({
+					container: document.getElementById('dplayer' + i),
+					video: {
+						url:  seoVideoUrlArray[i],
+					},
+					autoplay:true,
+				});
+			}
+	</script>
 	</body>
 
 </html>

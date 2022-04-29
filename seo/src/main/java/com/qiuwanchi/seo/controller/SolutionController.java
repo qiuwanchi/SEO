@@ -53,6 +53,9 @@ public class SolutionController {
     @Autowired
     private IBannerService bannerService;
 
+    @Autowired
+    private VideoCommon videoCommon;
+
     private static final long PAGE_SIZE = 8;
 
     @GetMapping("/solution.html")
@@ -123,6 +126,9 @@ public class SolutionController {
         currentProjectDto.setCreateBy(Objects.isNull(currentProjectDto.getCreateBy()) ? "admin" : currentProjectDto.getCreateBy());
         currentProjectDto.setKeywords(Utils.replaceAll(currentProjectDto.getKeywords()));
         model.addAttribute("currentProjectDto", currentProjectDto);
+
+        // 视频
+        this.videoCommon.video(model, currentProjectDto.getId());
 
         BannerDto bannerDto;
         if(StringUtils.isNotBlank(currentProjectDto.getBannerId())){

@@ -48,7 +48,7 @@
 				<div class="newsx_main goodsx_main clearfix">
 					<div class="page_nav clearfix">
 					<#list productModuleList as productModule>
-                        <span <#if productModule_index == categoryIndex> class="active" </#if> ><a href="${baseUrl}/products/${productModule.code}/" target="_blank">${productModule.name}</a></span>
+                        <span <#if productModule_index == categoryIndex> class="active" </#if> ><a href="${baseUrl}/products/${productModule.code}/">${productModule.name}</a></span>
 					</#list>
 
 					</div>

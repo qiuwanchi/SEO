@@ -87,7 +87,7 @@
             </#list>
 
           </ul>
-          <div class="more"><a href="${baseUrl}/products.html#goods_${productModule_index}">查看更多 》</a></div>
+          <div class="more"><a href="${baseUrl}/products/${productModule.code}/" target="_blank">查看更多 》</a></div>
         </div>
         </#list>
 
@@ -187,7 +187,7 @@
       <h4>为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</h4>
       <ul class=" clearfix pic_list">
       <#list solutionCaseProjectDtoList as solutionCaseProject>
-        <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="javascript:;">
+        <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/solution/${solutionCaseProject.number}.html" target="_blank">
           <div class="main_img"><img src="${solutionCaseProject.url}" <#if solutionCaseProject.alt?? && solutionCaseProject.alt != ""> alt="${solutionCaseProject.alt}" </#if>></div>
           <h1>${solutionCaseProject.name}</h1>
           <p>${solutionCaseProject.describeMsg}</p>
@@ -195,7 +195,7 @@
         </#list>
 
       </ul>
-      <div class="more"><a href="javascript:;">查看更多 》</a></div>
+      <div class="more"><a href="${baseUrl}/solution.html" target="_blank">查看更多 》</a></div>
     </div>
   </div>
   <!-- 维护服务-->

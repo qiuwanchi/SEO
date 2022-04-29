@@ -55,6 +55,9 @@ public class ServiceCaseController {
     @Autowired
     private LogoCommon logoCommon;
 
+    @Autowired
+    private VideoCommon videoCommon;
+
     private static final long PAGE_SIZE = 8;
 
     /**
@@ -170,6 +173,9 @@ public class ServiceCaseController {
         SeoUtils.intSubProjectSeoValue(currentSubProjectDto);
         currentSubProjectDto.setKeywords(Utils.replaceAll(currentSubProjectDto.getKeywords()));
         model.addAttribute("currentSubProject", currentSubProjectDto);
+
+        // 视频
+        this.videoCommon.video(model, currentSubProjectDto.getId());
 
         // 二级类目
         Project project = this.projectService.getById(currentSubProjectDto.getProjectId());

@@ -5,7 +5,9 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>公司产品</title>
+		<title><#if currentProjectDto.title?? && currentProjectDto.title != "">${currentProjectDto.title}</#if></title>
+		<meta name="keywords" content="<#if currentProjectDto.keywords?? && currentProjectDto.keywords != "">${currentProjectDto.keywords}</#if>">
+		<meta name="description" content="<#if currentProjectDto.description?? && currentProjectDto.description != "">${currentProjectDto.description}</#if>">
 		<link rel="stylesheet" href="${baseUrl}/css/style.css">
 	</head>
 
@@ -131,7 +133,7 @@
 
 						<#list recommendServiceCaseVideoList as recommendServiceCaseVideo>
 							<li class="layui-col-xs12  layui-col-sm6 layui-col-md3">
-								<a target="_blank" href="${baseUrl}/serviceCase/${recommendServiceCaseVideo.firstCategory}/${recommendServiceCaseVideo.secondCategory}/${recommendServiceCaseVideo.number}.html">
+								<a href="${baseUrl}/serviceCase/${recommendServiceCaseVideo.firstCategory}/${recommendServiceCaseVideo.secondCategory}/${recommendServiceCaseVideo.number}.html" target="_blank">
 									<div class="main_img"><i class="layui-icon layui-icon-play"></i><img src="${recommendServiceCaseVideo.url}" <#if recommendServiceCaseVideo.alt?? && recommendServiceCaseVideo.alt != ""> alt="${recommendServiceCaseVideo.alt}" </#if>></div>
 									<div class="video_padding">
 										<h2>${recommendServiceCaseVideo.name}</h2>
@@ -150,22 +152,20 @@
 						<h2>获取项目方案/报价</h2>
 						<span>Get project proposal / quotation</span>
 						<div class="goods_detail_input">
-							<form class="layui-form" action="">
 								<div class="clearfix">
 									<div class="layui-input-inline layui-col-xs12 layui-col-md3">
-										<input type="text" name="name" lay-verify="title" placeholder="请输入姓名" class="layui-input">
+										<input type="text" name="name" id="name" lay-verify="title" placeholder="请输入姓名" class="layui-input">
 									</div>
 									<div class="layui-input-inline layui-col-xs12 layui-col-md3">
-										<input type="text" name="tel" lay-verify="title" placeholder="请输入电话" class="layui-input">
+										<input type="text"  name="telephone" id="telephone" lay-verify="title" placeholder="请输入电话" class="layui-input">
 									</div>
 									<div class="layui-input-inline layui-col-xs12 layui-col-md6">
-										<input type="text" name="xq" lay-verify="title" placeholder="请输入您的需求" class="layui-input">
+										<input type="text" name="message" id="message" lay-verify="title" placeholder="请输入您的需求" class="layui-input">
 									</div>
 								</div>
 								<div style="width: 100%; text-align: center;">
-									<button type="submit" class="layui-btn" lay-submit="">立即获取</button>
+									<button type="submit" class="layui-btn" lay-submit="" id="leavingMessage">立即获取</button>
 								</div>
-								<form>
 						</div>
 					</div>
 					<div class="detail6 clearfix">
@@ -235,6 +235,28 @@
 					element = layui.element
 
 			});
+
+
+			$(document).ready(function(){
+        	  $("#leavingMessage").click(function(){
+        		$.post("${baseUrl}/leavingMessage",
+        		{
+        		  name:"Donald Duck",
+        		  telephone:"Duckburg",
+        		  message:"vcxvsdfvdfsvdfsvdfs"
+        		},
+        		function(data,status){
+        			if(status == 'success'){
+        				$("#name").val('');
+        				$("#telephone").val('');
+        				$("#message").val('');
+        				alert("提交成功!");
+        			}
+
+        		});
+        	  });
+        	});
+
 		</script>
 	</body>
 
