@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/subProject")
@@ -82,8 +83,14 @@ public class SubProjectController {
 			SubProject subProject = this.subProjectService.getById(id);
 			if(!StringUtils.isEmpty(subProject.getAttachmentId())){
 				Attachment attachment = this.attachmentService.queryAttachmentById(subProject.getAttachmentId());
+
+				if(Objects.nonNull(attachment)){
+					model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
+				} else {
+					attachment = new Attachment();
+				}
+
 				subProject.setAttachment(attachment);
-				model.addAttribute("imageUrl", serverConfig.getUrl() + "/image/" + attachment.getFilepath().substring(9));
 			}
 
 			model.addAttribute("subProject", subProject);

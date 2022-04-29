@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-public class NewsSearchGeneratePageUtil {
+public class SolutionSearchGeneratePageUtil {
 
     private static ServerConfig serverConfig;
     @Autowired
@@ -167,8 +167,7 @@ public class NewsSearchGeneratePageUtil {
     private static String getJumpUrl(long currentPage, String keyword){
         StringBuffer sb = new StringBuffer();
         sb.append(serverConfig.getUrl()).append("/");
-
-        sb.append("news/search-").append(currentPage).append("?keyword=").append(keyword);
+        sb.append("solutionServiceCase/search-").append(currentPage).append("?keyword=").append(keyword);
         return sb.toString();
     }
 }
