@@ -45,10 +45,15 @@
 			</div>
 			<div class="position">
 				<div class="container">当前位置：
-					<#if firstCategoryModuleDto??>
-                        |<a href="${baseUrl}/serviceCase.html">服务案例</a>|<span>${firstCategoryModuleDto.name}</span>
+					<#if firstCategoryModuleDto?? && secondCategoryProjectDto??>
+                        |<a href="${baseUrl}/serviceCase.html">服务案例</a>
+                        |<a href="${baseUrl}/serviceCase/${firstCategoryModuleDto.code}/">${firstCategoryModuleDto.name}</a>
+                        |<span>${secondCategoryProjectDto.name}</span>
                     <#else>
-                        |<span>服务案例</span>
+                        <#if firstCategoryModuleDto??>
+                            |<a href="${baseUrl}/serviceCase.html">服务案例</a>
+                            |<span>${firstCategoryModuleDto.name}</span>
+                        </#if>
                     </#if>
 				</div>
 			</div>

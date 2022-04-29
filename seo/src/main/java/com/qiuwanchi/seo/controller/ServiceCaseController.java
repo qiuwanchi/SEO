@@ -268,6 +268,19 @@ public class ServiceCaseController {
         ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
         model.addAttribute("firstCategoryModuleDto", firstCategoryModuleDto);
 
+        if(StringUtils.isNotBlank(secondCategory)){
+            List<ProjectDto> projectDtoList = firstCategoryModuleDto.getProjectDtoList();
+
+            ProjectDto secondCategoryProjectDto = null;
+            for (ProjectDto projectDto : projectDtoList){
+                if(secondCategory.equals(projectDto.getCode())){
+                    secondCategoryProjectDto = projectDto;
+                    break;
+                }
+            }
+            model.addAttribute("secondCategoryProjectDto", secondCategoryProjectDto);
+        }
+
         this.bottomManagementCommon.bottom(model);
         return "service_case";
     }
@@ -280,7 +293,7 @@ public class ServiceCaseController {
     private ModuleDto getFirstCategoryModuleDto(String firstCategory, List<ModuleDto> serviceCaseModuleList){
 
         if (StringUtils.isBlank(firstCategory)){
-            return null;
+            return serviceCaseModuleList.get(0);
         }
 
         for (ModuleDto moduleDto : serviceCaseModuleList){
