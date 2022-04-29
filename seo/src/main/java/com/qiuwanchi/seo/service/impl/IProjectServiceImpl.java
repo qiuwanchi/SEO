@@ -103,4 +103,9 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
         return this.projectMapper.getRecentUpdatesNewsProjectList();
     }
 
+    @Override
+    public Page<ProjectDto> newsSearch(Page page, String keyword) {
+        return this.projectMapper.newsSearch(page, keyword);
+    }
+
 }

@@ -57,4 +57,11 @@ public interface IProjectService extends IService<Project> {
 
     List<ProjectDto> getRecentUpdatesNewsProjectList();
 
+    /**
+     * 关键词进行新闻搜索
+     * @param page
+     * @param keyword
+     * @return
+     */
+    Page<ProjectDto> newsSearch(Page page, String keyword);
 }

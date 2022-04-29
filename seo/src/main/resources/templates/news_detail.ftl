@@ -54,7 +54,7 @@
 						</div>
 						<div class="hot_tag clearfix"> <span>标签：</span>
 						<#list keywordsList as keywords>
-                            <strong><a href="javascript:;">${keywords}</a></strong>
+                            <strong><a href="${baseUrl}/news/search?keyword=${keywords}" target="_blank">${keywords}</a></strong>
                         </#list>
 
 						</div>
@@ -96,7 +96,7 @@
 							<h3 class="clearfix"><span></span><strong>热门问答</strong></h3>
 							<ul>
                                 <#list hotAnswerProjectDtoList as hotAnswerProjectDto>
-                                    <li><a href="${baseUrl}/questionsAnswers/${hotAnswerProjectDto.moduleCode}/${hotAnswerProjectDto.number}.html">●&nbsp;${hotAnswerProjectDto.name}</a></li>
+                                    <li><a href="${baseUrl}/questionsAnswers/${hotAnswerProjectDto.moduleCode}/${hotAnswerProjectDto.number}.html" target="_blank">●&nbsp;${hotAnswerProjectDto.name}</a></li>
                                 </#list>
 							</ul>
 						</div>
@@ -104,7 +104,7 @@
 							<h3 class="clearfix"><span></span><strong>热门标签</strong></h3>
 							<div class="bq">
 							  <#list keywordsDtoList as keywordsDto>
-                                    <span><a href="javascript:;">${keywordsDto.words}</a></span>
+                                    <span><a href="${baseUrl}/news/search?keyword=${keywordsDto.words}" target="_blank">${keywordsDto.words}</a></span>
                               </#list>
 							</div>
 						</div>
