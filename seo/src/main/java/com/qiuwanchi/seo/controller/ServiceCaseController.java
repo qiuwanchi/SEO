@@ -238,6 +238,7 @@ public class ServiceCaseController {
 
         // banner
         BannerDto bannerDto = this.getServiceCaseBanner(firstCategory, secondCategory, serviceCaseModuleList);
+        SeoUtils.intBannerSeoValue(bannerDto);
         model.addAttribute("bannerDto", bannerDto);
 
         Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, firstCategory, secondCategory);
@@ -248,6 +249,18 @@ public class ServiceCaseController {
 
         model.addAttribute("subProjectList", subProjectDtoList);
         model.addAttribute("page", page);
+
+        int index = 0;
+        if(StringUtils.isNotBlank(firstCategory)){
+            for (ModuleDto moduleDto : serviceCaseModuleList){
+                if(firstCategory.equals(moduleDto.getCode())){
+                    break;
+                }
+                index++;
+            }
+        }
+
+        model.addAttribute("categoryIndex", index);
 
         model.addAttribute("firstCategory", firstCategory == null ? "" : firstCategory);
         model.addAttribute("secondCategory", secondCategory == null ? "" : secondCategory);
@@ -280,15 +293,15 @@ public class ServiceCaseController {
     }
 
     private BannerDto getServiceCaseBanner(String firstCategory, String secondCategory, List<ModuleDto> serviceCaseModuleList){
-
+        BannerDto bannerDto = null;
         // 一级类目编码为空，取第一个类目
         if (StringUtils.isBlank(firstCategory)) {
             ModuleDto firstModule = serviceCaseModuleList.get(0);
-            return this.getBannerDto(firstModule.getBannerId());
+            bannerDto = this.getBannerDto(firstModule.getBannerId());
         } else if (StringUtils.isNotBlank(firstCategory) && StringUtils.isBlank(secondCategory)) {
             ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
             if(Objects.nonNull(firstCategoryModuleDto)){
-                return this.getBannerDto(firstCategoryModuleDto.getBannerId());
+                bannerDto = this.getBannerDto(firstCategoryModuleDto.getBannerId());
             }
         } else if (StringUtils.isNotBlank(firstCategory) && StringUtils.isNotBlank(secondCategory)) {
             ModuleDto firstCategoryModuleDto = this.getFirstCategoryModuleDto(firstCategory, serviceCaseModuleList);
@@ -302,20 +315,25 @@ public class ServiceCaseController {
                     }
                 }
                 if(Objects.nonNull(secondCategoryProjectDto)){
-                    return this.getBannerDto(secondCategoryProjectDto.getBannerId());
+
+                    bannerDto = this.getBannerDto(secondCategoryProjectDto.getBannerId());
+                    if(Objects.isNull(bannerDto)){
+                        bannerDto = this.getBannerDto(firstCategoryModuleDto.getBannerId());
+                    }
                 }
             }
-
         }
+
+        if(Objects.nonNull(bannerDto)){
+            return bannerDto;
+        }
+
         return new BannerDto();
     }
 
     private BannerDto getBannerDto(String bannerId){
         BannerDto moduleBannerDto = this.bannerService.selectById(bannerId);
-        if(Objects.nonNull(moduleBannerDto)){
-            return moduleBannerDto;
-        }
-        return new BannerDto();
+        return moduleBannerDto;
     }
 
 

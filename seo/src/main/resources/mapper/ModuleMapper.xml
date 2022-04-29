@@ -4,61 +4,61 @@
 
     <select id="getModuleList" resultType="com.qiuwanchi.seo.dto.ModuleDto">
         SELECT
-        b.id,
-        b.number,
-        b.name,
-        b.describe_msg AS describeMsg,
-        b.attachment_id AS attachmentId,
-        b.sort,
-        b.title,
-        b.keywords,
-        b.description,
-        b.alt,
-        b.code,
-        b.banner_id AS bannerId,
-        b.click_url AS clickUrl,
-        b.create_by AS createBy,
-        b.create_time AS createTime,
-        b.update_by AS updateBy,
-        b.update_time AS updateTime,
+        m.id,
+        m.number,
+        m.name,
+        m.describe_msg AS describeMsg,
+        m.attachment_id AS attachmentId,
+        m.sort,
+        m.title,
+        m.keywords,
+        m.description,
+        m.alt,
+        m.code,
+        m.banner_id AS bannerId,
+        m.click_url AS clickUrl,
+        m.create_by AS createBy,
+        m.create_time AS createTime,
+        m.update_by AS updateBy,
+        m.update_time AS updateTime,
         a.filename AS fileName,
         a.filesize AS fileSize,
         a.filetype AS fileType,
         a.filepath AS filePath,
         a.file_id AS fileId
-        FROM module b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.belong=#{belong}
+        FROM module m LEFT JOIN system_attachment a ON m.attachment_id=a.id WHERE m.belong=#{belong}
         <if test="homePageDisplay != null">
-            and b.home_page_display=#{homePageDisplay}
+            and m.home_page_display=#{homePageDisplay}
         </if>
 
-        ORDER BY b.sort
+        ORDER BY m.sort
     </select>
 
     <select id="selectByModuleId" resultType="com.qiuwanchi.seo.dto.ModuleDto">
         SELECT
-        b.id,
-        b.number,
-        b.name,
-        b.describe_msg AS describeMsg,
-        b.attachment_id AS attachmentId,
-        b.sort,
-        b.title,
-        b.keywords,
-        b.description,
-        b.alt,
-        b.code,
-        b.banner_id AS bannerId,
-        b.click_url AS clickUrl,
-        b.create_by AS createBy,
-        b.create_time AS createTime,
-        b.update_by AS updateBy,
-        b.update_time AS updateTime,
+        m.id,
+        m.number,
+        m.name,
+        m.describe_msg AS describeMsg,
+        m.attachment_id AS attachmentId,
+        m.sort,
+        m.title,
+        m.keywords,
+        m.description,
+        m.alt,
+        m.code,
+        m.banner_id AS bannerId,
+        m.click_url AS clickUrl,
+        m.create_by AS createBy,
+        m.create_time AS createTime,
+        m.update_by AS updateBy,
+        m.update_time AS updateTime,
         a.filename AS fileName,
         a.filesize AS fileSize,
         a.filetype AS fileType,
         a.filepath AS filePath,
         a.file_id AS fileId
-        FROM module b LEFT JOIN system_attachment a ON b.attachment_id=a.id WHERE b.id=#{moduleId}
+        FROM module m LEFT JOIN system_attachment a ON m.attachment_id=a.id WHERE m.id=#{moduleId}
     </select>
 
 </mapper>
