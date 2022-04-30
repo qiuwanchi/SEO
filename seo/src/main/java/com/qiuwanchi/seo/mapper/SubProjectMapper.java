@@ -39,4 +39,7 @@ public interface SubProjectMapper extends BaseMapper<SubProject> {
     List<String> selectServiceCaseKeywordsList();
 
     Page<SubProjectDto> search(Page page, @Param("keyword")String keyword);
+
+    Page<SubProjectDto> searchAll(Page page, @Param("keyword")String keyword);
+
 }

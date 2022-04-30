@@ -122,4 +122,9 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
         return projectDtoList.get(0);
     }
 
+    @Override
+    public List<String> getHotLabel() {
+        return this.projectMapper.getHotLabel();
+    }
+
 }

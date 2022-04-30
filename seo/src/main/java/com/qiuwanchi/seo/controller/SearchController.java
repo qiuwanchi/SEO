@@ -86,6 +86,25 @@ public class SearchController {
         return this.searchNews(model, keyword, page);
     }
 
+    @GetMapping("/search")
+    public String search(Model model, String keyword){
+        Page page = new Page();
+        page.setSize(PAGE_SIZE);
+        return this.searchAll(model, keyword, page);
+    }
+
+    @GetMapping("/search-{currentPage}")
+    public String searchPage(Model model, String keyword, @PathVariable("currentPage")String currentPage){
+        Page page = new Page();
+        page.setSize(PAGE_SIZE);
+        try {
+            page.setCurrent(Long.parseLong(currentPage));
+        }catch (Exception e){
+
+        }
+        return this.searchAll(model, keyword, page);
+    }
+
     private String searchNews(Model model, String keyword, Page page){
         model.addAttribute("baseUrl", serverConfig.getUrl());
         // logo
@@ -124,6 +143,28 @@ public class SearchController {
         model.addAttribute("pageHtml", html);
 
         model.addAttribute("searchWords", keyword);
+        // 底部
+        this.bottomManagementCommon.bottom(model);
+        return "service_case_search";
+    }
+
+    private String searchAll(Model model, String keyword, Page page){
+        model.addAttribute("baseUrl", serverConfig.getUrl());
+        // logo
+        this.logoCommon.logo(model);
+
+        Page<SubProjectDto> projectDtoPage = this.subProjectService.searchAll(page, keyword);
+        List<SubProjectDto> searchProjectDtoList = projectDtoPage.getRecords();
+        SeoUtils.intSubProjectSeoValue(searchProjectDtoList);
+        model.addAttribute("searchSubProjectDtoList", searchProjectDtoList);
+
+        model.addAttribute("page", page);
+
+        String html = AllSearchGeneratePageUtil.generatePageHtml(page, keyword);
+        model.addAttribute("pageHtml", html);
+
+        model.addAttribute("searchWords", keyword);
+
         // 底部
         this.bottomManagementCommon.bottom(model);
         return "service_case_search";

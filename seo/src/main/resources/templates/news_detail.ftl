@@ -106,7 +106,7 @@
 							<h3 class="clearfix"><span></span><strong>热门标签</strong></h3>
 							<div class="bq">
 							  <#list keywordsDtoList as keywordsDto>
-                                    <span><a href="${baseUrl}/news/search?keyword=${keywordsDto.words}" target="_blank">${keywordsDto.words}</a></span>
+                                    <span><a href="${baseUrl}/search?keyword=${keywordsDto.words}" target="_blank">${keywordsDto.words}</a></span>
                               </#list>
 							</div>
 						</div>

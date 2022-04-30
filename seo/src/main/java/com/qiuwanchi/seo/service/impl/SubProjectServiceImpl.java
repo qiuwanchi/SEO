@@ -106,4 +106,9 @@ public class SubProjectServiceImpl  extends ServiceImpl<SubProjectMapper, SubPro
     public Page<SubProjectDto> search(Page page, String keyword) {
         return this.subProjectMapper.search(page, keyword);
     }
+
+    @Override
+    public Page<SubProjectDto> searchAll(Page page, String keyword) {
+        return this.subProjectMapper.searchAll(page, keyword);
+    }
 }

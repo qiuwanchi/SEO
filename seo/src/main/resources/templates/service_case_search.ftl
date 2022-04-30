@@ -44,6 +44,9 @@
 							<#if searchSubProjectDto.caseType == "3">
 								<a href="${baseUrl}/solution/${searchSubProjectDto.number}.html" target="_blank">
 							</#if>
+							<#if searchSubProjectDto.caseType == "1">
+								<a href="${baseUrl}/news/${searchSubProjectDto.firstCategory}/${searchSubProjectDto.number}.html" target="_blank">
+							</#if>
 								<div><img src="<#if searchSubProjectDto.url?? && searchSubProjectDto.url != "">${searchSubProjectDto.url}</#if>" alt="${searchSubProjectDto.alt}" /></div>
 								<h2>${searchSubProjectDto.name}</h2>
 							</a>

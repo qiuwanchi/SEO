@@ -69,4 +69,5 @@ public interface IProjectService extends IService<Project> {
 
     ProjectDto selectSeoThreeElements(String code);
 
+    List<String> getHotLabel();
 }

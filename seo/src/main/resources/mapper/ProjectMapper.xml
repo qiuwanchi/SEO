@@ -534,4 +534,29 @@
         WHERE  b.code=#{code}
     </select>
 
+    <select id="getHotLabel" resultType="java.lang.String">
+        SELECT * FROM (
+            SELECT
+                s.keywords
+            FROM sub_project s JOIN project p ON s.project_id=p.id
+            JOIN module m ON p.module_id=m.id
+            WHERE m.belong='ServiceCase' AND s.keywords IS NOT NULL AND s.keywords !=''
+
+        UNION ALL
+
+            SELECT
+             p.keywords
+            FROM  project p JOIN module m ON p.module_id=m.id
+            WHERE m.belong='SolutionCase' AND p.keywords IS NOT NULL AND p.keywords !=''
+
+        UNION ALL
+
+            SELECT
+                p.keywords
+            FROM  project p JOIN module m ON p.module_id=m.id
+            WHERE m.belong='News' AND p.keywords IS NOT NULL AND p.keywords !=''
+
+        ) t
+    </select>
+
 </mapper>

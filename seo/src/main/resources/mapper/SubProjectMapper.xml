@@ -483,4 +483,104 @@
         ) t ORDER BY t.updateTime DESC
     </select>
 
+
+
+    <select id="searchAll" resultType="com.qiuwanchi.seo.dto.SubProjectDto">
+        SELECT * FROM (
+
+        SELECT
+        p.id,
+        p.number,
+        p.name,
+        p.describe_msg AS describeMsg,
+        p.attachment_id AS attachmentId,
+        p.sort,
+        p.title,
+        p.keywords,
+        p.description,
+        p.alt,
+        p.banner_id AS bannerId,
+        p.click_url AS clickUrl,
+        p.create_by AS createBy,
+        p.create_time AS createTime,
+        p.update_by AS updateBy,
+        p.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId,
+        m.code AS firstCategory,
+        "" AS secondCategory,
+        "1" AS caseType
+
+        FROM  project p JOIN module m ON p.module_id=m.id
+        LEFT JOIN system_attachment a ON p.attachment_id=a.id
+        WHERE m.belong='News'  AND p.keywords like "%${keyword}%"
+
+        UNION ALL
+
+        SELECT
+        s.id,
+        s.number,
+        s.name,
+        s.describe_msg AS describeMsg,
+        s.attachment_id AS attachmentId,
+        s.sort,
+        s.title,
+        s.keywords,
+        s.description,
+        s.alt,
+        s.banner_id AS bannerId,
+        s.click_url AS clickUrl,
+        s.create_by AS createBy,
+        s.create_time AS createTime,
+        s.update_by AS updateBy,
+        s.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId,
+        m.code AS firstCategory,
+        p.code AS secondCategory,
+        "2" AS caseType
+        FROM sub_project s JOIN project p ON s.project_id=p.id
+        JOIN module m ON p.module_id=m.id
+        LEFT JOIN system_attachment a ON s.attachment_id=a.id
+        WHERE m.belong='ServiceCase' AND s.keywords like "%${keyword}%"
+
+        UNION ALL
+
+        SELECT
+        p.id,
+        p.number,
+        p.name,
+        p.describe_msg AS describeMsg,
+        p.attachment_id AS attachmentId,
+        p.sort,
+        p.title,
+        p.keywords,
+        p.description,
+        p.alt,
+        p.banner_id AS bannerId,
+        p.click_url AS clickUrl,
+        p.create_by AS createBy,
+        p.create_time AS createTime,
+        p.update_by AS updateBy,
+        p.update_time AS updateTime,
+        a.filename AS fileName,
+        a.filesize AS fileSize,
+        a.filetype AS fileType,
+        a.filepath AS filePath,
+        a.file_id AS fileId,
+        m.code AS firstCategory,
+        "" AS secondCategory,
+        "3" AS caseType
+
+        FROM  project p JOIN module m ON p.module_id=m.id
+        LEFT JOIN system_attachment a ON p.attachment_id=a.id
+        WHERE m.belong='SolutionCase'  AND p.keywords like "%${keyword}%"
+        ) t ORDER BY t.updateTime DESC
+    </select>
 </mapper>

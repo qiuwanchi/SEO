@@ -65,17 +65,17 @@ public class KeywordsUtils {
     }
 
     public static List<KeywordsDto> getHotLabel(){
+
+        List<String> hotLabelList = projectService.getHotLabel();
         // 热门标签
-        List<String> hotLabelList1 = projectService.selectKeywords();
-        List<String> hotLabelList2 = subProjectService.selectKeywords();
         TreeMap<String,Integer> treeMap = new TreeMap<>();
-        keywordsCount(treeMap,hotLabelList1);
-        keywordsCount(treeMap,hotLabelList2);
+        keywordsCount(treeMap,hotLabelList);
         return getTop10KeywordsDto(treeMap);
     }
 
     private static void keywordsCount(Map<String,Integer> map, List<String> hotLabelList){
         for (String keywords : hotLabelList){
+            keywords = keywords.replaceAll("，", ",");
             String[] arr = keywords.split(",");
 
             for(String words : arr){

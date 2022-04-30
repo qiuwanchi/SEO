@@ -65,4 +65,6 @@ public interface ProjectMapper extends BaseMapper<Project> {
     List<String> selectSolutionKeywords();
 
     List<ProjectDto> selectSeoThreeElements(@Param("code")String code);
+
+    List<String> getHotLabel();
 }

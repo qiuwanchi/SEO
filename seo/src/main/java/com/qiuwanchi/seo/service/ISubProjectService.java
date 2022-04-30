@@ -43,4 +43,6 @@ public interface ISubProjectService extends IService<SubProject> {
     List<String> selectServiceCaseKeywordsList();
 
     Page<SubProjectDto> search(Page page, String keyword);
+
+    Page<SubProjectDto> searchAll(Page page, String keyword);
 }

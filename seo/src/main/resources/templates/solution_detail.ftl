@@ -119,7 +119,7 @@
 							<h3 class="clearfix"><span></span><strong>热门标签</strong></h3>
 							<div class="bq">
                                 <#list keywordsDtoList as keywordsDto>
-                                      <span><a href="javascript:;">${keywordsDto.words}</a></span>
+                                      <span><a href="${baseUrl}/search?keyword=${keywordsDto.words}" target="">${keywordsDto.words}</a></span>
                                 </#list>
 							</div>
 						</div>
