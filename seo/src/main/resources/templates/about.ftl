@@ -161,14 +161,14 @@
 
 				$("#container #content li").clone().appendTo($("#container #content"));
 
-				run(20000);
+				run(30000);
 
 				function run(interval) {
 					$("#container #content").animate({
 						"left": -segmentWidth
 					}, interval, "linear", function() {
 						$("#container #content").css("left", 0);
-						run(20000);
+						run(30000);
 					});
 				}
 
@@ -176,7 +176,7 @@
 					$("#container #content").stop();
 				}).mouseleave(function() {
 					var passedCourse = -parseInt($("#container #content").css("left"));
-					var time = 20000 * (1 - passedCourse / segmentWidth);
+					var time = 30000 * (1 - passedCourse / segmentWidth);
 					run(time);
 				});
 			};
