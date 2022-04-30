@@ -288,7 +288,7 @@
 <script type="text/javascript" th:inline="javascript">
 
 var seoVideoList = [[${seoVideoList}]];
-var baseUrl = [[${baseUrl}]];
+var baseUrl = '[(${baseUrl})]';
 
 for(var i = 0;i < seoVideoList.length; i++){
 
@@ -299,7 +299,7 @@ for(var i = 0;i < seoVideoList.length; i++){
 
         container: document.getElementById('dplayer' + i),
         video: {
-            url:  'http://' + baseUrl + '/video/' + fileId + '.mp4',
+            url:  baseUrl + '/video/' + fileId + '.mp4',
         },
         autoplay:true,
     });
