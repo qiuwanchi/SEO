@@ -2,7 +2,11 @@ package com.qiuwanchi.seo.controller;
 
 import com.google.common.collect.Lists;
 import com.qiuwanchi.seo.constant.CategoryCode;
-import com.qiuwanchi.seo.dto.*;
+import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
+import com.qiuwanchi.seo.dto.BannerDto;
+import com.qiuwanchi.seo.dto.ModuleDto;
+import com.qiuwanchi.seo.dto.ProjectDto;
+import com.qiuwanchi.seo.dto.SubProjectDto;
 import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
@@ -67,6 +71,9 @@ public class ProductController {
 
         // logo
         this.logoCommon.logo(model);
+
+        ProjectDto seoProjectDto = this.projectService.selectSeoThreeElements(ThreeElementsOfColumnPageSeoEnum.PRODUCTS.getCode());
+        model.addAttribute("seoProjectDto", seoProjectDto);
 
         // 2.公司产品-模块列表
         List<ModuleDto> moduleList = this.moduleService.getSimpleModuleDtoList("companyProduct-productModule");

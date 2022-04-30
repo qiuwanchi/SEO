@@ -2,6 +2,7 @@ package com.qiuwanchi.seo.controller;
 
 import com.google.common.collect.Lists;
 import com.qiuwanchi.seo.constant.HomePageDisplay;
+import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
@@ -72,6 +73,9 @@ public class IndexController {
         model.addAttribute("baseUrl", serverConfig.getUrl());
         // logo
         this.logoCommon.logo(model);
+
+        ProjectDto seoProjectDto = this.projectService.selectSeoThreeElements(ThreeElementsOfColumnPageSeoEnum.INDEX.getCode());
+        model.addAttribute("seoProjectDto", seoProjectDto);
 
         // 1.首页banner列表
         model.addAttribute("bannerProjectDtoList", this.getIndexBannerProjectDtoList());

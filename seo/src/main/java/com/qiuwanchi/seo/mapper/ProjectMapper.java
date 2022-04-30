@@ -63,4 +63,6 @@ public interface ProjectMapper extends BaseMapper<Project> {
     Page<ProjectDto> newsSearch(Page page, String keyword);
 
     List<String> selectSolutionKeywords();
+
+    List<ProjectDto> selectSeoThreeElements(@Param("code")String code);
 }

@@ -121,6 +121,10 @@
 					<div class="wu-example">
 						alt：<input name="alt" id="alt" />
 					</div>
+					<div class="wu-example" th:if="${module.belong == 'ThreeElementsOfColumnPageSeo'}">
+						<p><span style="color:red">(首页:index;关于我们:aboutUs; 公司产品:products; 服务案例:serviceCase;  解决方案:solution;  新闻资讯:news;  联系我们:contactUs;)</span></p>
+						<span style="color:red">*</span>类目编码：<input name="code" id="code" />
+					</div>
 
 				</form>
 			</div>
@@ -281,6 +285,13 @@
 					$("#clickUrl").val(project.clickUrl);
 				}
 
+				var belong = '[(${module.belong})]';
+				if( belong == 'ThreeElementsOfColumnPageSeo'){
+					if(!isEmpty(project.code)){
+						$("#code").val(project.code);
+					}
+				}
+
 				$("#aaa").html("编辑");
 			}
 		});
@@ -317,6 +328,23 @@
 			});
 			return;
 		}
+
+		var belong = '[(${module.belong})]';
+		 if( belong == 'ThreeElementsOfColumnPageSeo'){
+		 	var code = $("#code").val();
+
+		 	if(isEmpty(code)){
+				$("body").MessageBox({
+					type: 'error',
+					message: '类目编码不能为空！',
+					timeout:5000,
+					callbak:null
+				});
+				return;
+			}
+		 }
+
+
 		$("#form1").submit();
 	}
 	

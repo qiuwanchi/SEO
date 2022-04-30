@@ -520,4 +520,18 @@
         WHERE  b.keywords IS NOT NULL AND b.keywords !=''
     </select>
 
+    <select id="selectSeoThreeElements" resultType="com.qiuwanchi.seo.dto.ProjectDto">
+        SELECT
+        b.number,
+        b.name,
+        b.sort,
+        b.title,
+        b.keywords,
+        b.description,
+        b.alt,
+        b.code
+        FROM project b JOIN module m ON b.module_id=m.id AND m.belong='ThreeElementsOfColumnPageSeo'
+        WHERE  b.code=#{code}
+    </select>
+
 </mapper>

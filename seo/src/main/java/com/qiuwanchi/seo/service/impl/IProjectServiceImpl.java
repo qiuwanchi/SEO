@@ -113,4 +113,13 @@ public class IProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> imp
         return this.projectMapper.selectSolutionKeywords();
     }
 
+    @Override
+    public ProjectDto selectSeoThreeElements(String code) {
+        List<ProjectDto> projectDtoList = this.projectMapper.selectSeoThreeElements(code);
+        if (CollectionUtils.isEmpty(projectDtoList)){
+            return new ProjectDto();
+        }
+        return projectDtoList.get(0);
+    }
+
 }

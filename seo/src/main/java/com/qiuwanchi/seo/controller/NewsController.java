@@ -1,8 +1,10 @@
 package com.qiuwanchi.seo.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qiuwanchi.seo.dto.*;
+import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
+import com.qiuwanchi.seo.dto.BannerDto;
+import com.qiuwanchi.seo.dto.ModuleDto;
+import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.*;
 import com.qiuwanchi.seo.utils.*;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 新闻资讯
@@ -149,6 +153,18 @@ public class NewsController {
         model.addAttribute("page", page);
 
         model.addAttribute("newsProjectList", newsProjectList);
+
+        if(StringUtils.isBlank(firstCategory)){
+            ProjectDto seoProjectDto = this.projectService.selectSeoThreeElements(ThreeElementsOfColumnPageSeoEnum.NEWS.getCode());
+            model.addAttribute("seoProjectDto", seoProjectDto);
+        } else {
+            ProjectDto seoProjectDto = new ProjectDto();
+            seoProjectDto.setTitle(newsModule.getTitle());
+            seoProjectDto.setKeywords(newsModule.getKeywords());
+            seoProjectDto.setDescription(newsModule.getDescription());
+            model.addAttribute("seoProjectDto", seoProjectDto);
+        }
+
         this.bottomManagementCommon.bottom(model);
         return "news";
     }

@@ -1,10 +1,12 @@
 package com.qiuwanchi.seo.controller;
 
 import com.google.common.collect.Lists;
+import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.service.IModuleService;
+import com.qiuwanchi.seo.service.IProjectService;
 import com.qiuwanchi.seo.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +38,9 @@ public class AboutUsController {
     private IModuleService moduleService;
 
     @Autowired
+    private IProjectService projectService;
+
+    @Autowired
     private BottomManagementCommon bottomManagementCommon;
 
     @Autowired
@@ -47,6 +52,9 @@ public class AboutUsController {
 
         // logo
         this.logoCommon.logo(model);
+
+        ProjectDto seoProjectDto = this.projectService.selectSeoThreeElements(ThreeElementsOfColumnPageSeoEnum.ABOUT_US.getCode());
+        model.addAttribute("seoProjectDto", seoProjectDto);
 
         // 2.关于我们-banner图
         model.addAttribute("aboutUsBannerProjectDto", this.getAboutUsBannerProjectDto());

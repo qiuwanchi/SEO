@@ -66,4 +66,7 @@ public interface IProjectService extends IService<Project> {
     Page<ProjectDto> newsSearch(Page page, String keyword);
 
     List<String> selectSolutionKeywords();
+
+    ProjectDto selectSeoThreeElements(String code);
+
 }

@@ -2,11 +2,11 @@ package com.qiuwanchi.seo.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiuwanchi.seo.constant.CategoryCode;
+import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
 import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
 import com.qiuwanchi.seo.dto.SubProjectDto;
-import com.qiuwanchi.seo.entity.Attachment;
 import com.qiuwanchi.seo.entity.Module;
 import com.qiuwanchi.seo.entity.Project;
 import com.qiuwanchi.seo.service.*;
@@ -20,7 +20,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -270,7 +269,33 @@ public class ServiceCaseController {
 
         ModuleDto firstCategoryModuleDto = serviceCaseModuleList.get(firstCategoryIndex);
         model.addAttribute("firstCategoryModuleDto", firstCategoryModuleDto);
-        model.addAttribute("secondCategoryProjectDto", this.getSecondCategoryProjectDto(secondCategory, firstCategoryModuleDto.getProjectDtoList()));
+
+        ProjectDto secondCategoryProjectDto = this.getSecondCategoryProjectDto(secondCategory, firstCategoryModuleDto.getProjectDtoList());
+        model.addAttribute("secondCategoryProjectDto", secondCategoryProjectDto);
+
+        // 一级目录与二级目录都是空的，取栏目的seo对象
+        if(StringUtils.isBlank(firstCategory) && StringUtils.isBlank(secondCategory)){
+            ProjectDto seoProjectDto = this.projectService.selectSeoThreeElements(ThreeElementsOfColumnPageSeoEnum.SERVICE_CASE.getCode());
+            model.addAttribute("seoProjectDto", seoProjectDto);
+        }
+
+        // 一级目录为空 二级目录不为空，取一级目录对象
+        if(StringUtils.isNotBlank(firstCategory) && StringUtils.isBlank(secondCategory)){
+            ProjectDto seoProjectDto = new ProjectDto();
+            seoProjectDto.setTitle(firstCategoryModuleDto.getTitle());
+            seoProjectDto.setKeywords(firstCategoryModuleDto.getKeywords());
+            seoProjectDto.setDescription(firstCategoryModuleDto.getDescription());
+            model.addAttribute("seoProjectDto", seoProjectDto);
+        }
+
+        // 一级目录不为空 二级目录不为空，取二级目录对象
+        if(StringUtils.isNotBlank(firstCategory) && StringUtils.isNotBlank(secondCategory)){
+            ProjectDto seoProjectDto = new ProjectDto();
+            seoProjectDto.setTitle(secondCategoryProjectDto.getTitle());
+            seoProjectDto.setKeywords(secondCategoryProjectDto.getKeywords());
+            seoProjectDto.setDescription(secondCategoryProjectDto.getDescription());
+            model.addAttribute("seoProjectDto", seoProjectDto);
+        }
 
         this.bottomManagementCommon.bottom(model);
         return "service_case";

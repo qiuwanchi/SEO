@@ -79,7 +79,6 @@ public class ProjectController {
 			return "serviceCase/serviceCaseList";
 		}
 
-
 		// 首页公司产品-更多按钮
 		if("FirstPage-CompanyProduct-more".equalsIgnoreCase(module.getBelong()) || "FirstPage-ServiceCase-more".equalsIgnoreCase(module.getBelong())){
 			model.addAttribute("isMore", !CollectionUtils.isEmpty(projectList));

@@ -3,6 +3,7 @@ package com.qiuwanchi.seo.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.qiuwanchi.seo.constant.CategoryCode;
+import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
 import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
 import com.qiuwanchi.seo.dto.ProjectDto;
@@ -79,6 +80,9 @@ public class SolutionController {
         this.logoCommon.logo(model);
         // 底部
         this.bottomManagementCommon.bottom(model);
+
+        ProjectDto seoProjectDto = this.projectService.selectSeoThreeElements(ThreeElementsOfColumnPageSeoEnum.SOLUTION.getCode());
+        model.addAttribute("seoProjectDto", seoProjectDto);
 
         // 解决方案
         List<ModuleDto> solutionCaseModuleList = this.moduleService.getModuleDtoList("SolutionCase");
