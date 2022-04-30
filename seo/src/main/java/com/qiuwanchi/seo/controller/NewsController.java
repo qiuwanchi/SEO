@@ -91,7 +91,7 @@ public class NewsController {
         Page page = new Page();
         page.setSize(PAGE_SIZE);
         String returnStr = this.news(model, page, firstCategory);
-        this.generatePageHtml(model, page, null);
+        this.generatePageHtml(model, page, firstCategory);
         return returnStr;
     }
 
@@ -101,7 +101,7 @@ public class NewsController {
         page.setCurrent(current);
         page.setSize(PAGE_SIZE);
         String returnStr = this.news(model, page, firstCategory);
-        this.generatePageHtml(model, page, null);
+        this.generatePageHtml(model, page, firstCategory);
         return returnStr;
     }
 

@@ -102,7 +102,7 @@ public class NewsGeneratePageUtil {
      * @param firstCategory
      * @return
      */
-    private static String   getIndexPageHtml(long currentPage, String firstCategory){
+    private static String getIndexPageHtml(long currentPage, String firstCategory){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("<li");
         if(currentPage <= 1){
