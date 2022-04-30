@@ -64,35 +64,33 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="detail2 clearfix">
-						<div class="detail2_text">
-							<h2>${currentProjectDto.name}的特点</h2>
-							<span>
+					<div class="detail2_text">
+						<h2>${currentProjectDto.name}的特点</h2>
+						<span>
 							<#if currentProjectDto.describeMsg?? && currentProjectDto.describeMsg !="">
 							    ${currentProjectDto.describeMsg}
 							</#if>
-							</span>
-						</div>
-						<ul class="detail2_ul clearfix">
+						</span> </div>
+					<ul class="detail2_ul clearfix">
 						<#list systemCharacteristicsProjectDtoList as systemCharacteristics>
-							<li class="clearfix">
-								  <#if systemCharacteristics.clickUrl?? && systemCharacteristics.clickUrl !="">
-                                    <a href="${systemCharacteristics.clickUrl}" target="_blank">
-                                  <#else>
-                                    <a href="javascript:;">
-                                  </#if>
-                                    <img src="${systemCharacteristics.url}" <#if systemCharacteristics.alt?? && systemCharacteristics.alt != ""> alt="${systemCharacteristics.alt}" </#if>>
-                                    </a>
+						<li class="clearfix">
+								<#if systemCharacteristics.clickUrl?? && systemCharacteristics.clickUrl !="">
+								<a href="${systemCharacteristics.clickUrl}" target="_blank">
+								<#else>
+								<a href="javascript:;">
+								</#if>
+								<img src="${systemCharacteristics.url}" <#if systemCharacteristics.alt?? && systemCharacteristics.alt != ""> alt="${systemCharacteristics.alt}" </#if> />
+								<h3><#if systemCharacteristics.name?? && systemCharacteristics.name != "">${systemCharacteristics.name}</#if></h3>
+								<p><#if systemCharacteristics.describeMsg?? && systemCharacteristics.describeMsg != "">${systemCharacteristics.describeMsg}</#if></p>
+								</a>
+						</li>
+						</#list>
 
-						            <#if systemCharacteristics_index+1 != systemCharacteristicsProjectDtoList?size >
-                                        <span><img src="${baseUrl}/images/arrow.png"></span>
-                                    </#if>
-
-							</li>
-							</#list>
-
-						</ul>
+					</ul>
 					</div>
+
 					<div class="layui-row detail1_3 clearfix">
 						<div class="layui-tab layui-tab-brief clearfix " lay-filter="docDemoTabBrief">
 							<ul class="layui-tab-title layui-col-xs12 layui-col-md2  clearfix">
@@ -236,14 +234,13 @@
 
 			});
 
-
 			$(document).ready(function(){
         	  $("#leavingMessage").click(function(){
         		$.post("${baseUrl}/leavingMessage",
         		{
-        		  name:"Donald Duck",
-        		  telephone:"Duckburg",
-        		  message:"vcxvsdfvdfsvdfsvdfs"
+        		  name:$("#name").val(),
+        		  telephone:$("#telephone").val(),
+        		  message:$("#message").val()
         		},
         		function(data,status){
         			if(status == 'success'){
@@ -257,6 +254,23 @@
         	  });
         	});
 
+			$(function(){
+				console.log($(window).width()<1000)
+				let widthUl = $('.detail2_ul li')
+				if($(window).width()>= 1000){
+					if(widthUl.length == 5){
+					widthUl.css({"width":"20%"})
+				}else if(widthUl.length == 6){
+					widthUl.css({"width":"16.66%"})
+				}else if(widthUl.length == 4){
+					widthUl.css({"width":"25%"})
+				}
+
+				}else{
+					widthUl.css({"width":"50%"})
+				}
+
+			})
 		</script>
 	</body>
 

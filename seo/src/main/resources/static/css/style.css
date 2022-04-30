@@ -1424,9 +1424,9 @@ a p {
 .detail2 {
 	background: url(../images/hot_bg.jpg) no-repeat center;
 	background-size: cover;
-	padding: 40px;
-	padding-left: 0;
+	padding: 40px 20px;
 	margin-top: 20px;
+	 padding-bottom: 10px;
 }
 
 .detail2_text {
@@ -1449,38 +1449,24 @@ a p {
 
 .detail2_ul {
 	padding: 20px 0;
-	margin-left: 90px;
 }
 
 .detail2_ul li {
 	float: left;
-	width: 16.666%;
+	width: 25%;
 	padding-bottom: 20px;
 }
 
 .detail2_ul li a {
 	display: block;
-	float: left;
-	width: 80%;
+	padding: 15px;
 }
 
 .detail2_ul li a img {
-	width: 90%;
-	border: 2px solid #fff
+	width: 100%;
 }
-
-.detail2_ul li span {
-	display: block;
-	float: left;
-	width: 20%;
-	padding-top: 40px;
-}
-
-.detail2_ul li span img {
-	width: 82%;
-	padding-right: 5%;
-}
-
+.detail2_ul h3{ color: #fff; font-size: 16px; text-align: center; display: block;padding: 5px 0; padding-top: 8px;}
+.detail2_ul p{ display: block; color: #ddd; font-size: 14px; line-height: 22px;}
 .detail1_3 {
 	margin: 40px 20px;
 	padding: 0;
@@ -2027,7 +2013,6 @@ a p {
 	padding: 0;
 }
 .dplayer{width:80%;margin:0 auto;}
-@media (max-width: 1400px) {}
 
 @media (max-width: 1300px) {
 	.nav ul li {
@@ -2055,6 +2040,7 @@ a p {
 	#about {
 		margin-top: 140px;
 	}
+	
 }
 
 
@@ -2079,9 +2065,6 @@ a p {
 	}
 	.newsx_main .news_list_text {
 		width: 45%;
-	}
-	.detail2_ul li {
-		width: 33.333%;
 	}
 	.detail1_3_r {
 		margin: 20px;
@@ -2114,9 +2097,6 @@ a p {
 		width: 100%;
 		float: none;
 		padding-bottom: 10px;
-	}
-	.detail2_ul li {
-		width: 50%;
 	}
 	.newsx_main .news_list_img {
 		width: 100%;

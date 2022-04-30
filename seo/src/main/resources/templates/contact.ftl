@@ -102,9 +102,9 @@
         	  $("#leavingMessage").click(function(){
         		$.post("${baseUrl}/leavingMessage",
         		{
-        		  name:"Donald Duck",
-        		  telephone:"Duckburg",
-        		  message:"vcxvsdfvdfsvdfsvdfs"
+        		  name:$("#name").val(),
+        		  telephone:$("#telephone").val(),
+        		  message:$("#message").val()
         		},
         		function(data,status){
         			if(status == 'success'){
