@@ -94,15 +94,14 @@ public class ProjectController {
 	}
 
 	private boolean isAdd(Module module){
-		if("LOGO".equalsIgnoreCase(module.getBelong())){
+		if("LOGO".equalsIgnoreCase(module.getBelong()) || "ThreeElementsOfColumnPageSeo".equals(module.getBelong())){
 			return false;
 		}
-
 		return true;
 	}
 
 	private boolean isDelete(Module module){
-		if("LOGO".equalsIgnoreCase(module.getBelong())){
+		if("LOGO".equalsIgnoreCase(module.getBelong()) || "ThreeElementsOfColumnPageSeo".equals(module.getBelong())){
 			return false;
 		}
 

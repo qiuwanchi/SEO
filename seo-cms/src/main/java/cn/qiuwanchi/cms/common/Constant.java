@@ -1,17 +1,6 @@
 package cn.qiuwanchi.cms.common;
 
-/**
- * @ClassName: Constant 
- * @Description: 全局变量类
- * @author LIGW
- * @date 2018年5月10日 上午9:19:08
- */
 public class Constant {
-	
-	/**
-	 * 项目名称
-	 */
-	public static String projecName = "梦想家CMS内容管理系统";
 	
 	public static final String SESSION_USER = "SESSION_USER";
 	
