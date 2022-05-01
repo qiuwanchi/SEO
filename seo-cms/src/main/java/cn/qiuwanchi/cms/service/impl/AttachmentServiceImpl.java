@@ -4,13 +4,16 @@ import cn.qiuwanchi.cms.common.SearchEntity;
 import cn.qiuwanchi.cms.dao.AttachmentMapper;
 import cn.qiuwanchi.cms.entity.Attachment;
 import cn.qiuwanchi.cms.service.AttachmentService;
+import cn.qiuwanchi.cms.utils.FileConfiguration;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 附件管理
@@ -19,6 +22,9 @@ import java.util.List;
  */
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
+
+	@Autowired
+	private FileConfiguration fileConfiguration;
 
 	@Autowired
 	private AttachmentMapper attachmentMapper;
@@ -50,6 +56,15 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Override
 	public int delete(String id) {
+		Attachment attachment = this.attachmentMapper.selectByPrimaryKey(id);
+		if(Objects.nonNull(attachment)){
+			String filePath = fileConfiguration.getResourceDir() + "uploads/" + attachment.getFilepath();
+			File file = new File(filePath);
+			// 如果文件存在就删掉
+			if(file.exists()){
+				file.delete();
+			}
+		}
 		return attachmentMapper.deleteByPrimaryKey(id);
 	}
 

@@ -207,9 +207,7 @@ public class ProjectController {
 
 	@GetMapping("/delete")
 	public String delete(Model model, String id, RedirectAttributes redirectAttributes) {
-		Project project = this.projectService.getById(id);
-		this.attachmentService.delete(project.getAttachmentId());
-		this.projectService.delete(id);
+		Project project = this.projectService.delete(id);
 		redirectAttributes.addAttribute("moduleId", project.getModuleId());
 		return "redirect:/firstPage/module/project";
 	}
@@ -221,9 +219,7 @@ public class ProjectController {
 	 */
 	@GetMapping("/asynchronousDelete")
 	@ResponseBody
-	public boolean delete(String id) {
-		Project project = this.projectService.getById(id);
-		this.attachmentService.delete(project.getAttachmentId());
+	public boolean asynchronousDelete(String id) {
 		this.projectService.delete(id);
 		return true;
 	}

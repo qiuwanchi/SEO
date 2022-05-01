@@ -25,5 +25,5 @@ public interface ISubProjectService {
 
     void update(SubProject subProject);
 
-    void delete(String id);
+    SubProject delete(String id);
 }

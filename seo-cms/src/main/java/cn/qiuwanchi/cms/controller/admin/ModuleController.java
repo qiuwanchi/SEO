@@ -192,16 +192,7 @@ public class ModuleController {
 
 	@GetMapping("/delete")
 	public String delete(Model model, String id, RedirectAttributes redirectAttributes) {
-		Module module = this.moduleService.getById(id);
-		List<Project> projectList = this.projectService.getByModuleId(id);
-
-		for (Project project : projectList){
-			this.attachmentService.delete(project.getAttachmentId());
-		}
-
-		this.projectService.deleteByModuleId(id);
-		this.moduleService.deleteById(id);
-
+		Module module = this.moduleService.deleteById(id);
 		redirectAttributes.addAttribute("belong", module.getBelong());
 		return "redirect:/firstPage/module";
 	}

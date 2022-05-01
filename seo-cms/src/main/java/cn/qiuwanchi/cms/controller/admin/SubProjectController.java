@@ -165,9 +165,7 @@ public class SubProjectController {
 
 	@GetMapping("/delete")
 	public String delete(Model model, String id, RedirectAttributes redirectAttributes) {
-		SubProject subProject = this.subProjectService.getById(id);
-		this.attachmentService.delete(subProject.getAttachmentId());
-		this.subProjectService.delete(id);
+		SubProject subProject = this.subProjectService.delete(id);
 		redirectAttributes.addAttribute("projectId", subProject.getProjectId());
 		return "redirect:/firstPage/module/project";
 	}
@@ -257,6 +255,14 @@ public class SubProjectController {
 
 		return "redirect:/subProject/videoList";
 	}
+
+	@PostMapping("/deleteVideo")
+	@ResponseBody
+	public boolean deleteVideo(String videoId) {
+		this.seoVideoService.delete(videoId);
+		return true;
+	}
+
 
 	@GetMapping("/toViewBanner")
 	public String toViewBanner(Model model, @RequestParam("subProjectId") String subProjectId) {

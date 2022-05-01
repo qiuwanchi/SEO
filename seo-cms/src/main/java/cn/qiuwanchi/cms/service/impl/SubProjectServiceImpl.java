@@ -2,20 +2,31 @@ package cn.qiuwanchi.cms.service.impl;
 
 import cn.qiuwanchi.cms.dao.SubProjectMapper;
 import cn.qiuwanchi.cms.entity.SubProject;
+import cn.qiuwanchi.cms.service.AttachmentService;
+import cn.qiuwanchi.cms.service.ISeoVideoService;
 import cn.qiuwanchi.cms.service.ISubProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SubProjectServiceImpl implements ISubProjectService {
 
     @Autowired
     private SubProjectMapper subProjectMapper;
+
+    @Autowired
+    private AttachmentService attachmentService;
+
+    @Autowired
+    private ISeoVideoService seoVideoService;
 
     @Override
     public List<SubProject> getByProjectId(String projectId) {
@@ -36,10 +47,26 @@ public class SubProjectServiceImpl implements ISubProjectService {
         return list;
     }
 
+    @Transactional
     @Override
     public void deleteByProjectId(String projectId) {
         SubProject subProject = new SubProject();
         subProject.setProjectId(projectId);
+
+        List<SubProject> subProjectList = this.subProjectMapper.select(subProject);
+        if(!CollectionUtils.isEmpty(subProjectList)){
+            for (SubProject tempSubProject : subProjectList){
+
+                // 删除图片
+                if(!StringUtils.isEmpty(tempSubProject.getAttachmentId())){
+                    this.attachmentService.delete(tempSubProject.getAttachmentId());
+                }
+
+                this.seoVideoService.selectByBelongId(tempSubProject.getId());
+
+            }
+        }
+
         this.subProjectMapper.delete(subProject);
     }
 
@@ -65,7 +92,15 @@ public class SubProjectServiceImpl implements ISubProjectService {
     }
 
     @Override
-    public void delete(String id) {
+    public SubProject delete(String id) {
+        SubProject subProject = this.subProjectMapper.selectByPrimaryKey(id);
+        if(Objects.nonNull(subProject) && !StringUtils.isEmpty(subProject.getAttachmentId())){
+            this.attachmentService.delete(subProject.getAttachmentId());
+        }
+
+        this.seoVideoService.selectByBelongId(id);
         this.subProjectMapper.deleteByPrimaryKey(id);
+
+        return subProject;
     }
 }

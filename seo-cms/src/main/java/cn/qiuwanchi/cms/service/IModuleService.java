@@ -10,7 +10,7 @@ public interface IModuleService {
 
     Module getById(String id);
 
-    void deleteById(String id);
+    Module deleteById(String id);
 
     void add(Module module);
 

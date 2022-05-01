@@ -26,7 +26,7 @@ public interface IProjectService {
 
     void update(Project project);
 
-    void delete(String id);
+    Project delete(String id);
 
     int getCountByCode(String moduleId, String id, String code);
 

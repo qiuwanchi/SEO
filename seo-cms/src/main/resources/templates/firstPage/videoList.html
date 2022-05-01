@@ -40,8 +40,8 @@
 
         </section>
         <span th:each="seoVideo : ${seoVideoList}">
-            <p>排序号:<span th:text="${seoVideo.sort}"></span>  <a href="javascript:;"  th:aid="${seoVideo.id}"  onclick="onDelete(this.getAttribute('aid'));">删除</a> </p>
-            <div class="divcss5" th:id="dplayer+${seoVideoStat.index}"></div>
+            <p th:id="p_lable_+${seoVideo.id}">排序号:<span th:text="${seoVideo.sort}"></span>  <a href="javascript:;"  th:aid="${seoVideo.id}"  onclick="onDelete(this.getAttribute('aid'));">删除</a> </p>
+            <div class="divcss5" th:id="dplayer_+${seoVideo.id}"></div>
             <p></p>
             <hr size="100" color="black"/>
             <p></p>
@@ -79,7 +79,7 @@
 					</div>
 
 					<div class="wu-example">
-						排序号：<input name="sort" id="sort" />
+                        <span style="color:red">*</span>排序号：<input name="sort" id="sort" />
 					</div>
 
 				</form>
@@ -266,21 +266,23 @@
 		}
 		$("#form1").submit();
 	}
-	
-	function confrimRemove(id){
-		$("#remove-dialog").modal();
-		$("#cacheID").val(id);
-	}
-	
-	function remove(){
-		var currentID = $("#cacheID").val();
-		window.location.href="/firstPage/module/delete?id="+currentID;
-		$("#remove-dialog").modal('hide');
-	}
 
 	function onDelete(id){
+        var flag = window.confirm('确定要删除吗？');
+        if(flag){
 
+        $.ajax({
+				type: 'post',
+				url: "/subProject/deleteVideo?videoId=" + id,
+				contentType: 'application/json',
+				async: false,
+				success: function(flag) {
+				    document.getElementById('p_lable_' + id).remove();
+                    document.getElementById('dplayer_' + id).remove();
+				}
+			});
 
+        }
 	}
 
 </script>
@@ -297,7 +299,7 @@ for(var i = 0;i < seoVideoList.length; i++){
 
     new DPlayer({
 
-        container: document.getElementById('dplayer' + i),
+        container: document.getElementById('dplayer_' + video.id),
         video: {
             url:  baseUrl + '/video/' + fileId + '.mp4',
         },

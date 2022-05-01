@@ -128,6 +128,13 @@ public class ProductController {
 
         // 类目的banner图
         model.addAttribute("banner", this.getFirstCategoryBanner(moduleDto));
+
+        ProjectDto seoProjectDto = new ProjectDto();
+        seoProjectDto.setTitle(moduleDto.getTitle());
+        seoProjectDto.setKeywords(moduleDto.getKeywords());
+        seoProjectDto.setDescription(moduleDto.getDescription());
+        model.addAttribute("seoProjectDto", seoProjectDto);
+
         this.bottomManagementCommon.bottom(model);
         return "goods";
     }

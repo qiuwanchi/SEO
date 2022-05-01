@@ -10,6 +10,8 @@ public interface ISeoVideoService {
 
     void delete(String id);
 
+    void deleteByBelongId(String belongId);
+
     SeoVideo selectById(String id);
 
     List<SeoVideo> selectByBelongId(String belongId);
