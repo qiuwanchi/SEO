@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -54,6 +55,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		return attachmentMapper.insertSelective(attachment);
 	}
 
+	@Transactional
 	@Override
 	public int delete(String id) {
 		Attachment attachment = this.attachmentMapper.selectByPrimaryKey(id);

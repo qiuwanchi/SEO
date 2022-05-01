@@ -62,7 +62,7 @@ public class SubProjectServiceImpl implements ISubProjectService {
                     this.attachmentService.delete(tempSubProject.getAttachmentId());
                 }
 
-                this.seoVideoService.selectByBelongId(tempSubProject.getId());
+                this.seoVideoService.deleteByBelongId(tempSubProject.getId());
 
             }
         }

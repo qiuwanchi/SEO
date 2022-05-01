@@ -39,6 +39,7 @@ public class SeoVideoServiceImpl implements ISeoVideoService {
         this.seoVideoMapper.delete(seoVideo);
     }
 
+    @Transactional
     @Override
     public void deleteByBelongId(String belongId) {
         SeoVideo seoVideo = new SeoVideo();

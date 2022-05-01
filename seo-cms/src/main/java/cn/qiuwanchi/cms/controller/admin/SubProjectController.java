@@ -167,7 +167,7 @@ public class SubProjectController {
 	public String delete(Model model, String id, RedirectAttributes redirectAttributes) {
 		SubProject subProject = this.subProjectService.delete(id);
 		redirectAttributes.addAttribute("projectId", subProject.getProjectId());
-		return "redirect:/firstPage/module/project";
+		return "redirect:/subProject";
 	}
 
 	@GetMapping("/getById")

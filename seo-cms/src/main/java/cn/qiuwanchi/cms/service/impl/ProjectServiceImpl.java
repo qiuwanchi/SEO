@@ -67,7 +67,7 @@ public class ProjectServiceImpl implements IProjectService {
                 }
 
                 // 删除视频
-                this.seoVideoService.selectByBelongId(tempProject.getId());
+                this.seoVideoService.deleteByBelongId(tempProject.getId());
 
                 // 删除子项目
                 this.subProjectService.deleteByProjectId(tempProject.getId());
@@ -104,9 +104,8 @@ public class ProjectServiceImpl implements IProjectService {
         if(Objects.nonNull(project) && !StringUtils.isEmpty(project.getAttachmentId())){
             this.attachmentService.delete(project.getAttachmentId());
         }
-
         // 删除视频
-        this.seoVideoService.selectByBelongId(project.getId());
+        this.seoVideoService.selectByBelongId(id);
 
         this.projectMapper.deleteByPrimaryKey(id);
         return project;
