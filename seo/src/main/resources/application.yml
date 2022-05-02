@@ -1,5 +1,5 @@
 web:
-  resource-path: D:/seo-cms/
+  resource-path: /srv/seo/imageVideo
 
 spring:
   freemarker:
@@ -16,9 +16,9 @@ spring:
 
   datasource:
     name: dev
-    url: jdbc:mysql://182.61.14.105:3306/dreamer-cms?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull
-    username: qiuwc
-    password: vf_h#cfx@da2
+    url: jdbc:mysql://127.0.0.1:3306/seo-cms?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
+    username: hqsz
+    password: 3Aw^dfe2
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
