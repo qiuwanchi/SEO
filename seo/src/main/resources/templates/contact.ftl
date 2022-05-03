@@ -87,12 +87,12 @@
 					<div class="layui-col-xs12 layui-col-md5 footer_r contactx_r">
 						<h2>扫码关注我们</h2>
 						<ul class="clearfix">
-							<li><img src="images/ewm.jpg">
-								<p>微信二维码</p>
+							<#list scanCodeProjectList as scanCodeProject>
+							<li>
+								<img src="${scanCodeProject.url}" <#if scanCodeProject.alt?? && scanCodeProject.alt != ""> alt="${scanCodeProject.alt}" </#if>>
+							<p>${scanCodeProject.name}</p>
 							</li>
-							<li><img src="images/ewm.jpg">
-								<p>抖音二维码</p>
-							</li>
+							</#list>
 						</ul>
 					</div>
 				</div>
