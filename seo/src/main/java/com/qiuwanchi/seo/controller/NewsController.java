@@ -228,6 +228,14 @@ public class NewsController {
         this.intProjectSeoValue(list);
         model.addAttribute("newsProject", currentProjectDto);
 
+        // banner图
+        BannerDto bannerDto = this.getBanner(currentProjectDto.getBannerId());
+        if(StringUtils.isBlank(bannerDto.getUrl())){
+            ModuleDto moduleDto = this.moduleService.selectByModuleId(currentProjectDto.getModuleId());
+            bannerDto = this.getBanner(moduleDto.getBannerId());
+        }
+        model.addAttribute("bannerDto", bannerDto);
+
         // 视频
         this.videoCommon.video(model, currentProjectDto.getId());
 

@@ -33,7 +33,17 @@
 			</div>
 		</div>
 		<div id="news">
-			<div class="bannerx"> <img src="${baseUrl}/images/news_banner.png"> </div>
+			<div class="bannerx">
+				<#if bannerDto.clickUrl?? && bannerDto.clickUrl != "">
+				<a href="${bannerDto.clickUrl}" target="_blank">
+				</#if>
+				<img src="<#if bannerDto.url?? && bannerDto.url != ""> ${bannerDto.url} </#if>"  <#if bannerDto.alt?? && bannerDto.alt != ""> alt="${bannerDto.alt}"</#if> >
+
+				<#if bannerDto.clickUrl?? && bannerDto.clickUrl != "">
+				</a>
+				</#if>
+
+				</div>
 			<div class="container">
 				<div class="newsx_detail clearfix">
 					<div class="layui-col-xs12 layui-col-md9 newsx_detail_l">
