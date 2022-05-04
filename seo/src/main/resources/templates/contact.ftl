@@ -83,7 +83,7 @@
 						</li>
 					</ul>
 					<div class="layui-col-xs12 layui-col-md7 map_img clearfix">
-					   <div style=" width:900px; height:400px;float: right;" id="dituContent"></div>
+					   <div  id="dituContent"></div>
 					</div>
 				</div>
 				<div class="contact_main clearfix">

@@ -157,8 +157,13 @@ a p {
 .layui-tab-title {
 	border-bottom: none;
 	margin-top: 40px;
+	overflow: inherit !important;
+	height: auto;
+	
 }
-
+.layui-tab-bar {
+	display: none;
+}
 .layui-tab-title li {
 	height: 40px;
 	padding: 0 25px;
@@ -168,6 +173,9 @@ a p {
 	color: #666;
 	font-size: 16px;
 	margin-right: 10px;
+	display: block;
+	float: left;
+	margin-bottom: 10px;
 }
 
 .layui-tab-brief>.layui-tab-title .layui-this {
@@ -2013,11 +2021,21 @@ a p {
 	padding: 0;
 }
 .dplayer{width:80%;margin:0 auto;}
-
+.words{ display: none;}
+.error{height: 400px; width: 700px;  top: 50%; margin-top: -200px; position: absolute;margin-left: -350px; left: 50%;background:url(../images/error.png) right center no-repeat;} 
+.error div{ width: 400px;text-align: center; }
+.error h1{ color: #000; font-size: 100px; padding-top: 80px; display: block;}
+.error p{ display: block; font-size: 18px; color: #999; padding-top: 10px;}
+.error a{ width: 130px; height: 40px; border-radius: 50px; border: 1px solid #ddd; line-height: 40px; font-size: 16px; display: block; margin: 0 auto; margin-top: 30px;}
+#dituContent{ width:600px; height:400px; float:right}
+@media (max-width: 1500px) {
+#dituContent{ width:800px;}
+}
 @media (max-width: 1300px) {
 	.nav ul li {
 		padding: 15px 5px;
 	}
+	#dituContent{ width:400px; height:300px}
 }
 
 
@@ -2057,9 +2075,6 @@ a p {
 	.ys_list li {
 		width: 33.333%;
 	}
-	.wh_list li {
-		padding-bottom: 20px;
-	}
 	.newsx_main .news_list_img {
 		width: 25%;
 	}
@@ -2080,6 +2095,7 @@ a p {
 	#about {
 		margin-top: 140px;
 	}
+	#dituContent{ width:300px; height 200px}
 }
 
 
@@ -2129,4 +2145,16 @@ a p {
 	.banner {
 		margin-top: 0;
 	}
+	.words{ display: block; font-size: 30px; padding-bottom: 20px;}
+	.main-title{ display: none;}
+	.main_project h4{ text-align: left;}
+	.main_wh .words ,.main_ys .words{ color: #fff; padding-top: 20px;}
+	.main_wh h2{ text-align: left;}
+	.ys_p{ text-align: left; padding: 0;}
+	.layui-tab-title{ margin-top: 0;}
+	.wh_list li {
+	  float: left; width: 50%;
+	  margin-bottom: 10px;
+	}
+	.error{ width: 90%; margin-left: -45%; background: none;}
 }
