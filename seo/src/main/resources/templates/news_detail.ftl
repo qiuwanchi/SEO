@@ -115,9 +115,9 @@
 						<div class="rightList">
 							<h3 class="clearfix"><span></span><strong>热门问答</strong></h3>
 							<ul>
-                                <#list hotAnswerProjectDtoList as hotAnswerProjectDto>
-                                    <li><a href="${baseUrl}/questionsAnswers/${hotAnswerProjectDto.moduleCode}/${hotAnswerProjectDto.number}.html" target="_blank">●&nbsp;${hotAnswerProjectDto.name}</a></li>
-                                </#list>
+								<#list recommendNewsFqaProjectList as recommendNewsFqaProject>
+									<li><a href="${baseUrl}/news/${recommendNewsFqaProject.moduleCode}/${recommendNewsFqaProject.number}.html" target="_blank">●&nbsp;${recommendNewsFqaProject.name}</a></li>
+								</#list>
 							</ul>
 						</div>
 						<div class="rightList">

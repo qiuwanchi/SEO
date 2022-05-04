@@ -1,6 +1,7 @@
 package com.qiuwanchi.seo.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qiuwanchi.seo.constant.CategoryCode;
 import com.qiuwanchi.seo.constant.ThreeElementsOfColumnPageSeoEnum;
 import com.qiuwanchi.seo.dto.BannerDto;
 import com.qiuwanchi.seo.dto.ModuleDto;
@@ -259,9 +260,9 @@ public class NewsController {
         ProjectDto nextProject = this.projectService.getNextProject(currentProjectDto.getModuleId(), currentProjectDto.getId(), currentProjectDto.getSort());
         model.addAttribute("nextProject", nextProject);
 
-        // 热门回答
-        List<ProjectDto> hotAnswerProjectDtoList = this.projectService.getHotAnswer(currentProjectDto.getModuleCode());
-        model.addAttribute("hotAnswerProjectDtoList", hotAnswerProjectDtoList);
+        // 常见问题(热门回答)
+        List<ProjectDto> recommendNewsFqaProjectList = this.projectService.getRecommendNewsFqaProjectList(CategoryCode.FAQ.getCode(), keywordsList);
+        model.addAttribute("recommendNewsFqaProjectList", recommendNewsFqaProjectList);
 
         model.addAttribute("keywordsDtoList", KeywordsUtils.getHotLabel());
 
