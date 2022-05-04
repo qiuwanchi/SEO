@@ -126,6 +126,16 @@
             </div>
           </li>
         </#list>
+            <#if serviceCaseMoreProjectDto??>
+                    <!--服务案例-更多按钮-->
+            <li>
+            <#if serviceCaseMoreProjectDto.clickUrl?? && serviceCaseMoreProjectDto.clickUrl != "">
+            <a href="${serviceCaseMoreProjectDto.clickUrl}" target="_blank">${serviceCaseMoreProjectDto.name}</a>
+            <#else>
+            <a href="javascript:;">${serviceCaseMoreProjectDto.name}</a>
+            </#if>
+            </li>
+            </#if>
 
         </ul>
         <div class="layui-tab-content" style="margin-top: 20px;">
