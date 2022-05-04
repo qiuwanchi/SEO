@@ -21,8 +21,6 @@ spring:
     password: 3Aw^dfe2
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-
-
 ## mybatis mapper文件位置指定
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
