@@ -12,7 +12,15 @@
 	<body style="background: #f9f9f9;">
 		<div class="nav">
 			<div class="container clearfix">
-				<div class="navimg"> <img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> /> </div>
+				<div class="navimg">
+					<#if logoProject.clickUrl?? && logoProject.clickUrl != "">
+					<a href="${logoProject.clickUrl}" target="_blank">
+					</#if>
+					<img  class="logo" src="${logoProject.url}" <#if logoProject.alt?? && logoProject.alt != ""> alt="${logoProject.alt}" </#if> />
+				<#if logoProject.clickUrl?? && logoProject.clickUrl != "">
+			</a>
+		</#if>
+				</div>
 				<div class="navul clearfix">
 					<ul>
 						<li><a href="${baseUrl}/index.html">首页</a></li>

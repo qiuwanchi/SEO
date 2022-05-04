@@ -161,6 +161,10 @@ public class ProjectController {
 			project.setClickUrl(param.getClickUrl());
 			project.setContent(param.getContent());
 			project.setCode(param.getCode());
+			project.setCreateTime(new Date());
+			project.setCreateBy(TokenManager.getUserId());
+			project.setUpdateTime(new Date());
+			project.setUpdateBy(TokenManager.getUserId());
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				project.setSort(param.getSort());
@@ -193,6 +197,8 @@ public class ProjectController {
 			project.setClickUrl(param.getClickUrl());
 			project.setContent(param.getContent());
 			project.setCode(param.getCode());
+			project.setUpdateTime(new Date());
+			project.setUpdateBy(TokenManager.getUserId());
 
 			this.projectService.update(project);
 		}
