@@ -4,10 +4,11 @@ import cn.qiuwanchi.cms.SeoCmsApplication;
 import cn.qiuwanchi.cms.service.AttachmentService;
 import cn.qiuwanchi.cms.service.IBannerService;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +17,10 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Objects;
 
+@Slf4j
 @Controller
 @RequestMapping("ueditor")
 public class UeditorController {
@@ -28,6 +30,8 @@ public class UeditorController {
 
 	@Autowired
 	private AttachmentService attachmentService;
+
+	private static JSONObject jsonObj = null;
 
 	/**
 	 * 列表
@@ -62,21 +66,20 @@ public class UeditorController {
 	}
 
 	private JSONObject getConfig(){
+		if(Objects.nonNull(jsonObj)){
+			return jsonObj;
+		}
 		String str = "";
 		try {
-
-			File file = ResourceUtils.getFile("classpath:config.json");
-			InputStream inputStream = new FileInputStream(file);
-
+			InputStream inputStream = this.getClass().getResourceAsStream("/config.json");
 			str = IOUtils.toString(inputStream, "UTF-8");
-
 		}catch (Exception e){
-
-			java.lang.System.out.println(e.toString());
+			log.error("读config.json取文件失败",e);
+			return null;
 		}
 
-		java.lang.System.out.println(str);
 		JSONObject jsonObject = JSONObject.parseObject(str);
+		jsonObj = jsonObject;
 		return jsonObject;
 	}
 
