@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @Log4j2
 @RestController
 public class LeavingMessageController {
@@ -24,6 +26,8 @@ public class LeavingMessageController {
         leavingMessage.setName(leavingMessageDto.getName());
         leavingMessage.setTelephone(leavingMessageDto.getTelephone());
         leavingMessage.setMessage(leavingMessageDto.getMessage());
+        leavingMessage.setCreateTime(new Date());
+        leavingMessage.setUpdateTime(new Date());
 
         this.leavingMessageService.save(leavingMessage);
 
