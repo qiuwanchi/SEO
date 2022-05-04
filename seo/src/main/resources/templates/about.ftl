@@ -51,7 +51,7 @@
 						${companyIntroductionProjectDto.content}
 					</div>
 					<div class="main_wh about2">
-						<div class="main-title title_hot"><img src="${baseUrl}/images/title_one.PNG" alt="一站式服务"></div>
+						<div class="main-title title_hot"><img src="${baseUrl}/images/title_one.png" alt="一站式服务"></div>
 						<ul class="wh_list clearfix">
 
 						<#list oneStopServiceProjectDtoList as oneStopServiceProject>
@@ -74,7 +74,7 @@
 						</ul>
 					</div>
 					<div class="layui-row detail1_3 about3 clearfix">
-						<div class="main-title title_hot"><img src="${baseUrl}/images/title_yw.PNG" alt="业务范围"></div>
+						<div class="main-title title_hot"><img src="${baseUrl}/images/title_yw.png" alt="业务范围"></div>
 						<div class="layui-tab layui-tab-brief clearfix " lay-filter="docDemoTabBrief">
 							<ul class="layui-tab-title layui-col-xs12 layui-col-md2  clearfix">
 							<#list businessScopeProjectDtoList as businessScopeProject>
@@ -96,7 +96,7 @@
 					</div>
 					<div class="main_ys about4">
 						<div class="container">
-							<div class="main-title title_hot"><img src="${baseUrl}/images/title_ys.PNG" alt="我们的优势"></div>
+							<div class="main-title title_hot"><img src="${baseUrl}/images/title_ys.png" alt="我们的优势"></div>
 							<p class="ys_p">苏州好奇数字科技有限公司自创立以来，坚持科技创新，是一家快速成长、锐意进取的互动多媒体公司。公司专注于更好的视觉效果、人机互动体验开发。为客户提供方案规划、硬件系统集成施工、交互软件开发调试、影视制作、售后维护、技术支持等服务。</p>
 							<ul class="clearfix ys_list">
 								<#list companyAdvantageProjectDtoList as companyAdvantageProject>
@@ -121,7 +121,7 @@
 						</div>
 					</div>
 					<div class="about4">
-						<div class="main-title title_video"><img src="${baseUrl}/images/title_ry.PNG" alt="荣誉资质"></div>
+						<div class="main-title title_video"><img src="${baseUrl}/images/title_ry.png" alt="荣誉资质"></div>
 						<div id="container">
 							<ul id="content">
                                 <#list honoraryQualificationProjectDtoList as honoraryQualificationProject>

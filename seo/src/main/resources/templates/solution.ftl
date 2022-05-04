@@ -52,7 +52,7 @@
 			</div>
 			<div class="container main">
 				<div class="newsx_main case_main">
-					<div class="main-title title_hot title_jj"><img src="${baseUrl}/images/title_jj.PNG" alt="解决方案"></div>
+					<div class="main-title title_hot title_jj"><img src="${baseUrl}/images/title_jj.png" alt="解决方案"></div>
 					<ul class="case_list clearfix">
                         <#list solutionCaseProjectDtoList as solutionCaseProjectDto>
                             <li class="layui-col-xs6 layui-col-sm4 layui-col-md3">

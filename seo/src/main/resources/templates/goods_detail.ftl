@@ -126,7 +126,7 @@
 					</div>
 
 					<div class="main_video detail4">
-						<div class="main-title title_video"><img src="${baseUrl}/images/title_video.PNG" alt="视频案例"></div>
+						<div class="main-title title_video"><img src="${baseUrl}/images/title_video.png" alt="视频案例"></div>
 						<ul class=" clearfix pic_list video">
 
 						<#list recommendServiceCaseVideoList as recommendServiceCaseVideo>
@@ -206,7 +206,7 @@
 						</div>
 					</div>
 					<div class="detail4 detail7">
-						<div class="main-title title_video"><img src="${baseUrl}/images/xgtj.PNG" alt="相关推荐"></div>
+						<div class="main-title title_video"><img src="${baseUrl}/images/xgtj.png" alt="相关推荐"></div>
 						<ul class=" clearfix pic_list">
 						<#list recommendProductsProjectDtoList as recommendProductsProjectDto>
 							<li class="layui-col-xs12  layui-col-sm6 layui-col-md3">
