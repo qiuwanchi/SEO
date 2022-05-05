@@ -113,7 +113,7 @@
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <div class="main-title  title_hot"><img src="${baseUrl}/images/title.png" alt="服务案例"></div>
         <div class="words">服务案例</div>
-        <ul class="layui-tab-title">
+        <ul class="layui-tab-title  clearfix">
 
         <#list serviceCaseModuleDtoList as serviceCaseModuleDto>
           <li class="layui-this">
@@ -256,7 +256,7 @@
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <div class="main-title title_hot"><img src="${baseUrl}/images/title_news.png" alt="新闻资讯"></div>
           <div class="words">新闻资讯</div>
-        <ul class="layui-tab-title">
+        <ul class="layui-tab-title clearfix">
           <#list newsModuleDtoList as newsModule>
             <li <#if newsModule_index ==0>class="layui-this" </#if>>${newsModule.name}</li>
           </#list>
@@ -264,6 +264,7 @@
         <div class="layui-tab-content ">
         <#list newsModuleDtoList as newsModule>
           <div class="layui-tab-item <#if newsModule_index ==0>layui-show</#if> ">
+              <div class="clearfix">
             <div class="main_news_img layui-col-xs12 layui-col-sm6 layui-col-md6">
             <#if newsModule.clickUrl?? && newsModule.clickUrl != "">
                 <a href="${newsModule.clickUrl}" target="_blank">
@@ -287,7 +288,7 @@
              </#list>
 
             </div>
-            <div class="clearfix"></div>
+            </div>
             <div class="more"><a href="${baseUrl}/news/${newsModule.code}/" target="_blank">查看更多 》</a></div>
           </div>
         </#list>
