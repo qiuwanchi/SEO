@@ -13,10 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -173,30 +169,29 @@ public class ProjectController {
 
 		}else {
 			project = this.projectService.getById(param.getId());
+			Attachment attachment = this.attachmentService.queryAttachmentById(project.getAttachmentId());
 
-			Attachment attachment = param.getAttachment();
-			attachment.setId(UUIDUtils.getPrimaryKey());
-			attachment.setCode(UUIDUtils.getCharAndNumr(8));
-			attachment.setCreateBy(TokenManager.getUserId());
-			attachment.setCreateTime(new Date());
+			attachment.setFilename(param.getAttachment().getFilename());
+			attachment.setFilepath(param.getAttachment().getFilepath());
+			attachment.setFilesize(param.getAttachment().getFilesize());
+			attachment.setFiletype(param.getAttachment().getFiletype());
+
 			attachment.setUpdateBy(TokenManager.getUserId());
 			attachment.setUpdateTime(new Date());
-			this.attachmentService.save(attachment);
-			this.attachmentService.delete(project.getAttachmentId());
+			this.attachmentService.update(attachment);
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				project.setSort(param.getSort());
 			}
+			project.setClickUrl(param.getClickUrl());
 			project.setName(param.getName());
 			project.setDescribeMsg(param.getDescribeMsg());
-			project.setAttachmentId(attachment.getId());
+
 			project.setTitle(param.getTitle());
 			project.setKeywords(param.getKeywords());
 			project.setDescription(param.getDescription());
 			project.setAlt(param.getAlt());
-			project.setClickUrl(param.getClickUrl());
 			project.setContent(param.getContent());
-			project.setCode(param.getCode());
 			project.setUpdateTime(new Date());
 			project.setUpdateBy(TokenManager.getUserId());
 
