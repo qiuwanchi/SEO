@@ -116,7 +116,7 @@
         <ul class="layui-tab-title  clearfix">
 
         <#list serviceCaseModuleDtoList as serviceCaseModuleDto>
-          <li class="layui-this">
+          <li <#if serviceCaseModuleDto_index ==0> class="layui-this"</#if>>
           	 <div class="index_nav"><a href="javascript:;" >${serviceCaseModuleDto.name}</a><i class="layui-icon layui-icon-down layui-font-12"></i></div>
              <div class="case_nav_list">
 
