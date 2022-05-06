@@ -125,7 +125,8 @@ public class SubProjectController {
 			subProject.setAlt(param.getAlt());
 			subProject.setClickUrl(param.getClickUrl());
 			subProject.setContent(param.getContent());
-
+			subProject.setCreateTime(new Date());
+			subProject.setUpdateTime(new Date());
 			if(!StringUtils.isEmpty(param.getSort())){
 				subProject.setSort(param.getSort());
 			}

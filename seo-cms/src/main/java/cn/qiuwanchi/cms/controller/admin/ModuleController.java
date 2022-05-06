@@ -151,6 +151,8 @@ public class ModuleController {
 			module.setUpdateBy(TokenManager.getUserId());
 			module.setCode(param.getCode());
 			module.setDescribeMsg(param.getDescribeMsg());
+			module.setCreateTime(new Date());
+			module.setUpdateTime(new Date());
 			this.moduleService.add(module);
 		}else {
 			module = this.moduleService.getById(param.getId());
