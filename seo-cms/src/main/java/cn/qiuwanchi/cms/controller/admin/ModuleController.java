@@ -147,12 +147,12 @@ public class ModuleController {
 			module.setDescription(param.getDescription());
 			module.setAlt(param.getAlt());
 			module.setClickUrl(param.getClickUrl());
-			module.setCreateBy(TokenManager.getUserId());
-			module.setUpdateBy(TokenManager.getUserId());
 			module.setCode(param.getCode());
 			module.setDescribeMsg(param.getDescribeMsg());
 			module.setCreateTime(new Date());
 			module.setUpdateTime(new Date());
+			module.setCreateBy(TokenManager.getRealName());
+			module.setUpdateBy(TokenManager.getRealName());
 			this.moduleService.add(module);
 		}else {
 			module = this.moduleService.getById(param.getId());
@@ -166,10 +166,11 @@ public class ModuleController {
 			if(Objects.nonNull(attachment) && !StringUtils.isEmpty(attachment.getFilepath())){
 				attachment.setId(UUIDUtils.getPrimaryKey());
 				attachment.setCode(UUIDUtils.getCharAndNumr(8));
-				attachment.setCreateBy(TokenManager.getUserId());
 				attachment.setCreateTime(new Date());
-				attachment.setUpdateBy(TokenManager.getUserId());
 				attachment.setUpdateTime(new Date());
+				attachment.setCreateBy(TokenManager.getRealName());
+				attachment.setUpdateBy(TokenManager.getRealName());
+
 				this.attachmentService.save(attachment);
 				module.setAttachmentId(attachment.getId());
 			}else {
@@ -183,7 +184,7 @@ public class ModuleController {
 			module.setClickUrl(param.getClickUrl());
 			module.setSort(param.getSort());
 			module.setName(param.getName());
-			module.setUpdateBy(TokenManager.getUserId());
+			module.setUpdateBy(TokenManager.getRealName());
 			module.setCode(param.getCode());
 			module.setDescribeMsg(param.getDescribeMsg());
 			this.moduleService.update(module);

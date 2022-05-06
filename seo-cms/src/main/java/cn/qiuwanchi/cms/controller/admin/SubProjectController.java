@@ -127,6 +127,8 @@ public class SubProjectController {
 			subProject.setContent(param.getContent());
 			subProject.setCreateTime(new Date());
 			subProject.setUpdateTime(new Date());
+			subProject.setCreateBy(TokenManager.getRealName());
+			subProject.setUpdateBy(TokenManager.getRealName());
 			if(!StringUtils.isEmpty(param.getSort())){
 				subProject.setSort(param.getSort());
 			}
@@ -157,6 +159,7 @@ public class SubProjectController {
 			subProject.setAlt(param.getAlt());
 			subProject.setClickUrl(param.getClickUrl());
 			subProject.setContent(param.getContent());
+			subProject.setUpdateBy(TokenManager.getRealName());
 
 			this.subProjectService.update(subProject);
 		}
@@ -243,9 +246,9 @@ public class SubProjectController {
 		SeoVideo seoVideo = new SeoVideo();
 		seoVideo.setBelongId(param.getBelongId());
 		seoVideo.setId(UUIDUtils.getPrimaryKey());
-		seoVideo.setCreateBy(TokenManager.getUserId());
+		seoVideo.setCreateBy(TokenManager.getRealName());
 		seoVideo.setCreateTime(new Date());
-		seoVideo.setUpdateBy(TokenManager.getUserId());
+		seoVideo.setUpdateBy(TokenManager.getRealName());
 		seoVideo.setUpdateTime(new Date());
 		seoVideo.setAttachmentId(attachment.getId());
 
