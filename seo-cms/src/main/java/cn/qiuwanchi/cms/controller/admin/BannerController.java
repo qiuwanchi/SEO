@@ -69,7 +69,10 @@ public class BannerController {
 			banner.setClickUrl(param.getClickUrl());
 			banner.setAlt(param.getAlt());
 			banner.setAttachmentId(attachment.getId());
-
+			banner.setUpdateTime(new Date());
+			banner.setUpdateBy(TokenManager.getUserId());
+			banner.setCreateTime(new Date());
+			banner.setCreateBy(TokenManager.getUserId());
 			this.bannerService.save(banner);
 
 			module.setBannerId(banner.getId());
