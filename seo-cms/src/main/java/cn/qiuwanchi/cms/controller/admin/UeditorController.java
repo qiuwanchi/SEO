@@ -53,7 +53,7 @@ public class UeditorController {
 			return getConfig();
 		}
 
-		if("uploadimage".equals(action)){
+		if("uploadimage".equals(action) || "uploadvideo".equals(action)){
 			UploadController uploadController = SeoCmsApplication.ac.getBean(UploadController.class);
 			MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("upfile");
 
