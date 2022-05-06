@@ -46,7 +46,7 @@ public class ImageController {
             //激活下载操作
             OutputStream os = response.getOutputStream();
             //循环写入输出流
-            byte[] b = new byte[1024];
+            byte[] b = new byte[1024 * 1024 * 8];
             int length;
             while ((length = inputStream.read(b)) > 0) {
                 os.write(b, 0, length);

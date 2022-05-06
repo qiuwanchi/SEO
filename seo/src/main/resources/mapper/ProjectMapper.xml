@@ -509,7 +509,7 @@
             a.filepath AS filePath,
             a.file_id AS fileId
         FROM project b JOIN module m ON b.module_id=m.id LEFT JOIN system_attachment a ON b.attachment_id=a.id
-        WHERE m.belong='News'
+        WHERE m.belong='News' AND b.keywords like concat('%',#{keyword},'%')
         ORDER BY b.update_time desc
     </select>
 
