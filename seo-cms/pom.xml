@@ -213,7 +213,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>seo-cms</finalName>
+		<finalName>seo-back-end</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
