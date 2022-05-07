@@ -2124,6 +2124,8 @@ a p {
 		margin-top: 0;
 	}
 	.words{ display: block; font-size: 30px; padding-bottom: 20px;}
+	.about4 .words { padding-left: 20px; padding-top: 20px;}
+	.about2 .words{ padding:20px 30px ;}
 	.main-title{ display: none;}
 	.main_project h4{ text-align: left;}
 	.main_wh .words ,.main_ys .words{ color: #fff; padding-top: 20px;}
@@ -2156,10 +2158,15 @@ a p {
 .main_news_img{ padding-right: 0;}
 .footer_l,.footer_link{ display: none;}
 .container{ margin: 0 5%;}
+#footer .container{ display: none;}
+#footer{ min-height: auto;}
+.kf{ top: 100px; z-index: 111;}
+.ys_list li .ys_tnt span{ display: none;}
 }
 
 
 .wh_tnt .imgWidth{ height: 200px; width: 200px; line-height:200px ;    margin: 0 auto;}
 .wh_tnt .imgWidth1{height: 140px; width: 140px; line-height:140px ;    margin: 0 auto;}
 .wh_tnt .imgWidth2{height: 160px; width: 160px; line-height:160px ;    margin: 0 auto;}
+.wh_tnt .imgWidth3{height: 100px; width: 100px; line-height:100px ;    margin: 0 auto;}
 

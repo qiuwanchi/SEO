@@ -108,7 +108,7 @@
   </div>
 
    <!--服务案例-->
-  <div style="background: #f7f7f7; padding-top: 20px; margin-top: 20px;">
+  <div class="fwal">
     <div class="layui-row container">
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <div class="main-title  title_hot"><img src="${baseUrl}/images/title.png" alt="服务案例"></div>

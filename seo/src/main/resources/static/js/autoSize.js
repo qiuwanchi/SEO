@@ -51,9 +51,9 @@ $(function(){
 				}else{
 					widthUl.css({"width":"50%"})
 					imgWidth.css({"width":"120px", "height":"120px","line-height": "120px"})
-					whimgWidth.addClass('imgWidth1');
-					wha.addClass('imgWidth1');
-					whh.addClass('imgWidth1');
+					whimgWidth.addClass('imgWidth3');
+					wha.addClass('imgWidth3');
+					whh.addClass('imgWidth3');
 				}
 })
 
