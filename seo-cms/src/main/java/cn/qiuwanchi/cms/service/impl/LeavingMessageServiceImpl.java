@@ -19,4 +19,9 @@ public class LeavingMessageServiceImpl implements ILeavingMessageService {
     public List<LeavingMessage> getList() {
         return this.leavingMessageMapper.listByPage();
     }
+
+    @Override
+    public void deleteById(String id) {
+        this.leavingMessageMapper.deleteByPrimaryKey(id);
+    }
 }

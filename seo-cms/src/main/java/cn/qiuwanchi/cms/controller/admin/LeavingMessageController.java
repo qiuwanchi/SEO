@@ -17,10 +17,15 @@ public class LeavingMessageController {
     private ILeavingMessageService leavingMessageService;
 
     @RequestMapping
-    public String list(Model model, String moduleId) {
+    public String list(Model model) {
         List<LeavingMessage> leavingMessageList = this.leavingMessageService.getList();
         model.addAttribute("leavingMessageList", leavingMessageList);
-
         return "firstPage/leavingMessage";
+    }
+
+    @RequestMapping("/delete")
+    public String delete(Model model, String id) {
+        this.leavingMessageService.deleteById(id);
+        return "redirect:/leavingMessage";
     }
 }

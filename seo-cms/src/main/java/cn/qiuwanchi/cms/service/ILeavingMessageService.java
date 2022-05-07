@@ -8,4 +8,5 @@ public interface ILeavingMessageService {
 
     List<LeavingMessage> getList();
 
+    void deleteById(String id);
 }
