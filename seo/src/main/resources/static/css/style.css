@@ -421,7 +421,6 @@ a p {
 }
 
 .main_ys {
-	margin-top: 40px;
 	background: url(../images/ys_bg.jpg) no-repeat center;
 	background-size: cover;
 	padding: 10px 0;
@@ -537,6 +536,7 @@ a p {
 
 .wh_tnt {
 	padding: 0 10px;
+	margin-bottom: 15px;
 }
 
 .wh_tnt a {
@@ -1671,33 +1671,7 @@ a p {
 	padding-bottom: 80px;
 }
 
-.about2 .wh_list {
-	padding: 0 30px;
-	padding-top: 10px;
-}
-
-.about2 .wh_tnt {
-	padding: 0 5px;
-}
-
-.about2 .wh_tnt a {
-	height: 140px;
-	width: 140px;
-	margin: 0 auto;
-	padding: 10px;
-}
-
-.about2 .wh_tnt div {
-	height: 139px;
-	width: 139px;
-}
-
-.about2 .wh_tnt h3 {
-	height: 140px;
-	line-height: 140px;
-	font-size: 16px;
-	width: 140px;
-}
+.about2 .wh_list{ padding: 0 20px;}
 
 .about3 .layui-tab-item {
 	padding-top: 20px;
@@ -1842,7 +1816,7 @@ a p {
 
 #container {
 	width: 94%;
-	height: 200px;
+	height: 297px;
 	overflow: hidden;
 	position: relative;
 	margin: 0 auto;
@@ -1856,13 +1830,16 @@ a p {
 }
 
 #container ul li {
-	width: 250px;
+	width: 210px;
 	float: left;
 	margin-right: 10px;
+	height: 297px;
 }
 
 #container img {
 	width: 100%;
+	width: 210px;
+	height: 297px;
 }
 
 #container ul li h3 {
@@ -2028,6 +2005,7 @@ a p {
 .error p{ display: block; font-size: 18px; color: #999; padding-top: 10px;}
 .error a{ width: 130px; height: 40px; border-radius: 50px; border: 1px solid #ddd; line-height: 40px; font-size: 16px; display: block; margin: 0 auto; margin-top: 30px;}
 #dituContent{ width:600px; height:400px; float:right}
+.fwan{background: #f7f7f7; padding-top: 20px; margin-top: 20px; padding-bottom: 60px;}
 @media (max-width: 1500px) {
 #dituContent{ width:800px;}
 }
@@ -2152,9 +2130,36 @@ a p {
 	.main_wh h2{ text-align: left;}
 	.ys_p{ text-align: left; padding: 0;}
 	.layui-tab-title{ margin-top: 0;}
+	.wh_list{ padding-bottom: 0;}
 	.wh_list li {
-	  float: left; width: 50%;
-	  margin-bottom: 10px;
+	  float: left; 
+	  width: 50%;
 	}
 	.error{ width: 90%; margin-left: -45%; background: none;}
+	.ys_list li {
+		width: 50%;
+	}
+	.wh_tnt a {
+	width: 150px;
+	height: 150px;
 }
+
+.wh_tnt div {
+	height: 149px;
+	width: 149px;
+}
+
+.wh_tnt h3 {
+	line-height: 150px;
+	width: 150px;
+}
+.main_news_img{ padding-right: 0;}
+.footer_l,.footer_link{ display: none;}
+.container{ margin: 0 5%;}
+}
+
+
+.wh_tnt .imgWidth{ height: 200px; width: 200px; line-height:200px ;    margin: 0 auto;}
+.wh_tnt .imgWidth1{height: 140px; width: 140px; line-height:140px ;    margin: 0 auto;}
+.wh_tnt .imgWidth2{height: 160px; width: 160px; line-height:160px ;    margin: 0 auto;}
+
