@@ -151,6 +151,7 @@
 			</div>
 		</div>
 		<#include "footer.ftl"/>
+<script defer src="${baseUrl}/js/autoSize.js"></script>
 		<script type="text/javascript">
 			layui.use(['carousel', 'form', 'element'], function() {
 				var carousel = layui.carousel,
