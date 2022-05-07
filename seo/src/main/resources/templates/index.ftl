@@ -92,7 +92,7 @@
         <div class="layui-tab-item <#if productModule_index ==0> layui-show </#if>">
           <ul class=" clearfix pic_list">
             <#list productModule.projectDtoList as project>
-            <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/products/${productModule.code}/${project.number}.html" target="_blank">
+            <li class="layui-col-xs6 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/products/${productModule.code}/${project.number}.html" target="_blank">
               <div class="main_img"><img src="${project.url}" <#if project.alt?? && project.alt != ""> alt="${project.alt}" </#if>></div>
               <h1>${project.name}</h1>
               </a> </li>
@@ -148,7 +148,7 @@
 
               <#list serviceCaseModuleDto.subProjectDtoList as subProjectDto>
 
-              <li class="layui-col-xs12 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/serviceCase/${serviceCaseModuleDto.code}/${subProjectDto.secondCategory}/${subProjectDto.number}.html" target="_blank">
+              <li class="layui-col-xs6 layui-col-sm6 layui-col-md3"> <a href="${baseUrl}/serviceCase/${serviceCaseModuleDto.code}/${subProjectDto.secondCategory}/${subProjectDto.number}.html" target="_blank">
                 <div class="main_img"><img src="${subProjectDto.url}" <#if subProjectDto.alt?? && subProjectDto.alt != ""> alt="${subProjectDto.alt}" </#if>></div>
                 <span>0${subProjectDto_index + 1}</span>
                 <h1>${subProjectDto.name}</h1>

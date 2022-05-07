@@ -54,7 +54,15 @@
 
 			 </div>
 			<div class="position">
-				 <div class="container">当前位置：<a href="${baseUrl}/index.html">首页</a>|<span>公司产品</span></div>
+				 <div class="container">当前位置：
+				 <a href="${baseUrl}/index.html">首页</a>|
+                     <#if moduleDto??>
+                        <a href="${baseUrl}/products.html">公司产品</a>|
+                        <span>${moduleDto.name}</span>
+                     <#else>
+                        <span>公司产品</span>
+                     </#if>
+				 </div>
 			</div>
 			<div class="container main">
 				<div class="newsx_main goodsx_main clearfix">

@@ -153,7 +153,11 @@
 
 						</ul>
 						<div class="more">
-							<a href="${baseUrl}/serviceCase.html" target="_blank">查看更多 》</a>
+                            <#if secondCategory?? && secondCategory !="">
+                                <a href="${baseUrl}/serviceCase/${firstCategory}/${secondCategory}/" target="_blank">查看更多 》</a>
+                            <#else>
+                                <a href="${baseUrl}/serviceCase/${firstCategory}/" target="_blank">查看更多 》</a>
+                            </#if>
 						</div>
 					</div>
 					<div class="detail5">

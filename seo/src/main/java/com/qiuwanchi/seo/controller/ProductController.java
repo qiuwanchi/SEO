@@ -135,6 +135,8 @@ public class ProductController {
         seoProjectDto.setDescription(moduleDto.getDescription());
         model.addAttribute("seoProjectDto", seoProjectDto);
 
+        model.addAttribute("moduleDto", moduleDto);
+
         this.bottomManagementCommon.bottom(model);
         return "goods";
     }
@@ -177,6 +179,12 @@ public class ProductController {
         List<SubProjectDto> recommendServiceCaseVideoList = this.subProjectService.getRecommendServiceCaseSubProjectList(currentProjectDto.getModuleCode());
         SeoUtils.intSubProjectSeoValue(recommendServiceCaseVideoList);
         model.addAttribute("recommendServiceCaseVideoList", recommendServiceCaseVideoList);
+
+        model.addAttribute("firstCategory", firstCategory);
+        if(!CollectionUtils.isEmpty(recommendServiceCaseVideoList)){
+            SubProjectDto subProjectDto = recommendServiceCaseVideoList.get(0);
+            model.addAttribute("secondCategory", subProjectDto.getSecondCategory());
+        }
 
         // 关键字
         List<String> keywordsList = new ArrayList<>();
