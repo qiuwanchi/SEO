@@ -256,14 +256,6 @@ public class ServiceCaseController {
         SeoUtils.intBannerSeoValue(bannerDto);
         model.addAttribute("bannerDto", bannerDto);
 
-        // 服务案例列表数据
-        Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, firstCategory, secondCategory);
-        List<SubProjectDto> subProjectDtoList = subProjectDtoPage.getRecords();
-        SeoUtils.intSubProjectSeoValue(subProjectDtoList);
-
-        model.addAttribute("subProjectList", subProjectDtoList);
-        model.addAttribute("page", page);
-
         int firstCategoryIndex = this.getFirstCategoryIndex(firstCategory, serviceCaseModuleList);
         model.addAttribute("firstCategoryIndex", firstCategoryIndex);
 
@@ -272,6 +264,15 @@ public class ServiceCaseController {
 
         ProjectDto secondCategoryProjectDto = this.getSecondCategoryProjectDto(secondCategory, firstCategoryModuleDto.getProjectDtoList());
         model.addAttribute("secondCategoryProjectDto", secondCategoryProjectDto);
+
+        String queryFirstCategory = StringUtils.isBlank(firstCategory) ? firstCategoryModuleDto.getCode() : firstCategory;
+        // 服务案例列表数据
+        Page<SubProjectDto> subProjectDtoPage = this.subProjectService.getPageList(page, queryFirstCategory, secondCategory);
+        List<SubProjectDto> subProjectDtoList = subProjectDtoPage.getRecords();
+        SeoUtils.intSubProjectSeoValue(subProjectDtoList);
+
+        model.addAttribute("subProjectList", subProjectDtoList);
+        model.addAttribute("page", page);
 
         // 一级目录与二级目录都是空的，取栏目的seo对象
         if(StringUtils.isBlank(firstCategory) && StringUtils.isBlank(secondCategory)){
