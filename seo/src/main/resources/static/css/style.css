@@ -2007,7 +2007,7 @@ a p {
 #dituContent{ width:600px; height:400px; float:right}
 .fwan{background: #f7f7f7; padding-top: 20px; margin-top: 20px; padding-bottom: 60px;}
 @media (max-width: 1500px) {
-#dituContent{ width:800px;}
+#dituContent{ width:500px;}
 }
 @media (max-width: 1300px) {
 	.nav ul li {
