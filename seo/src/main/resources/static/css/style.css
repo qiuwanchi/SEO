@@ -2159,9 +2159,12 @@ a p {
 .footer_l,.footer_link{ display: none;}
 .container{ margin: 0 5%;}
 #footer .container{ display: none;}
-#footer{ min-height: auto;}
+#footer{ min-height: auto; padding-bottom: 80px;}
 .kf{ top: 100px; z-index: 111;}
 .ys_list li .ys_tnt span{ display: none;}
+.kf{ width: 100%; bottom: 0; left: 0;top: auto;}
+.kf ul li{ float: left; width: 25%; margin-bottom: 0;}
+.kf ul li a{ border-right: 1px solid #ddd; height: 80px; display: block;}
 }
 
 
