@@ -55,7 +55,10 @@
 
   	</div>
   </div>
-  <div class="footer_bot">©Copyright 2022-2022 版权所有 苏州好奇数字科技有限公司</div>
+<div class="footer_bot">©Copyright 2022-2022 版权所有 苏州好奇数字科技有限公司</div>
+  <div style="margin:0 auto; padding:20px 0; text-align: center;">
+    <a target="_blank" href="http://beian.miit.gov.cn" >苏ICP备2022019946号</a>&nbsp;&nbsp;<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702011117" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="${baseUrl}/images/batb.png" style="float:left;"/>苏公网安备 32050702011117号</a>
+  </div>
 </div>
 <div class="kf">
   <ul>

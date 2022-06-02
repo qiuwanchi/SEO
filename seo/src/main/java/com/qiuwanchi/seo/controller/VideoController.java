@@ -6,7 +6,6 @@ import com.qiuwanchi.seo.utils.FileConfiguration;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,7 +32,6 @@ public class VideoController {
      * @author xWang
      * @Date 2020-05-20
      */
-    /*
     @RequestMapping("/video/{fileId}")
     public void getVideo(HttpServletRequest request,HttpServletResponse response,@PathVariable("fileId") String fileId){
         fileId = fileId.substring(0,fileId.indexOf("."));
@@ -44,7 +42,7 @@ public class VideoController {
         String rangeString = request.getHeader("Range");
 
         //打开本地文件流
-        String filePath = fileConfiguration.getResourceDir() + "uploads/" + attachment.getFilepath();
+        String filePath = fileConfiguration.getResourceDir() + "video/" + attachment.getFilepath().substring(9);
         try {
             //获取响应的输出流
             OutputStream outputStream = response.getOutputStream();
@@ -97,5 +95,5 @@ public class VideoController {
         } catch (IOException e) {
 
         }
-    }*/
+    }
 }
