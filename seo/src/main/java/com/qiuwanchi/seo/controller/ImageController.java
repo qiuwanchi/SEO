@@ -31,6 +31,7 @@ public class ImageController {
      * @param request
      * @param response
      */
+    /*
     @GetMapping("/image/{fileId}")
     public void image(@PathVariable("fileId") String fileId, HttpServletRequest request, HttpServletResponse response){
         try {
@@ -58,5 +59,7 @@ public class ImageController {
             log.error(e);
         }
     }
+
+     */
 
 }

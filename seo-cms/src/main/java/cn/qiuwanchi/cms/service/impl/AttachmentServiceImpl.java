@@ -97,4 +97,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 		this.attachmentMapper.updateByPrimaryKey(attachment);
 	}
+
+	@Override
+	public List<Attachment> selectAll() {
+		return this.attachmentMapper.selectAll();
+	}
 }

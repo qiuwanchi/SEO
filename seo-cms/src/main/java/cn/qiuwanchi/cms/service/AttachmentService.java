@@ -4,6 +4,8 @@ import cn.qiuwanchi.cms.common.SearchEntity;
 import cn.qiuwanchi.cms.entity.Attachment;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 /**
  * 附件管理
  * @author Wangjn
@@ -24,4 +26,6 @@ public interface AttachmentService {
     Attachment getByFileId(String fileId);
 
     void update(Attachment attachment);
+
+	List<Attachment> selectAll();
 }

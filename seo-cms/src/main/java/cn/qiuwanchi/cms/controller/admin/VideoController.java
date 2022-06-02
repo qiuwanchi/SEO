@@ -34,7 +34,7 @@ public class VideoController {
         String rangeString = request.getHeader("Range");
 
         //打开本地文件流
-        String filePath = fileConfiguration.getResourceDir() + "uploads/" + attachment.getFilepath();
+        String filePath = fileConfiguration.getResourceDir() + attachment.getFilepath();
         try {
             //获取响应的输出流
             OutputStream outputStream = response.getOutputStream();

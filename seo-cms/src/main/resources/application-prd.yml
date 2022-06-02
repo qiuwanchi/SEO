@@ -1,5 +1,5 @@
 web:
-  resource-path: /srv/seo/imageVideo/
+  resource-path: /usr/local/nginx/html/
 
 spring:
   datasource:

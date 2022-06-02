@@ -1,12 +1,10 @@
 package cn.qiuwanchi.cms.controller.admin;
 
 import cn.qiuwanchi.cms.common.BaseController;
-import cn.qiuwanchi.cms.common.ExceptionEnum;
 import cn.qiuwanchi.cms.common.ResponseResult;
 import cn.qiuwanchi.cms.common.StateCodeEnum;
 import cn.qiuwanchi.cms.entity.Attachment;
 import cn.qiuwanchi.cms.entity.System;
-import cn.qiuwanchi.cms.exception.AdminGeneralException;
 import cn.qiuwanchi.cms.security.token.TokenManager;
 import cn.qiuwanchi.cms.service.AttachmentService;
 import cn.qiuwanchi.cms.service.SystemService;
@@ -14,10 +12,8 @@ import cn.qiuwanchi.cms.utils.DateUtils;
 import cn.qiuwanchi.cms.utils.FileConfiguration;
 import cn.qiuwanchi.cms.utils.UUIDUtils;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,9 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Date;
 
 /**
@@ -63,15 +56,28 @@ public class UploadController extends BaseController{
 			String currentDate = DateUtils.getCurrentDate("yyyyMMdd");
 			System system = systemService.getSystem();
 			String uploadDir = system.getUploaddir();
-			File directory  = new File(rootPath + File.separator + uploadDir + File.separator + currentDate);
+
+			String newFileName = UUIDUtils.getPrimaryKey() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+
+			String filepath;
+			boolean isImage = file.getContentType().startsWith("image");
+			String fileType;
+			if(isImage){
+				fileType = "image";
+			}else {
+				fileType = "video";
+			}
+
+			File directory  = new File(rootPath + fileType);
 			if(!directory.exists()){
 				directory.mkdirs();
 			}
-			String newFileName = UUIDUtils.getPrimaryKey() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-			String absolutePath = directory.getAbsolutePath(); //获取绝对路径
-			File uploadpath = new File(absolutePath + File.separator + newFileName);
+
+			filepath = fileType + File.separator + newFileName;
+			File uploadpath = new File(rootPath + filepath);
+
 			file.transferTo(uploadpath);
-			result.put("filepath", currentDate+File.separator + newFileName);
+			result.put("filepath", filepath);
 			result.put("name", newFileName);
 			result.put("originalFilename", file.getOriginalFilename());
 			result.put("filesize", file.getSize());

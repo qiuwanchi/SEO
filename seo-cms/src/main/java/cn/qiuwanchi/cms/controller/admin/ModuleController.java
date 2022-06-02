@@ -1,6 +1,9 @@
 package cn.qiuwanchi.cms.controller.admin;
 
-import cn.qiuwanchi.cms.entity.*;
+import cn.qiuwanchi.cms.entity.Attachment;
+import cn.qiuwanchi.cms.entity.Banner;
+import cn.qiuwanchi.cms.entity.ConstantDefinition;
+import cn.qiuwanchi.cms.entity.Module;
 import cn.qiuwanchi.cms.security.token.TokenManager;
 import cn.qiuwanchi.cms.service.*;
 import cn.qiuwanchi.cms.utils.ServerConfig;
@@ -8,15 +11,14 @@ import cn.qiuwanchi.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.*;
 
 @Controller
 @RequestMapping("firstPage/module")
@@ -226,5 +228,83 @@ public class ModuleController {
 		redirectAttributes.addAttribute("belong", module.getBelong());
 		return "redirect:/firstPage/module";
 	}
+
+	@ResponseBody
+	@GetMapping("/copyImage")
+	public List<Map<String ,String >> copyImage() {
+		List<Attachment> attachmentList = this.attachmentService.selectAll();
+
+		List<Map<String ,String >> list = new LinkedList<>();
+		for (Attachment attachment : attachmentList){
+			File file1 = new File("/srv/seo/imageVideo/" + attachment.getFilepath());
+			String name = attachment.getFilepath().substring(9);
+
+			String type = "image";
+			if(attachment.getFiletype().contains("video")){
+				type = "video";
+			}
+
+			File file2 = new File("/usr/local/nginx/html/" + type + File.separator + name);
+
+			if(!file2.exists()){
+				try {
+					file2.createNewFile();
+				}catch (Exception e){
+
+
+				}
+
+			}
+
+			FileInputStream fileInputStream = null;
+
+			FileOutputStream fileOutputStream = null;
+
+			try {
+				fileInputStream = new FileInputStream(file1);
+				fileOutputStream = new FileOutputStream(file2);
+
+				byte[] buf = new byte[1024 * 1024];
+				int count = 0;
+				while((count = fileInputStream.read(buf)) != -1){
+
+					fileOutputStream.write(buf, 0, count);
+				}
+			}catch (Exception e){
+
+			}
+			finally {
+
+				if(fileOutputStream!=null){
+					try {
+						fileOutputStream.close();
+					}catch (Exception e){
+
+					}
+
+				}
+				if(fileInputStream!=null){
+					try {
+						fileInputStream.close();
+					}catch (Exception e){
+
+					}
+
+				}
+			}
+
+			Map<String,String> map = new TreeMap<>();
+			map.put("src",file1.getAbsolutePath());
+			map.put("dest",file2.getAbsolutePath());
+
+			list.add(map);
+
+		}
+		// "/usr/local/nginx/html/"
+
+		// /srv/seo/imageVideo/
+		return list;
+	}
+
 
 }

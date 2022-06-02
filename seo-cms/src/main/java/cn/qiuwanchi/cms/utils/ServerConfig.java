@@ -18,8 +18,6 @@ public class ServerConfig implements ApplicationListener<WebServerInitializedEve
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        // return "http://" + address.getHostAddress() +":"+this.serverPort;
-
         return "http://www.haoqishuzi.com";
     }
 

@@ -33,13 +33,14 @@ public class VideoController {
      * @author xWang
      * @Date 2020-05-20
      */
+    /*
     @RequestMapping("/video/{fileId}")
     public void getVideo(HttpServletRequest request,HttpServletResponse response,@PathVariable("fileId") String fileId){
         fileId = fileId.substring(0,fileId.indexOf("."));
         //视频资源存储信息
         Attachment attachment = attachmentService.getByFileId(fileId);
         response.reset();
-        //获取从那个字节开始读取文件
+        //获取从那个字节开始读///取文件
         String rangeString = request.getHeader("Range");
 
         //打开本地文件流
@@ -96,5 +97,5 @@ public class VideoController {
         } catch (IOException e) {
 
         }
-    }
+    }*/
 }
