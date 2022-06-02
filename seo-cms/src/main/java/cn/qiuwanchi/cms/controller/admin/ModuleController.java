@@ -236,7 +236,11 @@ public class ModuleController {
 
 		List<Map<String ,String >> list = new LinkedList<>();
 		for (Attachment attachment : attachmentList){
-			File file1 = new File("/srv/seo/imageVideo/" + attachment.getFilepath());
+			File file1 = new File("/srv/seo/imageVideo/uploads/" + attachment.getFilepath());
+			if(!file1.exists()){
+				System.out.println("文件=" + file1.getAbsolutePath() + "不存在不需要复制!");
+				continue;
+			}
 			String name = attachment.getFilepath().substring(9);
 
 			String type = "image";
@@ -249,11 +253,10 @@ public class ModuleController {
 			if(!file2.exists()){
 				try {
 					file2.createNewFile();
+					System.out.println("文件=" + file2.getAbsolutePath() + "不存在，现在已经创建好了!");
 				}catch (Exception e){
-
-
+					System.out.println("创建文件失败,文件=" + file2.getAbsolutePath());
 				}
-
 			}
 
 			FileInputStream fileInputStream = null;
@@ -271,7 +274,7 @@ public class ModuleController {
 					fileOutputStream.write(buf, 0, count);
 				}
 			}catch (Exception e){
-
+				System.out.println("复制文件失败:" + e.toString());
 			}
 			finally {
 
@@ -279,7 +282,7 @@ public class ModuleController {
 					try {
 						fileOutputStream.close();
 					}catch (Exception e){
-
+						System.out.println("关闭fileOutputStream失败:" + e.toString());
 					}
 
 				}
@@ -287,7 +290,7 @@ public class ModuleController {
 					try {
 						fileInputStream.close();
 					}catch (Exception e){
-
+						System.out.println("关闭fileInputStream失败:" + e.toString());
 					}
 
 				}
