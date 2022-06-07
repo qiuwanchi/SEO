@@ -42,7 +42,7 @@ public class VideoController {
         String rangeString = request.getHeader("Range");
 
         //打开本地文件流
-        String filePath = fileConfiguration.getResourceDir() + "video/" + attachment.getFilepath().substring(9);
+        String filePath = fileConfiguration.getResourceDir() + File.separator + "video" + File.pathSeparator + attachment.getFilepath().substring(9);
         try {
             //获取响应的输出流
             OutputStream outputStream = response.getOutputStream();
@@ -55,7 +55,7 @@ public class VideoController {
 
                     long range = Long.valueOf(rangeString.substring(rangeString.indexOf("=") + 1, rangeString.indexOf("-")));
                     //设置内容类型
-                    response.setHeader("Content-Type", "video/mp4");
+                    response.setHeader("Content-Type", attachment.getFiletype());
                     //设置此次相应返回的数据长度
                     response.setHeader("Content-Length", String.valueOf(fileLength - range));
                     //设置此次相应返回的数据范围
