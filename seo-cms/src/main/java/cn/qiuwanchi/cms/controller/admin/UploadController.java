@@ -11,7 +11,9 @@ import cn.qiuwanchi.cms.service.SystemService;
 import cn.qiuwanchi.cms.utils.DateUtils;
 import cn.qiuwanchi.cms.utils.FileConfiguration;
 import cn.qiuwanchi.cms.utils.UUIDUtils;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ import java.util.Date;
  * @author Wangjn
  *
  */
+@Slf4j
 @Controller
 @RequestMapping("/upload")
 public class UploadController extends BaseController{
@@ -56,20 +59,28 @@ public class UploadController extends BaseController{
 			String currentDate = DateUtils.getCurrentDate("yyyyMMdd");
 			System system = systemService.getSystem();
 			String uploadDir = system.getUploaddir();
+
 			File directory  = new File(rootPath + File.separator + uploadDir + File.separator + currentDate);
 			if(!directory.exists()){
 				directory.mkdirs();
 			}
-			String newFileName = UUIDUtils.getPrimaryKey() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-			String absolutePath = directory.getAbsolutePath(); //获取绝对路径
-			File uploadpath = new File(absolutePath + File.separator + newFileName);
-			file.transferTo(uploadpath);
-			result.put("filepath", currentDate+File.separator + newFileName);
+
+			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			String newFileName = UUIDUtils.getPrimaryKey() + fileExtension;
+
+			// 目录绝对路径
+			String dirAbsolutePath = directory.getAbsolutePath();
+
+			File uploadFile = new File(dirAbsolutePath + File.separator + newFileName);
+			file.transferTo(uploadFile);
+
+			result.put("filepath", currentDate + File.separator + newFileName);
 			result.put("name", newFileName);
 			result.put("originalFilename", file.getOriginalFilename());
 			result.put("filesize", file.getSize());
 			result.put("filetype", file.getContentType());
 			result.put("url", system.getWebsite() + "/" + uploadDir + "/" + currentDate + "/" + newFileName);
+			log.info("uploadFile 上传信息result：{}", JSON.toJSONString(result));
 			respResult = ResponseResult.Factory.newInstance(Boolean.TRUE,
 					StateCodeEnum.HTTP_SUCCESS.getCode(), result,
 					StateCodeEnum.HTTP_SUCCESS.getDescription());
@@ -79,6 +90,8 @@ public class UploadController extends BaseController{
 					StateCodeEnum.HTTP_ERROR.getDescription());
 			e.printStackTrace();
 		}
+
+		log.info("uploadFile 上传信息respResult：{}", JSON.toJSONString(respResult));
 		this.outJson(respResult);
 	}
 
@@ -93,10 +106,15 @@ public class UploadController extends BaseController{
 			if(!directory.exists()){
 				directory.mkdirs();
 			}
-			String newFileName = UUIDUtils.getPrimaryKey() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-			String absolutePath = directory.getAbsolutePath(); //获取绝对路径
-			File uploadpath = new File(absolutePath + File.separator + newFileName);
-			file.transferTo(uploadpath);
+
+			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			String newFileName = UUIDUtils.getPrimaryKey() + fileExtension;
+
+			// 目录绝对路径
+			String dirAbsolutePath = directory.getAbsolutePath();
+
+			File uploadFile = new File(dirAbsolutePath + File.separator + newFileName);
+			file.transferTo(uploadFile);
 			result.put("state","SUCCESS");
 			result.put("filepath", currentDate+File.separator + newFileName);
 			result.put("name", newFileName);
@@ -104,7 +122,16 @@ public class UploadController extends BaseController{
 			result.put("original", file.getOriginalFilename());
 			result.put("filesize", file.getSize());
 			result.put("filetype", file.getContentType());
-			result.put("url", system.getWebsite() + "/image/" + newFileName);
+
+			String fileType;
+			if(file.getContentType().startsWith("image")){
+				fileType = "image";
+			} else {
+				fileType = "video";
+			}
+			result.put("url", system.getWebsite() + File.separator + fileType + File.separator + newFileName);
+
+			log.info("ueditorUpload 上传信息result：{}", JSON.toJSONString(result));
 
 			Attachment attachment = new Attachment();
 			attachment.setFilename(file.getOriginalFilename());
@@ -120,9 +147,8 @@ public class UploadController extends BaseController{
 			this.attachmentService.save(attachment);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("ueditorUpload 上传文件失败!", e);
 		}
-
 		return result;
 	}
 	

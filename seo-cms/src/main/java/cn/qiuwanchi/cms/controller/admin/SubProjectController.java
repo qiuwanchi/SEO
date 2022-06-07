@@ -5,6 +5,7 @@ import cn.qiuwanchi.cms.security.token.TokenManager;
 import cn.qiuwanchi.cms.service.*;
 import cn.qiuwanchi.cms.utils.ServerConfig;
 import cn.qiuwanchi.cms.utils.UUIDUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Controller
 @RequestMapping("/subProject")
 public class SubProjectController {
@@ -47,7 +49,7 @@ public class SubProjectController {
 	/**
 	 * 列表
 	 */
-	@RequestMapping
+	@GetMapping
 	public String list(Model model, String projectId) {
 		Project project = this.projectService.getById(projectId);
 		project.setAttachment(this.attachmentService.queryAttachmentById(project.getAttachmentId()));
