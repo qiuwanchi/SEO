@@ -17,4 +17,10 @@ public class Constant {
 	public static final String ERROR = "error/exception";
 	
 	public static final String ADMIN_ROLE = "00000000";
+
+	/**
+	 * nginx 静态目录
+	 */
+	public static final String NGINX_DIR = "/usr/local/nginx/html";
+
 }

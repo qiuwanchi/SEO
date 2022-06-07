@@ -1,11 +1,14 @@
 package cn.qiuwanchi.cms.controller.admin;
 
+import cn.qiuwanchi.cms.common.Constant;
 import cn.qiuwanchi.cms.entity.Attachment;
 import cn.qiuwanchi.cms.entity.Banner;
 import cn.qiuwanchi.cms.entity.ConstantDefinition;
 import cn.qiuwanchi.cms.entity.Module;
 import cn.qiuwanchi.cms.security.token.TokenManager;
 import cn.qiuwanchi.cms.service.*;
+import cn.qiuwanchi.cms.utils.FileConfiguration;
+import cn.qiuwanchi.cms.utils.FileUtils;
 import cn.qiuwanchi.cms.utils.ServerConfig;
 import cn.qiuwanchi.cms.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,9 @@ public class ModuleController {
 
 	@Autowired
 	private ServerConfig serverConfig;
+
+	@Autowired
+	private FileConfiguration fileConfiguration;
 
 	@RequestMapping("/toViewBanner")
 	public String toViewBanner(Model model, String moduleId) {
@@ -236,7 +242,7 @@ public class ModuleController {
 
 		List<Map<String ,String >> list = new LinkedList<>();
 		for (Attachment attachment : attachmentList){
-			File file1 = new File("/srv/seo/imageVideo/uploads/" + attachment.getFilepath());
+			File file1 = new File(fileConfiguration.getResourceDir() + File.separator +  "uploads" + File.separator + attachment.getFilepath());
 			if(!file1.exists()){
 				System.out.println("文件=" + file1.getAbsolutePath() + "不存在不需要复制!");
 				continue;
@@ -248,7 +254,7 @@ public class ModuleController {
 				type = "video";
 			}
 
-			File file2 = new File("/usr/local/nginx/html/" + type + File.separator + name);
+			File file2 = new File(Constant.NGINX_DIR + File.separator + type + File.separator + name);
 
 			if(!file2.exists()){
 				try {
@@ -259,42 +265,7 @@ public class ModuleController {
 				}
 			}
 
-			FileInputStream fileInputStream = null;
-
-			FileOutputStream fileOutputStream = null;
-
-			try {
-				fileInputStream = new FileInputStream(file1);
-				fileOutputStream = new FileOutputStream(file2);
-
-				byte[] buf = new byte[1024 * 1024];
-				int count = 0;
-				while((count = fileInputStream.read(buf)) != -1){
-
-					fileOutputStream.write(buf, 0, count);
-				}
-			}catch (Exception e){
-				System.out.println("复制文件失败:" + e.toString());
-			}
-			finally {
-
-				if(fileOutputStream!=null){
-					try {
-						fileOutputStream.close();
-					}catch (Exception e){
-						System.out.println("关闭fileOutputStream失败:" + e.toString());
-					}
-
-				}
-				if(fileInputStream!=null){
-					try {
-						fileInputStream.close();
-					}catch (Exception e){
-						System.out.println("关闭fileInputStream失败:" + e.toString());
-					}
-
-				}
-			}
+			FileUtils.copy(file1, file2);
 
 			Map<String,String> map = new TreeMap<>();
 			map.put("src",file1.getAbsolutePath());

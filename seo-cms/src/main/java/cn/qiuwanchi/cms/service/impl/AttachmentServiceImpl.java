@@ -1,14 +1,20 @@
 package cn.qiuwanchi.cms.service.impl;
 
+import cn.qiuwanchi.cms.common.Constant;
 import cn.qiuwanchi.cms.common.SearchEntity;
 import cn.qiuwanchi.cms.dao.AttachmentMapper;
 import cn.qiuwanchi.cms.entity.Attachment;
+import cn.qiuwanchi.cms.entity.System;
 import cn.qiuwanchi.cms.service.AttachmentService;
+import cn.qiuwanchi.cms.service.SystemService;
 import cn.qiuwanchi.cms.utils.FileConfiguration;
+import cn.qiuwanchi.cms.utils.FileUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +27,7 @@ import java.util.Objects;
  * @author Wangjn
  *
  */
+@Slf4j
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
 
@@ -29,6 +36,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Autowired
 	private AttachmentMapper attachmentMapper;
+
+	@Autowired
+	private SystemService systemService;
 
 	@Override
 	public PageInfo<Attachment> queryListByPage(SearchEntity params) {
@@ -51,21 +61,65 @@ public class AttachmentServiceImpl implements AttachmentService {
 			fileId = fileId.substring(9);
 			fileId = fileId.substring(0, fileId.indexOf("."));
 			attachment.setFileId(fileId);
+			this.copyFile(attachment);
 		}
 		return attachmentMapper.insertSelective(attachment);
 	}
 
-	@Transactional
+	private void copyFile(Attachment attachment){
+		System system = systemService.getSystem();
+		String uploadDir = system.getUploaddir();
+		File file = new File(fileConfiguration.getResourceDir() + File.separator + uploadDir + File.separator + attachment.getFilepath());
+
+		if(file.exists()){
+			String fileType;
+			if(attachment.getFiletype().startsWith("image")){
+				fileType = "image";
+			} else {
+				fileType = "video";
+			}
+
+			File nginxFile = new File(Constant.NGINX_DIR + File.separator + fileType + File.separator + attachment.getFilepath().substring(9));
+			if(!nginxFile.exists()){
+				try {
+					nginxFile.createNewFile();
+				}catch (Exception e){
+					log.error("创建文件失败!文件路径:{}", nginxFile.getAbsoluteFile(), e);
+				}
+				FileUtils.copy(file, nginxFile);
+			}
+
+		}
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public int delete(String id) {
 		Attachment attachment = this.attachmentMapper.selectByPrimaryKey(id);
 		if(Objects.nonNull(attachment)){
-			String filePath = fileConfiguration.getResourceDir() + "uploads/" + attachment.getFilepath();
+			System system = systemService.getSystem();
+			String uploadDir = system.getUploaddir();
+
+			String filePath = fileConfiguration.getResourceDir() + File.separator + uploadDir + File.separator + attachment.getFilepath();
 			File file = new File(filePath);
 			// 如果文件存在就删掉
 			if(file.exists()){
 				file.delete();
 			}
+
+			String fileType;
+			if(attachment.getFiletype().startsWith("image")){
+				fileType = "image";
+			} else {
+				fileType = "video";
+			}
+
+			// 删除Nginx下的文件
+			File nginxFile = new File(Constant.NGINX_DIR + File.separator + fileType + File.separator + attachment.getFilepath().substring(9));
+			if(nginxFile.exists()){
+				nginxFile.delete();
+			}
+
 		}
 		return attachmentMapper.deleteByPrimaryKey(id);
 	}
@@ -94,6 +148,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 			fileId = fileId.substring(9);
 			fileId = fileId.substring(0, fileId.indexOf("."));
 			attachment.setFileId(fileId);
+
+			this.copyFile(attachment);
 		}
 		this.attachmentMapper.updateByPrimaryKey(attachment);
 	}

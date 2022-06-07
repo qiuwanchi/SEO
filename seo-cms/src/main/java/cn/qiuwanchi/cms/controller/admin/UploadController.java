@@ -56,28 +56,15 @@ public class UploadController extends BaseController{
 			String currentDate = DateUtils.getCurrentDate("yyyyMMdd");
 			System system = systemService.getSystem();
 			String uploadDir = system.getUploaddir();
-
-			String newFileName = UUIDUtils.getPrimaryKey() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
-			String filepath;
-			boolean isImage = file.getContentType().startsWith("image");
-			String fileType;
-			if(isImage){
-				fileType = "image";
-			}else {
-				fileType = "video";
-			}
-
-			File directory  = new File(rootPath + fileType);
+			File directory  = new File(rootPath + File.separator + uploadDir + File.separator + currentDate);
 			if(!directory.exists()){
 				directory.mkdirs();
 			}
-
-			filepath = fileType + File.separator + newFileName;
-			File uploadpath = new File(rootPath + filepath);
-
+			String newFileName = UUIDUtils.getPrimaryKey() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			String absolutePath = directory.getAbsolutePath(); //获取绝对路径
+			File uploadpath = new File(absolutePath + File.separator + newFileName);
 			file.transferTo(uploadpath);
-			result.put("filepath", filepath);
+			result.put("filepath", currentDate+File.separator + newFileName);
 			result.put("name", newFileName);
 			result.put("originalFilename", file.getOriginalFilename());
 			result.put("filesize", file.getSize());
