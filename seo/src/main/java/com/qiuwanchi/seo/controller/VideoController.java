@@ -3,12 +3,11 @@ package com.qiuwanchi.seo.controller;
 import com.qiuwanchi.seo.entity.Attachment;
 import com.qiuwanchi.seo.service.IAttachmentService;
 import com.qiuwanchi.seo.utils.FileConfiguration;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +32,7 @@ public class VideoController {
      * @author xWang
      * @Date 2020-05-20
      */
-    @RequestMapping("/video/{fileId}")
+    @GetMapping("/video/{fileId}")
     public void getVideo(HttpServletRequest request,HttpServletResponse response,@PathVariable("fileId") String fileId){
         fileId = fileId.substring(0,fileId.indexOf("."));
         //视频资源存储信息
@@ -50,12 +49,10 @@ public class VideoController {
             OutputStream outputStream = response.getOutputStream();
             File file = new File(filePath);
             if(file.exists()){
-                log.info("文件存在：{}", filePath);
                 RandomAccessFile targetFile = new RandomAccessFile(file, "r");
                 long fileLength = targetFile.length();
                 //播放
                 if(rangeString != null){
-                    log.info("播放文件存：{}", filePath);
                     long range = Long.valueOf(rangeString.substring(rangeString.indexOf("=") + 1, rangeString.indexOf("-")));
                     //设置内容类型
                     response.setHeader("Content-Type", "video/mp4");
@@ -94,9 +91,9 @@ public class VideoController {
             outputStream.close();
 
         } catch (FileNotFoundException e) {
-
+            log.error("文件没有找到",e);
         } catch (IOException e) {
-
+            log.error("。。。。。。",e);
         }
     }
 }
