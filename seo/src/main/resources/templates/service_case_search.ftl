@@ -41,7 +41,7 @@
 		<div id="news" class="clearfix">
 			<div class="container main newsx_main tag">
 				<div class="position">当前位置：
-					<a href="index.html">首页</a>|<span>${searchWords}</span></div>
+					<a href="${baseUrl}/index.html">首页</a>|<span>${searchWords}</span></div>
 				<div class="tag1">
 					<ul class="case_list clearfix">
 						<#list searchSubProjectDtoList as searchSubProjectDto>
