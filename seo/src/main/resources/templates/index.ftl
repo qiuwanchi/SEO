@@ -9,6 +9,7 @@
 <meta name="description" content="<#if seoProjectDto.description?? && seoProjectDto.description != "">${seoProjectDto.description}</#if>">
 <link rel="stylesheet" href="${baseUrl}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${baseUrl}/css/zzsc.css" />
+<meta name="baidu-site-verification" content="code-vmq3mDMWYB" />
 </head>
 <body>
 <div class="nav">
