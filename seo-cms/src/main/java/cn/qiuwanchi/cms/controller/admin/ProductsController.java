@@ -193,8 +193,11 @@ public class ProductsController {
 			project.setId(UUIDUtils.getPrimaryKey());
 			project.setName(param.getName());
 			project.setDescribeMsg(param.getDescribeMsg());
-			project.setAttachmentId(attachment.getId());
 			project.setModuleId(param.getModuleId());
+			project.setAttachmentId(attachment.getId());
+			if(!StringUtils.isEmpty(param.getSort())){
+				project.setSort(param.getSort());
+			}
 			project.setTitle(param.getTitle());
 			project.setKeywords(param.getKeywords());
 			project.setDescription(param.getDescription());
@@ -203,9 +206,11 @@ public class ProductsController {
 			project.setContent(param.getContent());
 			project.setCode(param.getCode());
 
-			if(!StringUtils.isEmpty(param.getSort())){
-				project.setSort(param.getSort());
-			}
+			project.setCreateTime(new Date());
+			project.setCreateBy(TokenManager.getRealName());
+			project.setUpdateTime(new Date());
+			project.setUpdateBy(TokenManager.getRealName());
+
 			this.projectService.add(project);
 
 		}else {
@@ -233,6 +238,8 @@ public class ProductsController {
 			project.setClickUrl(param.getClickUrl());
 			project.setContent(param.getContent());
 			project.setCode(param.getCode());
+			project.setUpdateTime(new Date());
+			project.setUpdateBy(TokenManager.getRealName());
 
 			this.projectService.update(project);
 		}
@@ -316,6 +323,10 @@ public class ProductsController {
 			subProject.setAlt(param.getAlt());
 			subProject.setClickUrl(param.getClickUrl());
 			subProject.setContent(param.getContent());
+			subProject.setCreateTime(new Date());
+			subProject.setCreateBy(TokenManager.getRealName());
+			subProject.setUpdateTime(new Date());
+			subProject.setUpdateBy(TokenManager.getRealName());
 
 			if(!StringUtils.isEmpty(param.getSort())){
 				subProject.setSort(param.getSort());
@@ -345,10 +356,20 @@ public class ProductsController {
 			subProject.setAlt(param.getAlt());
 			subProject.setClickUrl(param.getClickUrl());
 			subProject.setContent(param.getContent());
+			subProject.setUpdateTime(new Date());
+			subProject.setUpdateBy(TokenManager.getRealName());
 
 			this.subProjectService.update(subProject);
 		}
 		redirectAttributes.addAttribute("projectId", param.getProjectId());
+		return "redirect:/products/applicationScenarios";
+	}
+
+
+	@GetMapping("/deleteCj")
+	public String deleteCj(Model model, String id, RedirectAttributes redirectAttributes) {
+		SubProject subProject = this.subProjectService.delete(id);
+		redirectAttributes.addAttribute("projectId", subProject.getProjectId());
 		return "redirect:/products/applicationScenarios";
 	}
 
